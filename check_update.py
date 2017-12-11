@@ -202,9 +202,11 @@ def flyme(fast_flag):
 		return None
 	try:
 		nb = bsObj.find("div",{"class":"wrap"}).find_next("script",{"type":"text/javascript"}).get_text().split("data=",1)[-1].replace(";","")
-		# 这条神奇的命令可以把字符串转换为字典，顺便还把Unicode码转回中文了，卧槽666
+		# This magical command can convert strings to dictionaries.
+		# By the way, Unicode encoding can be switched back to Chinese. Great!
 		nb = json.loads(nb)
-		# "0_1"指向haohao3344的版本，"1_1"指向潘友杰的版本，后者已弃坑不做考虑
+		# "0_1" point to haohao3344 version, "1_1" point to Pan's version.
+		# The latter has stopped updating, so give up.
 		nb = nb["0_1"]
 		fversion = nb["name"]
 		flink = nb["download"]
@@ -345,22 +347,22 @@ def miui_c(fast_flag):
 		analyze_failed()
 		return None
 	print("")
-	print("MIUI 天朝版：")
+	print("MIUI China:")
 	print("")
-	print("稳定版：")
-	print("\n===当前最新版本：\n\n" + fversion1)
-	print("\n===下载地址：\n\n" + flink1)
-	print("\n===大小：\n\n" + fsize1)
+	print("Stable ROM:")
+	print("\n=== The latest version:\n\n" + fversion1)
+	print("\n=== Download link:\n\n" + flink1)
+	print("\n=== Size:\n\n" + fsize1)
 	print("")
-	print("开发版：")
-	print("\n===当前最新版本：\n\n" + fversion2)
-	print("\n===下载地址：\n\n" + flink2)
-	print("\n===大小：\n\n" + fsize2)
+	print("Developer ROM:")
+	print("\n=== The latest version:\n\n" + fversion2)
+	print("\n=== Download link:\n\n" + flink2)
+	print("\n=== Size:\n\n" + fsize2)
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
-	saved = saved_update("MIUI 天朝版 稳定版", fversion1, saved)
-	saved = saved_update("MIUI 天朝版 开发版", fversion2, saved)
+	saved = saved_update("MIUI China Stable ROM", fversion1, saved)
+	saved = saved_update("MIUI China Developer ROM", fversion2, saved)
 	return saved
 
 def miui_g(fast_flag):
@@ -402,22 +404,22 @@ def miui_g(fast_flag):
 		analyze_failed()
 		return None
 	print("")
-	print("MIUI 国际版：")
+	print("MIUI Global:")
 	print("")
-	print("稳定版：")
-	print("\n===当前最新版本：\n\n" + fversion1)
-	print("\n===下载地址：\n\n" + flink1)
-	print("\n===大小：\n\n" + fsize1)
+	print("Stable ROM:")
+	print("\n=== The latest version:\n\n" + fversion1)
+	print("\n=== Download link:\n\n" + flink1)
+	print("\n=== Size:\n\n" + fsize1)
 	print("")
-	print("开发版：")
-	print("\n===当前最新版本：\n\n" + fversion2)
-	print("\n===下载地址：\n\n" + flink2)
-	print("\n===大小：\n\n" + fsize2)
+	print("Developer ROM:")
+	print("\n=== The latest version:\n\n" + fversion2)
+	print("\n=== Download link:\n\n" + flink2)
+	print("\n=== Size:\n\n" + fsize2)
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
-	saved = saved_update("MIUI 国际版 稳定版", fversion1, saved)
-	saved = saved_update("MIUI 国际版 开发版", fversion2, saved)
+	saved = saved_update("MIUI Global Stable ROM", fversion1, saved)
+	saved = saved_update("MIUI Global Developer ROM", fversion2, saved)
 	return saved
 
 def miui_mr(fast_flag):
@@ -441,7 +443,8 @@ def miui_mr(fast_flag):
 		fsize2 = fvalue2.findAll("span")[2].get_text().split(" ")[-2] + " MB"
 		flink3 = "https://mirror.byteturtle.eu/multirom/" + fname1
 		flink4 = "https://mirror.byteturtle.eu/multirom/" + fname2
-		# 从官网爬得的下载链接无法下载，舍之
+		# Download link from the official website can not be downloaded normally, 
+		# so give up.
 		flink1 = flink3
 		flink2 = flink4
 		flink3 = None
@@ -450,22 +453,22 @@ def miui_mr(fast_flag):
 		analyze_failed()
 		return None
 	print("")
-	print("MIUI MultiRom 开发版：")
+	print("MIUI MultiRom Developer ROM:")
 	print("")
-	print("天朝版：")
-	print("\n===当前最新版本：\n\n" + fversion1)
-	print("\n===镜像站下载地址（快速）：\n\n" + flink1)
-	print("\n===大小：\n\n" + fsize1)
+	print("China:")
+	print("\n=== The latest version:\n\n" + fversion1)
+	print("\n=== Mirror Station Download Link (Quick):\n\n" + flink1)
+	print("\n=== Size\n\n" + fsize1)
 	print("")
-	print("国际版：")
-	print("\n===当前最新版本：\n\n" + fversion2)
-	print("\n===镜像站下载地址（快速）：\n\n" + flink2)
-	print("\n===大小：\n\n" + fsize2)
+	print("Global:")
+	print("\n=== The latest version:\n\n" + fversion2)
+	print("\n=== Mirror Station Download Link (Quick):\n\n" + flink2)
+	print("\n=== Size:\n\n" + fsize2)
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
-	saved = saved_update("MIUI MultiRom 开发版 天朝版", fversion1, saved)
-	saved = saved_update("MIUI MultiRom 开发版 国际版", fversion2, saved)
+	saved = saved_update("MIUI MultiRom Developer ROM China", fversion1, saved)
+	saved = saved_update("MIUI MultiRom Developer ROM Global", fversion2, saved)
 	return saved
 
 def miui_pl(fast_flag):
@@ -489,34 +492,34 @@ def miui_pl(fast_flag):
 		analyze_failed()
 		return None
 	print("")
-	print("MIUI 波兰版 开发版：")
-	print("\n当前最新版本：\n\n" + fversion)
-	print("\n更新日期：\n\n" + fdate)
-	print("\nMD5：\n\n" + fmd5)
-	print("\n下载地址：")
-	print("\n===主服务器(sourceforge)：\n\n" + flink1)
-	print("\n===备用1(AFH)：\n\n" + flink2)
-	print("\n===备用2：\n\n" + flink3)
-	print("\n大小：\n\n" + fsize)
+	print("MIUI Poland Developer ROM:")
+	print("\n The latest version:\n\n" + fversion)
+	print("\n Updated:\n\n" + fdate)
+	print("\n MD5:\n\n" + fmd5)
+	print("\nDownload link:")
+	print("\n=== Main server(sourceforge):\n\n" + flink1)
+	print("\n=== spare 1(AFH):\n\n" + flink2)
+	print("\n=== spare 2:\n\n" + flink3)
+	print("\nSize:\n\n" + fsize)
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
-	saved = saved_update("MIUI 波兰版 开发版", fversion, saved)
+	saved = saved_update("MIUI Poland Developer ROM", fversion, saved)
 	return saved
 
 def mokee(fast_flag):
-	# 我为什么要在这里延时1秒？因为我要把这1秒献给长者(笑)
+	# hahahaha
 	time.sleep(1)
 	print("")
-	print("Mokee 官方每夜版：")
+	print("Mokee Official Nightly:")
 	print("")
-	print("当前最新版本：")
+	print("The latest version:")
 	print("")
-	print("***这玩意稳定一天一更，有必要查吗？")
+	print("*** Keep updated daily, inquiries are not necessary")
 	print("")
-	print("下载链接：")
+	print("Download link:")
 	print("")
-	print("***要啥下载链接。。。乖乖看广告去~~~")
+	print("***You need to see the advertisement before you can get it")
 	print("")
 	print("https://download.mokeedev.com/?device=kenzo")
 	return None
@@ -533,7 +536,8 @@ def nos_o(fast_flag):
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
-		# 有时候由于上传的先后顺序问题，更新日志和Rom的位置会反过来，于是...
+		# Sometimes log and Rom locations are reversed due to the order of uploads,
+		# So...
 		if nb["title"].split(".")[-1] != "zip":
 			swap_temp = nb;nb = nb2;nb2 = swap_temp
 		update_log = nb2.find("th").find("a")["href"]

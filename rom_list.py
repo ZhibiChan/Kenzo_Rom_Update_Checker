@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 
 class Rom_List:
-	# 一个保存Rom列表字典的类
+	# A class that holds a Rom list dictionary
 	def __init__(self):
-		# 构建序号和函数名的字典列表
+		# Build a dictionary list of sequence numbers and function names
 		self.check_list = {
 			"1":"aoscp",
 			"2":"cardinal",
@@ -33,42 +33,42 @@ class Rom_List:
 			"25":"miui_br",
 			"26":"twrp"
 		}
-		# 构建函数名和项目名的字典列表
+		# Build a dictionary list of function names and project names
 		# Android 8.0:
 		self.rom8_list = {
-			"aoscp":"AOSCP 非官方版",
-			"cardinal":"Cardinal AOSP 官方测试版",
-			"nos_o":"Nitrogen OS 8.1测试版"
+			"aoscp":"AOSCP Unofficial",
+			"cardinal":"Cardinal AOSP Official Test",
+			"nos_o":"Nitrogen OS 8.1 Test"
 		}
 		# Android 7.x:
 		self.rom7_list = {
-			"aex":"AospExtended 官方版",
-			"aicp":"AICP 官方版",
-			"aosip":"AOSiP 官方版",
-			"bliss":"Bliss 官方版",
-			"cosmicos":"Cosmic OS 官方版",
-			"dotos":"DotOS 官方版",
-			"los":"LineageOS 官方版",
-			"los_mg":"LineageOS for MicroG 非官方版",
-			"los_u1":"LineageOS 14.1 非官方版(By Umang96)",
-			"mokee":"Mokee 官方每夜版",
-			"nos_s":"Nitrogen OS 官方稳定版",
-			"omni":"Omni 官方版",
-			"rr":"Resurrection Remix OS 官方版",
-			"sudamod":"SudaMod 官方版",
-			"viperos":"ViperOS 官方版",
-			"xenonhd":"XenonHD 官方版"
+			"aex":"AospExtended Official",
+			"aicp":"AICP Official",
+			"aosip":"AOSiP Official",
+			"bliss":"Bliss Official",
+			"cosmicos":"Cosmic OS Official",
+			"dotos":"DotOS Official",
+			"los":"LineageOS Official",
+			"los_mg":"LineageOS for MicroG Unofficial",
+			"los_u1":"LineageOS 14.1 Unofficial(By Umang96)",
+			"mokee":"Mokee Official Nightly",
+			"nos_s":"Nitrogen OS Official Stable",
+			"omni":"Omni Official",
+			"rr":"Resurrection Remix OS Official",
+			"sudamod":"SudaMod Official",
+			"viperos":"ViperOS Official",
+			"xenonhd":"XenonHD Official"
 		}
 		# Android 6.0:
 		self.rom6_list = {
-			"flyme":"Flyme 官方版(haohao3344)",
-			"miui_c":"MIUI 天朝版",
-			"miui_g":"MIUI 国际版",
-			"miui_mr":"MIUI MultiRom 开发版",
-			"miui_pl":"MIUI 波兰版 开发版",
-			"miui_br":"MIUI 巴西版 开发版"
+			"flyme":"Flyme Official(haohao3344)",
+			"miui_c":"MIUI China",
+			"miui_g":"MIUI Global",
+			"miui_mr":"MIUI MultiRom Developer ROM",
+			"miui_pl":"MIUI Poland Developer ROM",
+			"miui_br":"MIUI Brazil Developer ROM"
 		}
 		# Other:
 		self.other_list = {
-			"twrp":"TWRP 官方版"
+			"twrp":"TWRP Official"
 		}

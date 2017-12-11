@@ -7,8 +7,9 @@ import os, json, random
 import rom_list
 
 def ua_open(urll):
-	# 使用浏览器代理解析网页
-	# 借用随机数生成函数，随机选择浏览器UA标识（Win10+Chrome、MacOS+Safari、Win7+Opera、MacOS+Firefox）
+	# Use browser proxy to parse web pages
+	# Borrow random number generation function, randomly select the browser UA
+	# (Win10+Chrome、MacOS+Safari、Win7+Opera、MacOS+Firefox)
 	random_number = random.randint(1,4)
 	if random_number == 1:
 		headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
@@ -26,7 +27,7 @@ def ua_open(urll):
 	return html
 
 def de_open(urll):
-	# 一般的方法解析网页
+	# The general method of parsing the page
 	try:
 		html = urlopen(urll)
 	except:
@@ -34,36 +35,38 @@ def de_open(urll):
 	return html
 
 def get_bs(urll):
-	# 检查网页解析是否成功，如果解析失败则直接返回False
+	# Check if webpage parsing is successful or False if the parsing fails
 	if urll == False:
 		return False
-	# 对网页源码获取BeautifulSoup，设置返回参数以规避不必要的异常
+	# Get beautifulSoup for the source of the page, set the return parameters to avoid unnecessary anomalies
 	try:
-		# 默认使用效果最好的lxml
+		# The best use of the default:lxml
 		bsObj = BeautifulSoup(urll,"lxml")
-		# 除了使用lxml库之外的解析方法：
-		# 使用Python标准库（不建议，会导致某些网页解析出现异常）
+		# Parsing methods other than using the lxml library:
+		# Use Python standard library 
+		# (not recommended, will lead to some webpage parsing exception)
 		#~ bsObj = BeautifulSoup(urll,"html.parser")
-		# 使用html5lib	
+		# Use html5lib	
 		#~ bsObj = BeautifulSoup(urll,"html5lib")
 	except:
 		return False
 	return bsObj
 
 def open_failed():
-	# 输出网页访问失败的信息
-	print("\n访问失败或请求超时！")
+	# Output web page access failed message
+	print("\nAccess failed or request timeout!")
 
 def analyze_failed():
-	# 输出网页解析出错的信息
-	print("\n网页解析失败！请告知作者修正此错误！")
+	# Output page parsing error message
+	print("\nParsing failed! Please tell the author to fix this error!")
 
 def get_md5_from_file(urll):
-	# 下载MD5校验文件，读取&返回MD5值并删除校验文件
+	# Download MD5 verification file, 
+	# read & return MD5 value and delete verification file.
 	try:
 		urlretrieve(urll,"tempfile")
 	except:
-		fmd5 = "获取失败！"
+		fmd5 = "Failed to get!"
 	else:
 		try:
 			with open("tempfile") as md5file:
@@ -72,43 +75,43 @@ def get_md5_from_file(urll):
 			fmd5 = fmd5.split(" ")
 			fmd5 = fmd5[0]
 		except:
-			fmd5 = "获取失败！"
+			fmd5 = "Failed to get!"
 	return fmd5
 
 def get_rom_name(name):
-	# 依据字典，通过函数名标识获取项目名
+	# According to the dictionary, get the project name by the function name identifier
 	roms = rom_list.Rom_List()
 	for lists in [roms.rom8_list, roms.rom7_list, roms.rom6_list, roms.other_list]:
 		for key,value in lists.items():
 			if key == name:
 				return value
-	return "未知的项目"
+	return "Unknown item"
 
 def out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize):
-	# 检查结果输出打印到屏幕
+	# Output check results
 	if name:
-		print("\n%s："%(get_rom_name(name)))
+		print("\n%s:"%(get_rom_name(name)))
 	if fversion:
-		print("\n当前最新版本：\n\n" + fversion)
+		print("\nThe latest version:\n\n" + fversion)
 	if build_type and build_version:
-		print("\n构建类型 & 构建版本：\n\n%s\t%s"%(build_type, build_version))
+		print("\nBuild type & Build version:\n\n%s\t%s"%(build_type, build_version))
 	elif build_type:
-		print("\n构建类型：\n\n" + build_type)
+		print("\nBuild type:\n\n" + build_type)
 	if fdate:
-		print("\n更新日期：\n\n" + fdate)
+		print("\nUpdated:\n\n" + fdate)
 	if update_log:
-		print("\n更新日志：\n\n" + update_log)
+		print("\nChangelog:\n\n" + update_log)
 	if fmd5:
-		print("\nMD5：\n\n" + fmd5)	
+		print("\nMD5:\n\n" + fmd5)	
 	if fsha256:
-		print("\nsha256：\n\n" + fsha256)
+		print("\nsha256:\n\n" + fsha256)
 	if fsha1:
-		print("\nsha1：\n\n" + fsha1)
+		print("\nsha1:\n\n" + fsha1)
 	if flink:
-		print("\n下载链接：\n\n" + flink)
+		print("\nDownload link:\n\n" + flink)
 	if fsize:
-		print("\n大小：\n\n" + fsize)
-	# 打印结束后更新字典
+		print("\nSize:\n\n" + fsize)
+	# After output, update the dictionary
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
@@ -116,19 +119,20 @@ def out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_
 	return saved
 
 def check_for_update(checked, temp2):
-	# 检查项目是否有更新，如有更新则输出提示
+	# Check whether the project has been updated, 
+	# If there is an update, the output prompt.
 	saved = read_from_json("save.json")
 	names = None
-	# 特殊处理
+	# Special
 	if checked == "miui_c":
-		names = ("MIUI 天朝版 稳定版","MIUI 天朝版 开发版")
+		names = ("MIUI China Stable ROM","MIUI China Developer ROM")
 	elif checked == "miui_g":
-		names = ("MIUI 国际版 稳定版","MIUI 国际版 开发版")
+		names = ("MIUI Global Stable ROM","MIUI Global Developer ROM")
 	elif checked == "miui_mr":
-		names = ("MIUI MultiRom 开发版 天朝版","MIUI MultiRom 开发版 国际版")
+		names = ("MIUI MultiRom China Developer ROM","MIUI MultiRom Global Developer ROM")
 	elif checked == "miui_pl":
-		name = "MIUI 波兰版 开发版"
-	# 普通处理
+		name = "MIUI Poland Developer ROM"
+	# Normal
 	else:
 		name = get_rom_name(checked)
 	if saved:
@@ -148,37 +152,38 @@ def check_for_update(checked, temp2):
 	return False
 
 def print_update_info(name, old_name, new_name):
-	# 打印输出更新信息
+	# Output update information
 	print("")
 	print("****************************************************************************************************")
 	print("")
-	print("=== %s 有更新了哟~快点去告诉你的小伙伴们吧！"%(name))
+	print("=== %s updated! Hurry to tell your friends now :P"%(name))
 	print("")
-	print("===旧版本：" + old_name)
+	print("=== Old version: " + old_name)
 	print("")
-	print("===新版本：" + new_name)
+	print("=== New version: " + new_name)
 
 def saved_update(name, version, saved):
-	# 更新项目更新状态的字典
-	# 如果字典不存在，就新建一个空的字典
+	# Update dictionary
+	# If the dictionary does not exist, create a new one
 	if not saved:
 		saved = {}
 	saved[name]=version
 	return saved
 
 def save_to_json(ready_save_data, filename):
-	# 将字典保存到json
+	# Save the dictionary to json
 	with open(filename,'w') as savefile:
 		json.dump(ready_save_data, savefile, sort_keys=True, indent=4, ensure_ascii=False)
 
 def read_from_json(filename):
-	# 从json中读取字典
+	# Read dictionary from json
 	try:
 		with open(filename,'r') as savefile:
 			json_saved = json.load(savefile)
 	except:
 		try:
-			# 如果json文件损坏了无法正常读取内容，就尝试删除它并返回None
+			# If the json file is broken or can not read properly, 
+			# try removing it and return None.
 			os.remove(filename)
 		except FileNotFoundError:
 			return None
