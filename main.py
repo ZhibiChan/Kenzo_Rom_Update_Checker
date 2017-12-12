@@ -187,8 +187,8 @@ def check_all_auto():
 	# Temporary dictionary, do not write json after each check. 
 	# After all the checks, then update the json dictionary and write.
 	temp3 = {}
-	# Create a new list, used to save the check failed items
-	failed_list = []
+	# Create a new dictionary, used to save the check failed items
+	failed_list = {}
 	j = 1
 	while True:
 		os.system("cls")
@@ -218,7 +218,7 @@ def check_all_auto():
 			# If an exception occurs, the delay of 3 seconds and prompts
 			# Recently AEX official website download plug-in problems, 
 			# the link can not be opened, so here temporarily ignored.
-			failed_list.append(roms.check_list[str(j)])
+			failed_list[j] = roms.check_list[str(j)]
 			print("")
 			print("*" * term_cols)
 			print("")
@@ -244,8 +244,8 @@ def check_all_auto():
 			print("")
 			if len(failed_list) != 0:
 				print("*** Check failed items:")
-				for failed_item in failed_list:
-					print("\n***=== %s"%(tools.get_rom_name(failed_item)))
+				for key,value in failed_list.items():
+					print("\n***=== %s. %s"%(key, tools.get_rom_name(value)))
 				print("")
 			else:
 				print("\n=== No error occurred during the check.\n")
