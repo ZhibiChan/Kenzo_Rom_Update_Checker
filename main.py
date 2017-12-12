@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, socket, time
+import os, sys, socket, time, platform
 import check_update, rom_list, tools
 
 # TEST FUNCTION
 # ~ check_update.twrp(fast_flag = False)
 # ~ sys.exit()
 # TEST END
+
+''' Check OS, this program only support Windows OS now '''
+if platform.system() != 'Windows':
+	print("Failed to run the program!")
+	print("This program can only run in Windows OS!")
+	sys.exit()
 
 ''' Initialization parameters '''
 # Tools version
