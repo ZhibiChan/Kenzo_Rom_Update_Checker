@@ -10,7 +10,7 @@
 (Third-party libraries necessary for normal operation)
 
 ```
-BeautifulSoup lxml
+BeautifulSoup4 lxml
 ```
 
 由于本人技术笨拙，代码中如果有不完美和可完善的地方，请多为我提供宝贵的意见而不是嘲笑我。<br>

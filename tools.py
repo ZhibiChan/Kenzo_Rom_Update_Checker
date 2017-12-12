@@ -72,8 +72,7 @@ def get_md5_from_file(urll):
 			with open("tempfile") as md5file:
 				fmd5 = md5file.read()
 			os.remove("tempfile")
-			fmd5 = fmd5.split(" ")
-			fmd5 = fmd5[0]
+			fmd5 = fmd5.split(" ")[0]
 		except:
 			fmd5 = "Failed to get!"
 	return fmd5
@@ -92,25 +91,25 @@ def out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_
 	if name:
 		print("\n%s:"%(get_rom_name(name)))
 	if fversion:
-		print("\nThe latest version:\n\n" + fversion)
+		print("\n=== The latest version:\n\n    " + fversion)
 	if build_type and build_version:
-		print("\nBuild type & Build version:\n\n%s\t%s"%(build_type, build_version))
+		print("\n=== Build type & Build version:\n\n    %s\t%s"%(build_type, build_version))
 	elif build_type:
-		print("\nBuild type:\n\n" + build_type)
+		print("\n=== Build type:\n\n    " + build_type)
 	if fdate:
-		print("\nUpdated:\n\n" + fdate)
+		print("\n=== Updated:\n\n    " + fdate)
 	if update_log:
-		print("\nChangelog:\n\n" + update_log)
+		print("\n=== Changelog:\n\n    " + update_log)
 	if fmd5:
-		print("\nMD5:\n\n" + fmd5)	
+		print("\n=== MD5:\n\n    " + fmd5)	
 	if fsha256:
-		print("\nsha256:\n\n" + fsha256)
+		print("\n=== sha256:\n\n    " + fsha256)
 	if fsha1:
-		print("\nsha1:\n\n" + fsha1)
+		print("\n=== sha1:\n\n    " + fsha1)
 	if flink:
-		print("\nDownload link:\n\n" + flink)
+		print("\n=== Download link:\n\n    " + flink)
 	if fsize:
-		print("\nSize:\n\n" + fsize)
+		print("\n=== Size:\n\n    " + fsize)
 	# After output, update the dictionary
 	saved = None
 	if fast_flag == False:
@@ -156,7 +155,7 @@ def print_update_info(name, old_name, new_name):
 	print("")
 	print("****************************************************************************************************")
 	print("")
-	print("=== %s updated! Hurry to tell your friends now :P"%(name))
+	print("=== %s updated! Hurry to tell your friends :P"%(name))
 	print("")
 	print("=== Old version: " + old_name)
 	print("")

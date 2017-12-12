@@ -4,34 +4,40 @@
 import os, sys, socket, time
 import check_update, rom_list, tools
 
-#~ # TEST FUNCTION
-#~ check_update.twrp(fast_flag = False)
-#~ sys.exit()
-#~ # TEST END
+# TEST FUNCTION
+# ~ check_update.twrp(fast_flag = False)
+# ~ sys.exit()
+# TEST END
+
+''' Initialization parameters '''
+# Tools version
+tool_version = "v1.0.0 Alpha"
+# Connection timeout(Default 20s)
+socket.setdefaulttimeout(20)
+# Import Rom List Dictionary
+roms = rom_list.Rom_List()
+# Define a range of numbers
+r8_s = 1		;r8_e = len(roms.rom8_list)
+r7_s = r8_e + 1	;r7_e = len(roms.rom7_list) + r8_e
+r6_s = r7_e + 1	;r6_e = len(roms.rom6_list) + r7_e
+r5_s = r6_e + 1	;r5_e = len(roms.check_list)
+# Set the terminal title (Win system)
+title = "title KENZO ROM UPDATE CHECKER " + tool_version
+os.system(title)
+# Set the terminal size (Win system)
+term_lines = 38
+term_cols = 136
+term_size = "mode con lines=%s cols=%s "%(term_lines, term_cols)
+os.system(term_size)
 
 def main():
-	''' Initialization parameters '''
-	# Tools version
-	tool_version = "v1.0.0 Alpha"
-	# Connection timeout(Default 20s)
-	socket.setdefaulttimeout(20)
+	''' The main interface loop begins '''
 	# Close all subdirectories
 	r8 = r7 = r6 = r5 = False
-	# Import Rom List Dictionary
-	roms = rom_list.Rom_List()
-	# Define a range of numbers
-	r8_s = 1		;r8_e = len(roms.rom8_list)
-	r7_s = r8_e + 1	;r7_e = len(roms.rom7_list) + r8_e
-	r6_s = r7_e + 1	;r6_e = len(roms.rom6_list) + r7_e
-	r5_s = r6_e + 1	;r5_e = len(roms.check_list)
-	# Set the window title (Win system)
-	title = "title KENZO ROM UPDATE CHECKER " + tool_version
-	os.system(title)
-	
-	''' The main interface loop begins '''
 	while True:
 		# Main interface
 		os.system("cls")
+		print("")
 		print("======================================")
 		print("     = KENZO ROM UPDATE CHECKER =")
 		print("======================================")
@@ -79,10 +85,10 @@ def main():
 			print("*** Please enter the Rom type label you want to check and press Enter")
 			print("")
 			selected = input('*** (Enter \'e\' to exit, enter \'9999\' to automatically check all): ')
-			# Check if you quit
+			# Check quit
 			if selected == "e" or selected == "E":
 				break
-			# Check the input
+			# Check input
 			if selected == "1":
 				r8 = True
 			if selected == "2":
@@ -92,16 +98,16 @@ def main():
 			if selected == "4":
 				r5 = True
 			if selected == "9999":
-				check_all_auto(roms)
+				check_all_auto()
 			continue
 		# After the subdirectory expands
 		print("*** Please enter the Rom number you need to check and press Enter")
 		print("")
 		selected = input('*** (Enter \'0\' to close the sub-directory, enter \'e\' to exit): ')
-		# Check if you quit
+		# Check quit
 		if selected == "e" or selected == "E":
 			break
-		# Check if you want to close the subdirectory
+		# Check close the subdirectory
 		if selected == "0":
 			r8 = r7 = r6 = r5 = False
 			continue
@@ -125,19 +131,19 @@ def main():
 		# User input check completed
 		# Start check for updates
 		os.system("cls")
-		check_one(selected, roms)
+		check_one(selected)
 		# Return or exit
 		temp = input('*** Enter \'e\' to exit, enter other to return to the main interface: ')
 		if temp == "e" or temp == "E":
 			break
 		continue
 
-def check_one(selected, roms):
+def check_one(selected):
 	# Check a single item
 	print("")
 	print("=== Checking now, results will be shown below...")
 	print("")
-	print("****************************************************************************************************")
+	print("*" * term_cols)
 	checking = "check_update." + roms.check_list[selected]
 	temp2 = eval(checking)(fast_flag = False)
 	if temp2:
@@ -148,19 +154,19 @@ def check_one(selected, roms):
 		# Save the new dictionary to json
 		tools.save_to_json(temp2, "save.json")
 	print("")
-	print("****************************************************************************************************")
+	print("*" * term_cols)
 	print("")
 	print("=== Check completed!")
 	print("")
 
-def check_all_auto(roms):
+def check_all_auto():
 	# Automatically check the mode
 	# This mode does not perform the operation of downloading the MD5 file 
 	# to obtain the hash check value (fast_flag is True) to improve the checking speed.
 	# (Will not block the checksum that can be taken directly from the page)
 	# Read saved Rom update status dictionary from json file
 	saved = tools.read_from_json("save.json")
-	# If you fail to read the dictionary, create a new one
+	# If failed to read the dictionary, create a new one
 	if not saved:
 		saved = {}
 	# Temporary dictionary, do not write json after each check. 
@@ -174,7 +180,7 @@ def check_all_auto(roms):
 		print("")
 		print("=== Checking %s of %s..." %(j, len(roms.check_list)))
 		print("")
-		print("****************************************************************************************************")
+		print("*" * term_cols)
 		checking = "check_update." + roms.check_list[str(j)]
 		temp2 = eval(checking)(fast_flag = True)
 		if temp2:
@@ -194,14 +200,14 @@ def check_all_auto(roms):
 		elif roms.check_list[str(j)] != "mokee":
 			# If an exception occurs, the delay of 3 seconds and prompts
 			print("")
-			print("****************************************************************************************************")
+			print("*" * term_cols)
 			print("")
 			print("=== Continue after 3 seconds...")
 			time.sleep(3)
 		j+=1
 		if new_flag:
 			print("")
-			print("****************************************************************************************************")
+			print("*" * term_cols)
 			print("")
 			input('*** Press the Enter key to continue: ')
 		new_flag = False
@@ -212,7 +218,7 @@ def check_all_auto(roms):
 			tools.save_to_json(saved, "save.json")
 			os.system("cls")
 			print("")
-			print("****************************************************************************************************")
+			print("*" * term_cols)
 			print("")
 			print("=== Check completed!")
 			print("")

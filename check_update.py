@@ -32,7 +32,8 @@ def aex(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def aicp(fast_flag):
@@ -56,7 +57,8 @@ def aicp(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def aoscp(fast_flag):
@@ -77,7 +79,8 @@ def aoscp(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def aosip(fast_flag):
@@ -101,7 +104,8 @@ def aosip(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def bliss(fast_flag):
@@ -125,7 +129,8 @@ def bliss(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def cardinal(fast_flag):
@@ -146,7 +151,8 @@ def cardinal(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def cosmicos(fast_flag):
@@ -167,7 +173,8 @@ def cosmicos(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def dotos(fast_flag):
@@ -188,7 +195,8 @@ def dotos(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def flyme(fast_flag):
@@ -217,7 +225,8 @@ def flyme(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def los(fast_flag):
@@ -242,7 +251,8 @@ def los(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def los_u1(fast_flag):
@@ -262,7 +272,8 @@ def los_u1(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def los_mg(fast_flag):
@@ -286,7 +297,8 @@ def los_mg(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def miui_br(fast_flag):
@@ -305,7 +317,8 @@ def miui_br(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def miui_c(fast_flag):
@@ -513,15 +526,15 @@ def mokee(fast_flag):
 	print("")
 	print("Mokee Official Nightly:")
 	print("")
-	print("The latest version:")
+	print("=== The latest version:")
 	print("")
 	print("*** Keep updated daily, inquiries are not necessary")
 	print("")
-	print("Download link:")
+	print("=== Download link:")
 	print("")
-	print("***You need to see the advertisement before you can get it")
+	print("*** You need to see the advertisement before you can get it :P")
 	print("")
-	print("https://download.mokeedev.com/?device=kenzo")
+	print("    https://download.mokeedev.com/?device=kenzo")
 	return None
 
 def nos_o(fast_flag):
@@ -548,7 +561,8 @@ def nos_o(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def nos_s(fast_flag):
@@ -573,7 +587,8 @@ def nos_s(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def omni(fast_flag):
@@ -597,7 +612,8 @@ def omni(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def rr(fast_flag):
@@ -619,7 +635,8 @@ def rr(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def sudamod(fast_flag):
@@ -642,7 +659,8 @@ def sudamod(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def twrp(fast_flag):
@@ -674,7 +692,8 @@ def twrp(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def viperos(fast_flag):
@@ -703,7 +722,8 @@ def viperos(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
 
 def xenonhd(fast_flag):
@@ -727,5 +747,6 @@ def xenonhd(fast_flag):
 	except:
 		analyze_failed()
 		return None
-	saved = out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
+	saved = out_put(fast_flag, name, fversion, build_type, \
+	build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize)
 	return saved
