@@ -11,7 +11,7 @@ import check_update, rom_list, tools
 
 ''' Initialization parameters '''
 # Tools version
-tool_version = "v1.0.0 Alpha"
+tool_version = "v1.0.1 Alpha"
 # Connection timeout(Default 20s)
 socket.setdefaulttimeout(20)
 # Import Rom List Dictionary
