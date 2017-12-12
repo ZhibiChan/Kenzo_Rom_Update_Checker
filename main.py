@@ -17,7 +17,7 @@ if platform.system() != 'Windows':
 
 ''' Initialization parameters '''
 # Tools version
-tool_version = "v1.0.1 Alpha"
+tool_version = "v1.0.2 Alpha"
 # Connection timeout(Default 20s)
 socket.setdefaulttimeout(20)
 # Import Rom List Dictionary
