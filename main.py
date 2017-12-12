@@ -27,8 +27,14 @@ os.system(title)
 # Set the terminal size (Win system)
 term_lines = 38
 term_cols = 136
-term_size = "mode con lines=%s cols=%s "%(term_lines, term_cols)
-os.system(term_size)
+hex_lines = hex(term_lines).replace("0x","").zfill(4)
+hex_cols = hex(term_cols).replace("0x","").zfill(4)
+set_terminal_size = \
+"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v WindowSize /d 0x"
+set_terminal_buffer = \
+"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v ScreenBufferSize /d 0x"
+os.system("%s%s%s /f"%(set_terminal_size, hex_lines, hex_cols))
+os.system("%s%s%s /f"%(set_terminal_buffer, "07d0", hex_cols))
 
 def main():
 	''' The main interface loop begins '''
