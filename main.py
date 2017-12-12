@@ -162,7 +162,10 @@ def check_one(selected):
 	print("")
 	print("*" * term_cols)
 	print("")
-	print("=== Check completed!")
+	if temp2:
+		print("=== Check completed!")
+	else:
+		print("=== Check Failed!")
 	print("")
 
 def check_all_auto():

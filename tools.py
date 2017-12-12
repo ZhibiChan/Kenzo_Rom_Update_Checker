@@ -52,13 +52,15 @@ def get_bs(urll):
 		return False
 	return bsObj
 
-def open_failed():
+def open_failed(name):
 	# Output web page access failed message
-	print("\nAccess failed or request timeout!")
+	print("\n%s:"%(get_rom_name(name)))
+	print("\n*** Access failed or request timeout!")
 
-def analyze_failed():
+def analyze_failed(name):
 	# Output page parsing error message
-	print("\nParsing failed! Please tell the author to fix this error!")
+	print("\n%s:"%(get_rom_name(name)))
+	print("\n*** Parsing failed! Please tell the author to fix this error!")
 
 def get_md5_from_file(urll):
 	# Download MD5 verification file, 
