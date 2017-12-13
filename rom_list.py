@@ -26,11 +26,11 @@ class Rom_List:
 			"18":"viperos",
 			"19":"xenonhd",
 			"20":"flyme",
-			"21":"miui_c",
-			"22":"miui_g",
-			"23":"miui_mr",
-			"24":"miui_pl",
-			"25":"miui_br",
+			"21":"miui_br",
+			"22":"miui_c",
+			"23":"miui_g",
+			"24":"miui_mr",
+			"25":"miui_pl",
 			"26":"twrp"
 		}
 		# Build a dictionary list of function names and project names
@@ -62,11 +62,11 @@ class Rom_List:
 		# Android 6.0:
 		self.rom6_list = {
 			"flyme":"Flyme Official(haohao3344)",
+			"miui_br":"MIUI Brazil Developer ROM",
 			"miui_c":"MIUI China",
 			"miui_g":"MIUI Global",
 			"miui_mr":"MIUI MultiRom Developer ROM",
-			"miui_pl":"MIUI Poland Developer ROM",
-			"miui_br":"MIUI Brazil Developer ROM"
+			"miui_pl":"MIUI Poland Developer ROM"
 		}
 		# Other:
 		self.other_list = {

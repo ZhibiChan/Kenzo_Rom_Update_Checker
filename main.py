@@ -74,32 +74,32 @@ def main():
 		if r8:
 			i = r8_s
 			print("| |")
-			for value in roms.rom8_list.values():
-				print("| ====%s.%s"%(i, value))
+			for key in sorted(roms.rom8_list.keys()):
+				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
 				i+=1
 		print("|")
 		print("====②: Android 7.x")
 		if r7:
 			i = r7_s
 			print("| |")
-			for value in roms.rom7_list.values():
-				print("| ====%s.%s"%(i, value))
+			for key in sorted(roms.rom7_list.keys()):
+				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
 				i+=1
 		print("|")
 		print("====③: Android 6.0")
 		if r6:
 			i = r6_s
 			print("| |")
-			for value in roms.rom6_list.values():
-				print("| ====%s.%s"%(i, value))
+			for key in sorted(roms.rom6_list.keys()):
+				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
 				i+=1
 		print("|")
 		print("====④: Other")
 		if r5:
 			i = r5_s
 			print("  |")
-			for value in roms.other_list.values():
-				print("  ====%s.%s"%(i, value))
+			for key in sorted(roms.other_list.keys()):
+				print("  ====%s.%s"%(i, tools.get_rom_name(key)))
 				i+=1
 		print("")
 		# Start checking user input
