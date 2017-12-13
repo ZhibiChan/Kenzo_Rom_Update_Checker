@@ -62,6 +62,12 @@ def analyze_failed(name):
 	print("\n%s:"%(get_rom_name(name)))
 	print("\n*** Parsing failed! Please tell the author to fix this error!")
 
+def os_clear_screen(ostype):
+	if ostype == "Windows":
+		os.system("cls")
+	else:
+		os.system("clear")
+
 def get_md5_from_file(urll):
 	# Download MD5 verification file, 
 	# read & return MD5 value and delete verification file.

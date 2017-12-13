@@ -9,11 +9,18 @@ import check_update, rom_list, tools
 # ~ sys.exit()
 # TEST END
 
-''' Check OS, this program only support Windows OS now '''
-if platform.system() != 'Windows':
-	print("Failed to run the program!")
-	print("This program can only run in Windows OS!")
+''' Check OS, this program support Windows & Linux now '''
+sysstr = platform.system()
+if sysstr not in ("Windows", "Linux"):
+	print("\nFailed to run the program!")
+	print("\nNot support your OS!")
 	sys.exit()
+
+''' Check Python version '''
+if (sys.version.split(".")[0] != "3") \
+		or (int(sys.version.split(".")[1]) < 5):
+	print("\nFailed to run the program!")
+	print("\nRunning this program requires a Python 3.5+ version")
 
 ''' Initialization parameters '''
 # Tools version
@@ -27,20 +34,25 @@ r8_s = 1		;r8_e = len(roms.rom8_list)
 r7_s = r8_e + 1	;r7_e = len(roms.rom7_list) + r8_e
 r6_s = r7_e + 1	;r6_e = len(roms.rom6_list) + r7_e
 r5_s = r6_e + 1	;r5_e = len(roms.check_list)
-# Set the terminal title (Win system)
-title = "title KENZO ROM UPDATE CHECKER " + tool_version
-os.system(title)
-# Set the terminal size (Win system)
-term_lines = 38
-term_cols = 136
-hex_lines = hex(term_lines).replace("0x","").zfill(4)
-hex_cols = hex(term_cols).replace("0x","").zfill(4)
-set_terminal_size = \
-"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v WindowSize /d 0x"
-set_terminal_buffer = \
-"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v ScreenBufferSize /d 0x"
-os.system("%s%s%s /f"%(set_terminal_size, hex_lines, hex_cols))
-os.system("%s%s%s /f"%(set_terminal_buffer, "07d0", hex_cols))
+if sysstr == "Windows":
+	''' Set the terminal for Win OS '''
+	# Set the title
+	title = "title KENZO ROM UPDATE CHECKER " + tool_version
+	os.system(title)
+	# Set the size
+	term_lines = 38
+	term_cols = 138
+	hex_lines = hex(term_lines).replace("0x","").zfill(4)
+	hex_cols = hex(term_cols).replace("0x","").zfill(4)
+	set_terminal_size = \
+	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v WindowSize /d 0x"
+	set_terminal_buffer = \
+	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v ScreenBufferSize /d 0x"
+	os.system("%s%s%s /f"%(set_terminal_size, hex_lines, hex_cols))
+	os.system("%s%s%s /f"%(set_terminal_buffer, "07d0", hex_cols))
+else:
+	''' Set the terminal for Linux OS '''
+	term_cols = os.get_terminal_size().columns
 
 def main():
 	''' The main interface loop begins '''
@@ -48,7 +60,7 @@ def main():
 	r8 = r7 = r6 = r5 = False
 	while True:
 		# Main interface
-		os.system("cls")
+		tools.os_clear_screen(sysstr)
 		print("")
 		print("======================================")
 		print("     = KENZO ROM UPDATE CHECKER =")
@@ -142,7 +154,7 @@ def main():
 				continue
 		# User input check completed
 		# Start check for updates
-		os.system("cls")
+		tools.os_clear_screen(sysstr)
 		check_one(selected)
 		# Return or exit
 		temp = input('*** Enter \'e\' to exit, enter other to return to the main interface: ')
@@ -191,7 +203,7 @@ def check_all_auto():
 	failed_list = {}
 	j = 1
 	while True:
-		os.system("cls")
+		tools.os_clear_screen(sysstr)
 		print("")
 		print("=== Automatically check all Rom updates, please wait...")
 		print("")
@@ -236,7 +248,7 @@ def check_all_auto():
 			saved = {**saved, **temp3}
 			# Write json dictionary to json
 			tools.save_to_json(saved, "save.json")
-			os.system("cls")
+			tools.os_clear_screen(sysstr)
 			print("")
 			print("*" * term_cols)
 			print("")
@@ -255,5 +267,5 @@ def check_all_auto():
 # Start the main interface loop
 main()
 # After jumping out of circulation, clear the screen and exit the program
-os.system("cls")
+tools.os_clear_screen(sysstr)
 sys.exit()

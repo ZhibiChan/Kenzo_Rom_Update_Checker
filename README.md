@@ -16,8 +16,8 @@ BeautifulSoup4 lxml
 由于本人技术笨拙，代码中如果有不完美和可完善的地方，请多为我提供宝贵的意见而不是嘲笑我。<br>
 (Due to my technical clumsy, if the code is not perfect enough, please give me more advice, rather than laugh at me.)
 
-目前只支持Win系统的命令行界面，并且只支持英文，以后会考虑做出GUI。<br>
-(Currently only supports the Windows command line interface, and only supports English, will consider making a GUI.)
+此程序不支持在Win和Linux以外的操作系统下运行，并且只支持英文，以后会考虑做出GUI。<br>
+(This program does not support OS other than Win and Linux, and only supports English, will consider making a GUI.)
 
 如果需要启动本程序，请执行：<br>
 (To execute:)
