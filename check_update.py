@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json, time
+import json, time, re
 from tools import *
 
 def aex(fast_flag):
@@ -52,7 +52,11 @@ def aicp(fast_flag):
 		update_log = nb.findAll("td")[2].findAll("a")[1]["href"]
 		fversion = nb.findAll("td")[2].find("a").get_text()
 		fdate = nb.findAll("td")[-1].get_text()
-		fmd5 = nb.findAll("td")[2].find("small").get_text().split(":")[1]
+		fmd5_temp = nb.findAll("td")[2].find("small").get_text().split(":")[1]
+		fmd5 = ""
+		for char in fmd5_temp:
+			if re.match('[0-9a-fA-F]',char):
+				fmd5+=char
 		flink = nb.findAll("td")[2].find("a")["href"]
 	except:
 		analyze_failed(name)
@@ -95,7 +99,8 @@ def aosip(fast_flag):
 	try:
 		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-1].findAll("td")[1].find("a")["href"]
+			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table") \
+					.findAll("tr")[-1].findAll("td")[1].find("a")["href"]
 			fmd5 = get_md5_from_file("https://get.aosiprom.com" + fmd5)
 		fversion = nb.findAll("td")[1].find("a").get_text()
 		fdate = nb.findAll("td")[2].get_text()
@@ -120,7 +125,8 @@ def bliss(fast_flag):
 	try:
 		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-3]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2].findAll("td")[1].find("a")["href"]
+			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table") \
+					.findAll("tr")[-2].findAll("td")[1].find("a")["href"]
 			fmd5 = get_md5_from_file("https://downloads.blissroms.com" + fmd5)
 		fdate = nb.findAll("td")[2].get_text()
 		fversion = nb.findAll("td")[1].find("a").get_text()
@@ -209,7 +215,8 @@ def flyme(fast_flag):
 		open_failed(name)
 		return None
 	try:
-		nb = bsObj.find("div",{"class":"wrap"}).find_next("script",{"type":"text/javascript"}).get_text().split("data=",1)[-1].replace(";","")
+		nb = bsObj.find("div",{"class":"wrap"}).find_next("script",{"type":"text/javascript"}) \
+			.get_text().split("data=",1)[-1].replace(";","")
 		# This magical command can convert strings to dictionaries.
 		# By the way, Unicode encoding can be switched back to Chinese. Great!
 		nb = json.loads(nb)
@@ -221,7 +228,7 @@ def flyme(fast_flag):
 		fsize = nb["size"] + "MB"
 		fdate = nb["time"]
 		fmd5 = nb["md5"]
-		update_log = nb["log"]
+		update_log = nb["log"].replace("\n","\n    ")
 	except:
 		analyze_failed(name)
 		return None
@@ -266,7 +273,8 @@ def los_u1(fast_flag):
 		return None
 	try:
 		nb = bsObj.find("article",{"class":"markdown-body entry-content"}).findAll("a")[2]
-		update_log = bsObj.find("article",{"class":"markdown-body entry-content"}).findAll("ul")[0].get_text()
+		update_log = bsObj.find("article",{"class":"markdown-body entry-content"}) \
+					.findAll("ul")[0].get_text().replace("\n","\n    ")[5:-5]
 		flink = nb["href"]
 		fversion = nb.get_text()
 	except:
@@ -288,7 +296,8 @@ def los_mg(fast_flag):
 	try:
 		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-1].findAll("td")[1].find("a")["href"]
+			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table"). \
+					findAll("tr")[-1].findAll("td")[1].find("a")["href"]
 			fmd5 = get_md5_from_file("https://download.lineage.microg.org" + fmd5)
 		fversion = nb.findAll("td")[1].find("a").get_text()
 		fdate = nb.findAll("td")[2].get_text()
@@ -608,7 +617,8 @@ def omni(fast_flag):
 	try:
 		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-1].findAll("td")[1].find("a").get_text()
+			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table"). \
+					findAll("tr")[-1].findAll("td")[1].find("a").get_text()
 			fmd5 = get_md5_from_file("http://dl.omnirom.org/kenzo/" + fmd5)
 		fversion = nb.findAll("td")[1].find("a").get_text()
 		fdate = nb.findAll("td")[2].get_text()
@@ -677,7 +687,8 @@ def twrp(fast_flag):
 		open_failed(name)
 		return None
 	try:
-		nb = bsObj.find("div",{"class":"post"}).findAll("article",{"class":"post-content"})[1].find("table").find("tr")
+		nb = bsObj.find("div",{"class":"post"}).findAll("article",
+				{"class":"post-content"})[1].find("table").find("tr")
 		nblink = nb.find("td").find("a")["href"]
 		fversion = nb.find("td").find("a").get_text()
 		fsize = nb.findAll("td")[1].find("small").get_text()
@@ -742,7 +753,8 @@ def xenonhd(fast_flag):
 	try:
 		nb = bsObj.find("table",{"id":"indexlist"}).findAll("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("table",{"id":"indexlist"}).findAll("tr")[-1].findAll("td")[1].find("a").get_text()
+			fmd5 = bsObj.find("table",{"id":"indexlist"}).findAll("tr") \
+					[-1].findAll("td")[1].find("a").get_text()
 			fmd5 = get_md5_from_file("https://mirrors.c0urier.net/android/teamhorizon/N/Official/kenzo/" + fmd5)
 		fversion = nb.findAll("td")[1].find("a").get_text()
 		fdate = nb.findAll("td")[2].get_text()
