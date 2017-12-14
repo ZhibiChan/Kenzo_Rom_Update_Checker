@@ -322,6 +322,7 @@ def miui_br(fast_flag):
 	return saved
 
 def miui_c(fast_flag):
+	name = "miui_c"
 	ual = de_open("http://www.miui.com/download-308.html")
 	bsObj = get_bs(ual)
 	if not bsObj:
@@ -379,6 +380,7 @@ def miui_c(fast_flag):
 	return saved
 
 def miui_g(fast_flag):
+	name = "miui_g"
 	ual = de_open("http://en.miui.com/download-301.html")
 	bsObj = get_bs(ual)
 	if not bsObj:
@@ -436,6 +438,7 @@ def miui_g(fast_flag):
 	return saved
 
 def miui_mr(fast_flag):
+	name = "miui_mr"
 	ual = ua_open("https://multirom.me/index.php?m=app&a=view&id=54&app=roms")
 	bsObj = get_bs(ual)
 	if not bsObj:
@@ -485,6 +488,7 @@ def miui_mr(fast_flag):
 	return saved
 
 def miui_pl(fast_flag):
+	name = "miui_pl"
 	ual = ua_open("https://miuipolska.pl/download/")
 	bsObj = get_bs(ual)
 	if not bsObj:
@@ -521,6 +525,7 @@ def miui_pl(fast_flag):
 	return saved
 
 def mokee(fast_flag):
+	name = "mokee"
 	# hahahaha
 	time.sleep(1)
 	print("")
@@ -627,7 +632,6 @@ def rr(fast_flag):
 		return None
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
-		update_log = "https://sourceforge.net/projects/resurrectionremix/files/kenzo/Changelog.txt/download"
 		fversion = nb["title"]
 		fdate = nb.find("td").find("abbr")["title"]
 		flink = nb.find("th").find("a")["href"]

@@ -12,14 +12,14 @@ import check_update, rom_list, tools
 ''' Check OS, this program support Windows & Linux now '''
 sysstr = platform.system()
 if sysstr not in ("Windows", "Linux"):
-	print("\nFailed to run the program!")
+	print("\nFailed to run this program!")
 	print("\nNot support your OS!")
 	sys.exit()
 
 ''' Check Python version '''
 if (sys.version.split(".")[0] != "3") \
 		or (int(sys.version.split(".")[1]) < 5):
-	print("\nFailed to run the program!")
+	print("\nFailed to run this program!")
 	print("\nRunning this program requires a Python 3.5+ version")
 
 ''' Initialization parameters '''
@@ -261,7 +261,7 @@ def check_all_auto():
 					print("\n***=== %s. %s"%(key, tools.get_rom_name(value)))
 				print("")
 			else:
-				print("\n=== No error occurred during the check.\n")
+				print("=== No error occurred during the check.\n")
 			input('*** Press the Enter key to return to the main interface: ')
 			break
 
