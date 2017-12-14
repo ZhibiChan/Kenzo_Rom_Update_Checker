@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, socket, time, platform
+import os, sys, socket, platform
 import check_update, rom_list, tools
 
 # TEST FUNCTION
@@ -202,12 +202,13 @@ def check_all_auto():
 	# Create a new dictionary, used to save the check failed items
 	failed_list = {}
 	j = 1
+	check_2nd = ""
 	while True:
 		tools.os_clear_screen(sysstr)
 		print("")
 		print("=== Automatically check all Rom updates, please wait...")
 		print("")
-		print("=== Checking %s of %s..." %(j, len(roms.check_list)))
+		print("=== Checking %s of %s %s..." %(j, len(roms.check_list), check_2nd))
 		print("")
 		print("*" * term_cols)
 		checking = "check_update." + roms.check_list[str(j)]
@@ -227,15 +228,15 @@ def check_all_auto():
 			#~ # 2.element stitching (Python3 version can not be omitted "dictionary to list" step):
 			#~ temp3 = dict(list(temp3.items()) + list(temp2.items()))
 		elif roms.check_list[str(j)] not in ("mokee","aex"):
-			# If an exception occurs, the delay of 3 seconds and prompts
+			# If an exception occurs, try again.
 			# Recently AEX official website download plug-in problems, 
 			# the link can not be opened, so here temporarily ignored.
-			failed_list[j] = roms.check_list[str(j)]
-			print("")
-			print("*" * term_cols)
-			print("")
-			print("=== Continue after 3 seconds...")
-			time.sleep(3)
+			if check_2nd == "(Second check)":
+				failed_list[j] = roms.check_list[str(j)]
+			else:
+				check_2nd = "(Second check)"
+				continue
+		check_2nd = ""
 		j+=1
 		if new_flag:
 			print("")
