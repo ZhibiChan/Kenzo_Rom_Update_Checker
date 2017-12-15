@@ -161,7 +161,7 @@ def check_for_update(checked, temp2):
 def print_update_info(name, old_name, new_name):
 	# Output update information
 	print("")
-	print("****************************************************************************************************")
+	print("*" * 100)
 	print("")
 	print("=== %s updated! Hurry to tell your friends :P"%(name))
 	print("")

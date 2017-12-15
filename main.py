@@ -48,8 +48,8 @@ if sysstr == "Windows":
 	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v WindowSize /d 0x"
 	set_terminal_buffer = \
 	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v ScreenBufferSize /d 0x"
-	os.system("%s%s%s /f"%(set_terminal_size, hex_lines, hex_cols))
-	os.system("%s%s%s /f"%(set_terminal_buffer, "07d0", hex_cols))
+	os.system("%s%s%s /f >nul"%(set_terminal_size, hex_lines, hex_cols))
+	os.system("%s%s%s /f >nul"%(set_terminal_buffer, "07d0", hex_cols))
 else:
 	''' Set the terminal for Linux OS '''
 	term_cols = os.get_terminal_size().columns
@@ -74,32 +74,32 @@ def main():
 		if r8:
 			i = r8_s
 			print("| |")
-			for key in sorted(roms.rom8_list.keys()):
-				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
+			for key in roms.rom8_list.keys():
+				print("| ====%s.%s"%(i, roms.rom8_list[key]))
 				i+=1
 		print("|")
 		print("====②: Android 7.x")
 		if r7:
 			i = r7_s
 			print("| |")
-			for key in sorted(roms.rom7_list.keys()):
-				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
+			for key in roms.rom7_list.keys():
+				print("| ====%s.%s"%(i, roms.rom7_list[key]))
 				i+=1
 		print("|")
 		print("====③: Android 6.0")
 		if r6:
 			i = r6_s
 			print("| |")
-			for key in sorted(roms.rom6_list.keys()):
-				print("| ====%s.%s"%(i, tools.get_rom_name(key)))
+			for key in roms.rom6_list.keys():
+				print("| ====%s.%s"%(i, roms.rom6_list[key]))
 				i+=1
 		print("|")
 		print("====④: Other")
 		if r5:
 			i = r5_s
 			print("  |")
-			for key in sorted(roms.other_list.keys()):
-				print("  ====%s.%s"%(i, tools.get_rom_name(key)))
+			for key in roms.other_list.keys():
+				print("  ====%s.%s"%(i, roms.other_list[key]))
 				i+=1
 		print("")
 		# Start checking user input
