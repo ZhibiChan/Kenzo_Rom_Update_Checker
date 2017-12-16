@@ -94,30 +94,38 @@ def get_rom_name(name):
 				return value
 	return "Unknown item"
 
-def out_put(fast_flag, name, fversion, build_type, build_version, fdate, update_log, fmd5, fsha256, fsha1, flink, fsize):
+def out_put(fast_flag, name, fversion, build_info):
 	# Output check results
-	if name:
-		print("\n%s:"%(get_rom_name(name)))
-	if fversion:
-		print("\n=== The latest version:\n\n    " + fversion)
-	if build_type and build_version:
-		print("\n=== Build type & Build version:\n\n    %s\t%s"%(build_type, build_version))
-	elif build_type:
-		print("\n=== Build type:\n\n    " + build_type)
-	if fdate:
-		print("\n=== Updated:\n\n    " + fdate)
-	if update_log:
-		print("\n=== Changelog:\n\n    " + update_log)
-	if fmd5:
-		print("\n=== MD5:\n\n    " + fmd5)	
-	if fsha256:
-		print("\n=== sha256:\n\n    " + fsha256)
-	if fsha1:
-		print("\n=== sha1:\n\n    " + fsha1)
-	if flink:
-		print("\n=== Download link:\n\n    " + flink)
-	if fsize:
-		print("\n=== Size:\n\n    " + fsize)
+	print_info = []
+	while True:
+		print_info.append(None)
+		if len(print_info) >= 11:
+			break
+	print_info[0] = "\n%s:"%get_rom_name(name)
+	print_info[1] = "\n=== The latest version:\n\n    " + fversion
+	for key, value in build_info.items():
+		if key == "build_type":
+			print_info[2] = "\n=== Build type:\n\n    " + value
+		elif key == "build_version":
+			print_info[3] = "\n=== Build version:\n\n    " + value
+		elif key == "fdate":
+			print_info[4] = "\n=== Updated:\n\n    " + value
+		elif key == "update_log":
+			print_info[5] = "\n=== Changelog:\n\n    " + value
+		elif key == "fmd5":
+			print_info[6] = "\n=== MD5:\n\n    " + value
+		elif key == "fsha256":
+			print_info[7] = "\n=== sha256:\n\n    " + value
+		elif key == "fsha1":
+			print_info[8] = "\n=== sha1:\n\n    " + value
+		elif key == "flink":
+			print_info[9] = "\n=== Download link:\n\n    " + value
+		elif key == "fsize":
+			print_info[10] = "\n=== Size:\n\n    " + value
+	for info in print_info:
+		if info == None:
+			continue
+		print(info)
 	# After output, update the dictionary
 	saved = None
 	if fast_flag == False:
