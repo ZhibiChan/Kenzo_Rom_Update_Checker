@@ -689,7 +689,7 @@ def viperos(fast_flag):
 		i = 1
 		for child in fmd5:
 			if i == 4:
-				build_info['fmd5'] = child.replace("\n", "").split(" ")[-1]
+				build_info['fmd5'] = child.replace("\n", "").split(" ")[1]
 				break
 			i+=1
 		build_info['fsize'] = nb.findAll("td")[2].get_text().replace("\n", "")
