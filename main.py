@@ -188,14 +188,22 @@ def check_one(selected):
 
 def check_all_auto():
 	# Automatically check the mode
-	# This mode does not perform the operation of downloading the MD5 file 
-	# to obtain the hash check value (fast_flag is True) to improve the checking speed.
-	# (Will not block the checksum that can be taken directly from the page)
+	'''
+	This mode does not perform the operation of downloading the MD5 file 
+	to obtain the hash check value (fast_flag is True) to improve the checking speed.
+	(Will not block the checksum that can be taken directly from the page)
+	'''
 	# Read saved Rom update status dictionary from json file
 	saved = tools.read_from_json("save.json")
 	# If failed to read the dictionary, create a new one
 	if not saved:
 		saved = {}
+	# ~ Some URLs are not accessible right now (At least in my area is like this).
+	# ~ such as: aex, aosip
+	# ~ But I will not ignore them anymore.
+	# ~ If you don't want to output these check failure messages after each auto check,
+	# ~ Please write the corresponding function name in this tuple.
+	skip_tuple = ("mokee")
 	# Temporary dictionary, do not write json after each check. 
 	# After all the checks, then update the json dictionary and write.
 	temp3 = {}
@@ -227,10 +235,7 @@ def check_all_auto():
 				#~ temp3[key] = value
 			#~ # 2.element stitching (Python3 version can not be omitted "dictionary to list" step):
 			#~ temp3 = dict(list(temp3.items()) + list(temp2.items()))
-		elif roms.check_list[str(j)] not in ("mokee","aex"):
-			# If an exception occurs, try again.
-			# Recently AEX official website download plug-in problems, 
-			# the link can not be opened, so here temporarily ignored.
+		elif roms.check_list[str(j)] not in skip_tuple:
 			if check_2nd == "(Second check)":
 				failed_list[j] = roms.check_list[str(j)]
 			else:
