@@ -54,12 +54,12 @@ def get_bs(urll):
 
 def open_failed(name):
 	# Output web page access failed message
-	print("\n%s:"%(get_rom_name(name)))
+	print("\n%s:"%get_rom_name(name))
 	print("\n*** Access failed or request timeout!")
 
 def analyze_failed(name):
 	# Output page parsing error message
-	print("\n%s:"%(get_rom_name(name)))
+	print("\n%s:"%get_rom_name(name))
 	print("\n*** Parsing failed! Please tell the author to fix this error!")
 
 def os_clear_screen(ostype):
@@ -171,7 +171,7 @@ def print_update_info(name, old_name, new_name):
 	print("")
 	print("*" * 100)
 	print("")
-	print("=== %s updated! Hurry to tell your friends :P"%(name))
+	print("=== %s updated! Hurry to tell your friends :P"%name)
 	print("")
 	print("=== Old version: " + old_name)
 	print("")

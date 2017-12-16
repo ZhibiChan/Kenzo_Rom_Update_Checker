@@ -498,9 +498,9 @@ def miui_pl(fast_flag):
 	print("\n=== Updated:\n\n    " + fdate)
 	print("\n=== MD5:\n\n    " + fmd5)
 	print("\n=== Download link:    ")
-	print("\n***=== Main server(sourceforge):\n\n    " + flink1)
-	print("\n***=== Spare 1(AFH):\n\n    " + flink2)
-	print("\n***=== Spare 2:\n\n    " + flink3)
+	print("\n======= Main server(sourceforge):\n\n        " + flink1)
+	print("\n======= Spare 1(AFH):\n\n        " + flink2)
+	print("\n======= Spare 2:\n\n        " + flink3)
 	print("\nSize:\n\n" + fsize)
 	saved = None
 	if fast_flag == False:
@@ -512,18 +512,18 @@ def mokee(fast_flag):
 	name = "mokee"
 	# hahahaha
 	time.sleep(1)
-	print("")
-	print("Mokee Official Nightly:")
-	print("")
-	print("=== The latest version:")
-	print("")
-	print("*** Keep updated daily, inquiries are not necessary")
-	print("")
-	print("=== Download link:")
-	print("")
-	print("*** You need to see the advertisement before you can get it :P")
-	print("")
-	print("    https://download.mokeedev.com/?device=kenzo")
+	print('''
+Mokee Official Nightly:
+
+=== The latest version:
+
+    Keep updated daily, inquiries are not necessary
+
+=== Download link:
+
+    You need to see the advertisement before you can get it :P
+
+    https://download.mokeedev.com/?device=kenzo''')
 	return None
 
 def nos_o(fast_flag):

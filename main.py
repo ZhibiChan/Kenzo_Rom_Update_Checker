@@ -258,7 +258,7 @@ def check_all_auto():
 			if len(failed_list) != 0:
 				print("*** Check failed items:")
 				for key,value in failed_list.items():
-					print("\n***=== %s. %s"%(key, tools.get_rom_name(value)))
+					print("\n*** === %s. %s"%(key, tools.get_rom_name(value)))
 				print("")
 			else:
 				print("=== No error occurred during the check.\n")
