@@ -38,7 +38,7 @@ def get_bs(urll):
 	# Check if webpage parsing is successful or False if the parsing fails
 	if urll == False:
 		return False
-	# Get beautifulSoup for the source of the page, set the return parameters to avoid unnecessary anomalies
+	# Get beautifulSoup for the source of the page
 	try:
 		# The best use of the default:lxml
 		bsObj = BeautifulSoup(urll,"lxml")
@@ -56,11 +56,13 @@ def open_failed(name):
 	# Output web page access failed message
 	print("\n%s:"%get_rom_name(name))
 	print("\n*** Access failed or request timeout!")
+	return None
 
 def analyze_failed(name):
 	# Output page parsing error message
 	print("\n%s:"%get_rom_name(name))
 	print("\n*** Parsing failed! Please tell the author to fix this error!")
+	return None
 
 def os_clear_screen(ostype):
 	if ostype == "Windows":
@@ -97,10 +99,8 @@ def get_rom_name(name):
 def out_put(fast_flag, name, fversion, build_info):
 	# Output check results
 	print_info = []
-	while True:
+	while len(print_info) <= 11:
 		print_info.append(None)
-		if len(print_info) >= 11:
-			break
 	print_info[0] = "\n%s:"%get_rom_name(name)
 	print_info[1] = "\n=== The latest version:\n\n    " + fversion
 	for key, value in build_info.items():
@@ -130,8 +130,7 @@ def out_put(fast_flag, name, fversion, build_info):
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
-	saved = saved_update(get_rom_name(name), fversion, saved)
-	return saved
+	return saved_update(get_rom_name(name), fversion, saved)
 
 def check_for_update(checked, temp2):
 	# Check whether the project has been updated, 
@@ -154,16 +153,14 @@ def check_for_update(checked, temp2):
 		if names:
 			more_update_flag = False
 			for name in names:
-				if name in saved:
-					if saved[name] != temp2[name]:
-						print_update_info(name, saved[name], temp2[name])
-						more_update_flag = True
+				if (name in saved) and (saved[name] != temp2[name]):
+					print_update_info(name, saved[name], temp2[name])
+					more_update_flag = True
 			return more_update_flag
 		else:
-			if name in saved:
-				if saved[name] != temp2[name]:
-					print_update_info(name, saved[name], temp2[name])
-					return True
+			if (name in saved) and (saved[name] != temp2[name]):
+				print_update_info(name, saved[name], temp2[name])
+				return True
 	return False
 
 def print_update_info(name, old_name, new_name):
