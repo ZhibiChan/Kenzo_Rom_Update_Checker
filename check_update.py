@@ -25,7 +25,7 @@ def aex(fast_flag):
 		build_info['fsize'] = fsize.split(" ",3)[3]
 		build_info['fmd5'] = fmd5.split(" ",2)[2]
 		fversion = nb.findAll("td")[1].find("a").find("strong").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].find("strong").get_text().replace("\n", "")
+		build_info['fdate'] = nb.findAll("td")[2].find("strong").get_text().strip()
 		build_info['flink'] = "https://downloads.aospextended.com" + nb.findAll("td")[1].find("a")["href"]
 	except:
 		return analyze_failed(name)
@@ -297,8 +297,8 @@ def miui_c(fast_flag):
 			if i == 5:
 				fsize2=child
 				break
-		fversion1 = fversion1.split("：")[1].replace("\n", "")
-		fversion2 = fversion2.split("：")[1].replace("\n", "")
+		fversion1 = fversion1.split("：")[1].strip()
+		fversion2 = fversion2.split("：")[1].strip()
 		fsize1 = fsize1.split("：")[1]
 		fsize2 = fsize2.split("：")[1]
 	except:
@@ -353,8 +353,8 @@ def miui_g(fast_flag):
 			if i == 5:
 				fsize2=child
 				break
-		fversion1 = fversion1.split(" ",1)[1].replace("\n", "")
-		fversion2 = fversion2.split(" ",1)[1].replace("\n", "")
+		fversion1 = fversion1.split(" ",1)[1].strip()
+		fversion2 = fversion2.split(" ",1)[1].strip()
 		fsize1 = fsize1.split(" ",1)[1]
 		fsize2 = fsize2.split(" ",1)[1]
 	except:
@@ -621,10 +621,10 @@ def viperos(fast_flag):
 		i = 1
 		for child in fmd5:
 			if i == 4:
-				build_info['fmd5'] = child.replace("\n", "").split(" ")[1]
+				build_info['fmd5'] = child.strip().split(" ")[1]
 				break
 			i+=1
-		build_info['fsize'] = nb.findAll("td")[2].get_text().replace("\n", "")
+		build_info['fsize'] = nb.findAll("td")[2].get_text().strip()
 		build_info['fdate'] = nb.findAll("td")[3].get_text().strip()
 	except:
 		return analyze_failed(name)

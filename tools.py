@@ -19,38 +19,37 @@ def ua_open(urll):
 		headers = {'User-Agent':'Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11'}
 	elif random_number == 4:
 		headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1'}
-	req = Request(url=urll, headers=headers)
+	req = Request(url = urll, headers = headers)
 	try:
-		html = urlopen(req).read()
+		with urlopen(req) as xmldata:
+			return xmldata.read()
 	except:
 		return False
-	return html
 
 def de_open(urll):
 	# The general method of parsing the page
 	try:
-		html = urlopen(urll)
+		with urlopen(urll) as xmldata:
+			return xmldata.read()
 	except:
 		return False
-	return html
 
 def get_bs(urll):
 	# Check if webpage parsing is successful or False if the parsing fails
-	if urll == False:
+	if not urll:
 		return False
 	# Get beautifulSoup for the source of the page
 	try:
 		# The best use of the default:lxml
-		bsObj = BeautifulSoup(urll,"lxml")
+		return BeautifulSoup(urll, "lxml")
 		# Parsing methods other than using the lxml library:
 		# Use Python standard library 
 		# (not recommended, will lead to some webpage parsing exception)
-		#~ bsObj = BeautifulSoup(urll,"html.parser")
+		#~ return BeautifulSoup(urll,"html.parser")
 		# Use html5lib	
-		#~ bsObj = BeautifulSoup(urll,"html5lib")
+		#~ return BeautifulSoup(urll,"html5lib")
 	except:
 		return False
-	return bsObj
 
 def open_failed(name):
 	# Output web page access failed message
@@ -76,16 +75,15 @@ def get_md5_from_file(urll):
 	try:
 		urlretrieve(urll,"tempfile")
 	except:
-		fmd5 = "Failed to get!"
+		return "Failed to get!"
 	else:
 		try:
 			with open("tempfile") as md5file:
 				fmd5 = md5file.read()
 			os.remove("tempfile")
-			fmd5 = fmd5.split(" ")[0]
+			return fmd5.split(" ")[0]
 		except:
-			fmd5 = "Failed to get!"
-	return fmd5
+			return "Failed to get!"
 
 def get_rom_name(name):
 	# According to the dictionary, get the project name by the function name identifier
@@ -136,6 +134,8 @@ def check_for_update(checked, temp2):
 	# Check whether the project has been updated, 
 	# If there is an update, the output prompt.
 	saved = read_from_json("save.json")
+	if not saved:
+		return False
 	names = None
 	# Special
 	if checked == "miui_c":
@@ -149,30 +149,24 @@ def check_for_update(checked, temp2):
 	# Normal
 	else:
 		name = get_rom_name(checked)
-	if saved:
-		if names:
-			more_update_flag = False
-			for name in names:
-				if (name in saved) and (saved[name] != temp2[name]):
-					print_update_info(name, saved[name], temp2[name])
-					more_update_flag = True
-			return more_update_flag
-		else:
+	if names:
+		more_update_flag = False
+		for name in names:
 			if (name in saved) and (saved[name] != temp2[name]):
-				print_update_info(name, saved[name], temp2[name])
-				return True
-	return False
+				more_update_flag = print_update_info(name, saved[name], temp2[name])
+		return more_update_flag
+	else:
+		if (name in saved) and (saved[name] != temp2[name]):
+			return print_update_info(name, saved[name], temp2[name])
+		return False
 
 def print_update_info(name, old_name, new_name):
 	# Output update information
-	print("")
-	print("*" * 100)
-	print("")
-	print("=== %s updated! Hurry to tell your friends :P"%name)
-	print("")
-	print("=== Old version: " + old_name)
-	print("")
+	print("\n%s\n"%("*" * 100))
+	print("=== %s updated! Hurry to tell your friends :P\n"%name)
+	print("=== Old version: %s\n"%old_name)
 	print("=== New version: " + new_name)
+	return True
 
 def saved_update(name, version, saved):
 	# Update dictionary
