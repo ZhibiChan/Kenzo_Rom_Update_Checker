@@ -9,6 +9,7 @@ class Rom_List:
 			"aoscp",
 			"cardinal",
 			"nos_o",
+			"pe",
 			"aex",
 			"aicp",
 			"aosip",
@@ -43,7 +44,8 @@ class Rom_List:
 		self.rom8_list = {
 			"aoscp":"AOSCP Unofficial",
 			"cardinal":"Cardinal AOSP Official Test",
-			"nos_o":"Nitrogen OS 8.1 Test"
+			"nos_o":"Nitrogen OS 8.1 Test",
+			"pe":"Pixel Experience"
 		}
 		# Android 7.x:
 		self.rom7_list = {

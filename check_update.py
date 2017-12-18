@@ -543,6 +543,27 @@ def omni(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
+def pe(fast_flag):
+	name = "pe"
+	build_info = {}
+	ual = de_open("https://sourceforge.net/projects/pixel-experience-for-kenzo/files/")
+	bsObj = get_bs(ual)
+	if not bsObj:
+		return open_failed(name)
+	try:
+		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
+		nb2 = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		if nb["title"].split(".")[-1] != "zip":
+			swap_temp = nb;nb = nb2;nb2 = swap_temp
+		build_info['update_log'] = nb2.find("th").find("a")["href"]
+		fversion = nb["title"]
+		build_info['fdate'] = nb.find("td").find("abbr")["title"]
+		build_info['flink'] = nb.find("th").find("a")["href"]
+		build_info['fsize'] = nb.findAll("td")[1].get_text()
+	except:
+		return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
 def rr(fast_flag):
 	name = "rr"
 	build_info = {}
