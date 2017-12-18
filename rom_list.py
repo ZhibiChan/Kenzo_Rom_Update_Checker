@@ -5,34 +5,39 @@ class Rom_List:
 	# A class that holds a Rom list dictionary
 	def __init__(self):
 		# Build a dictionary list of sequence numbers and function names
-		self.check_list = {
-			"1":"aoscp",
-			"2":"cardinal",
-			"3":"nos_o",
-			"4":"aex",
-			"5":"aicp",
-			"6":"aosip",
-			"7":"bliss",
-			"8":"cosmicos",
-			"9":"dotos",
-			"10":"los",
-			"11":"los_mg",
-			"12":"los_u1",
-			"13":"mokee",
-			"14":"nos_s",
-			"15":"omni",
-			"16":"rr",
-			"17":"sudamod",
-			"18":"viperos",
-			"19":"xenonhd",
-			"20":"flyme",
-			"21":"miui_br",
-			"22":"miui_c",
-			"23":"miui_g",
-			"24":"miui_mr",
-			"25":"miui_pl",
-			"26":"twrp"
-		}
+		roms_list = [
+			"aoscp",
+			"cardinal",
+			"nos_o",
+			"aex",
+			"aicp",
+			"aosip",
+			"bliss",
+			"cosmicos",
+			"dotos",
+			"los",
+			"los_mg",
+			"los_u1",
+			"mokee",
+			"nos_s",
+			"omni",
+			"rr",
+			"sudamod",
+			"viperos",
+			"xenonhd",
+			"flyme",
+			"miui_br",
+			"miui_c",
+			"miui_g",
+			"miui_mr",
+			"miui_pl",
+			"twrp"
+		]
+		self.check_list = {}
+		i = 1
+		for item in roms_list:
+			self.check_list[str(i)] = item
+			i+=1
 		# Build a dictionary list of function names and project names
 		# Android 8.0:
 		self.rom8_list = {
