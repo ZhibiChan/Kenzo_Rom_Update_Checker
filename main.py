@@ -16,13 +16,6 @@ if sysstr not in ("Windows", "Linux"):
 	print("\nNot support your OS!")
 	sys.exit()
 
-''' Check Python version '''
-if (sys.version.split(".")[0] != "3") \
-		or (int(sys.version.split(".")[1]) < 5):
-	print("\nFailed to run this program!")
-	print("\nRunning this program requires a Python 3.5+ version")
-	sys.exit()
-
 ''' Initialization parameters '''
 # Tools version
 tool_version = "v1.0.4 Alpha"
