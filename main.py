@@ -28,7 +28,7 @@ if (sys.version.split(".")[0] != "3") \
 tool_version = "v1.0.4 Alpha"
 # Connection timeout(Default 20s)
 socket.setdefaulttimeout(20)
-# Import Rom List Dictionary
+# Import Rom List dict
 roms = rom_list.Rom_List()
 # Define a range of numbers
 r8_s = 1
@@ -41,10 +41,7 @@ r5_s = r6_e + 1
 r5_e = len(roms.check_list)
 # Set terminal
 if sysstr == "Windows":
-	# Set the title
-	title = "title KENZO ROM UPDATE CHECKER " + tool_version
-	os.system(title)
-	# Set the size
+	os.system("title KENZO ROM UPDATE CHECKER " + tool_version)
 	term_lines = 38
 	term_cols = 138
 	hex_lines = hex(term_lines).replace("0x","").zfill(4)
@@ -106,16 +103,12 @@ def main():
 				print("  ====%s.%s"%(i, roms.other_list[key]))
 				i+=1
 		print()
-		# Start checking user input
-		# Expand subdirectories
 		selected = None
 		if not(r8 or r7 or r6 or r5):
 			print("*** Please enter the Rom type label you want to check and press Enter\n")
 			selected = input('*** (Enter \'e\' to exit, enter \'9999\' to automatically check all): ')
-			# Check quit
 			if selected == "e" or selected == "E":
 				break
-			# Check input
 			elif selected == "1":
 				r8 = True
 			elif selected == "2":
@@ -127,17 +120,13 @@ def main():
 			elif selected == "9999":
 				check_all_auto()
 			continue
-		# After the subdirectory expands
 		print("*** Please enter the Rom number you need to check and press Enter\n")
 		selected = input('*** (Enter \'0\' to close the sub-directory, enter \'e\' to exit): ')
-		# Check quit
 		if selected == "e" or selected == "E":
 			break
-		# Check close the subdirectory
 		if selected == "0":
 			r8 = r7 = r6 = r5 = False
 			continue
-		# Check the input
 		try:
 			selected_number = int(selected)
 		except ValueError:
@@ -154,11 +143,8 @@ def main():
 		if r5:
 			if selected_number < r5_s or selected_number > r5_e:
 				continue
-		# User input check completed
-		# Start check for updates
 		tools.os_clear_screen(sysstr)
 		check_one(selected)
-		# Return or exit
 		temp = input('*** Enter \'e\' to exit, enter other to return to the main interface: ')
 		if temp == "e" or temp == "E":
 			break
@@ -170,11 +156,8 @@ def check_one(selected):
 	checking = "check_update." + roms.check_list[selected]
 	temp2 = eval(checking)(fast_flag = False)
 	if temp2:
-		# Get the function name identifier
 		checked = roms.check_list[selected]
-		# Judge whether Rom is updated
 		tools.check_for_update(checked, temp2)
-		# Save the new dictionary to json
 		tools.save_to_json(temp2, "save.json")
 	print("\n%s\n"%("*" * term_cols))
 	if temp2:
@@ -184,7 +167,7 @@ def check_one(selected):
 	print()
 
 def check_all_auto():
-	# Automatically check the mode
+	# Automatically check all
 	'''
 	This mode does not perform the operation of downloading the MD5 file 
 	to obtain the hash check value (fast_flag is True) to improve the checking speed.
@@ -192,20 +175,16 @@ def check_all_auto():
 	'''
 	# Read saved Rom update status dictionary from json file
 	saved = tools.read_from_json("save.json")
-	# If failed to read the dictionary, create a new one
 	if not saved:
 		saved = {}
 	# ~ Some URLs are not accessible right now (At least in my area is like this).
-	# ~ such as: aex, aosip
+	# ~ such as: aex
 	# ~ But I will not ignore them anymore.
 	# ~ If you don't want to output these check failure messages after each auto check,
 	# ~ Please write the corresponding function name in this tuple.
 	skip_tuple = ("mokee")
-	# Temporary dictionary, do not write json after each check. 
-	# After all the checks, then update the json dictionary and write.
-	temp3 = {}
-	# Create a new dictionary, used to save the check failed items
-	failed_list = {}
+	# Temporary dictionary
+	temp3 = failed_list = {}
 	j = 1
 	check_2nd = ""
 	while True:
@@ -216,9 +195,7 @@ def check_all_auto():
 		checking = "check_update." + roms.check_list[str(j)]
 		temp2 = eval(checking)(fast_flag = True)
 		if temp2:
-			# Get the function name identifier
 			checked = roms.check_list[str(j)]
-			# Judge whether Rom is updated
 			new_flag = tools.check_for_update(checked, temp2)
 			# Update the temporary dictionary 
 			# (this method of merging dictionaries is limited to Python version 3.5 and above)
@@ -242,9 +219,7 @@ def check_all_auto():
 			input('*** Press the Enter key to continue: ')
 		new_flag = False
 		if j > len(roms.check_list):
-			# Update temporary dictionary to json dictionary
 			saved = {**saved, **temp3}
-			# Write json dictionary to json
 			tools.save_to_json(saved, "save.json")
 			tools.os_clear_screen(sysstr)
 			print("\n%s\n"%("*" * term_cols))
@@ -259,8 +234,7 @@ def check_all_auto():
 			input('*** Press the Enter key to return to the main interface: ')
 			break
 
-# Start the main interface loop
 main()
-# After jumping out of circulation, clear the screen and exit the program
+
 tools.os_clear_screen(sysstr)
 sys.exit()

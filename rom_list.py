@@ -2,9 +2,7 @@
 # -*- coding: utf-8 -*-
 
 class Rom_List:
-	# A class that holds a Rom list dictionary
 	def __init__(self):
-		# Build a dictionary list of sequence numbers and function names
 		roms_list = [
 			"aoscp",
 			"cardinal",
@@ -39,15 +37,13 @@ class Rom_List:
 		for item in roms_list:
 			self.check_list[str(i)] = item
 			i+=1
-		# Build a dictionary list of function names and project names
-		# Android 8.0:
+		
 		self.rom8_list = {
 			"aoscp":"AOSCP Unofficial",
 			"cardinal":"Cardinal AOSP Official Test",
 			"nos_o":"Nitrogen OS 8.1 Test",
 			"pe":"Pixel Experience"
 		}
-		# Android 7.x:
 		self.rom7_list = {
 			"aex":"AospExtended Official",
 			"aicp":"AICP Official",
@@ -66,7 +62,6 @@ class Rom_List:
 			"viperos":"ViperOS Official",
 			"xenonhd":"XenonHD Official"
 		}
-		# Android 6.0:
 		self.rom6_list = {
 			"flyme":"Flyme Official(haohao3344)",
 			"miui_br":"MIUI Brazil Developer ROM",
@@ -75,7 +70,6 @@ class Rom_List:
 			"miui_mr":"MIUI MultiRom Developer ROM",
 			"miui_pl":"MIUI Poland Developer ROM"
 		}
-		# Other:
 		self.other_list = {
 			"twrp":"TWRP Official"
 		}

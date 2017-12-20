@@ -14,7 +14,7 @@ def aex(fast_flag):
 	try:
 		nb = bsObj.find("table",{"class":"cm"}).find("tbody").find("tr")
 		i=0
-		for child in nb.findAll("td")[1]:
+		for child in nb.find_all("td")[1]:
 			i+=1
 			if i == 5:
 				fsize=child
@@ -24,9 +24,9 @@ def aex(fast_flag):
 				break
 		build_info['fsize'] = fsize.split(" ",3)[3]
 		build_info['fmd5'] = fmd5.split(" ",2)[2]
-		fversion = nb.findAll("td")[1].find("a").find("strong").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].find("strong").get_text().strip()
-		build_info['flink'] = "https://downloads.aospextended.com" + nb.findAll("td")[1].find("a")["href"]
+		fversion = nb.find_all("td")[1].find("a").find("strong").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].find("strong").get_text().strip()
+		build_info['flink'] = "https://downloads.aospextended.com" + nb.find_all("td")[1].find("a")["href"]
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -40,18 +40,18 @@ def aicp(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"class":"table table-bordered table-striped"}).find("tbody").find("tr")
-		build_info['build_type'] = nb.findAll("td")[1].get_text()
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
-		build_info['update_log'] = nb.findAll("td")[2].findAll("a")[1]["href"]
-		fversion = nb.findAll("td")[2].find("a").get_text()
-		build_info['fdate'] = nb.findAll("td")[-1].get_text()
-		fmd5_temp = nb.findAll("td")[2].find("small").get_text().split(":")[1]
+		build_info['build_type'] = nb.find_all("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
+		build_info['update_log'] = nb.find_all("td")[2].find_all("a")[1]["href"]
+		fversion = nb.find_all("td")[2].find("a").get_text()
+		build_info['fdate'] = nb.find_all("td")[-1].get_text()
+		fmd5_temp = nb.find_all("td")[2].find("small").get_text().split(":")[1]
 		fmd5 = ""
 		for char in fmd5_temp:
 			if re.match('[0-9a-fA-F]',char):
 				fmd5+=char
 		build_info['fmd5'] = fmd5
-		build_info['flink'] = nb.findAll("td")[2].find("a")["href"]
+		build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -64,11 +64,11 @@ def aoscp(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"indexlist"}).findAll("tr")[-1]
-		fversion = nb.findAll("td")[1].find("a").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
-		build_info['flink'] = "https://carvalho-server.no-ip.biz/" + nb.findAll("td")[1].find("a").get_text()
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		nb = bsObj.find("table",{"id":"indexlist"}).find_all("tr")[-1]
+		fversion = nb.find_all("td")[1].find("a").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
+		build_info['flink'] = "https://carvalho-server.no-ip.biz/" + nb.find_all("td")[1].find("a").get_text()
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -81,15 +81,15 @@ def aosip(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
+		nb = bsObj.find("div",{"id":"fallback"}).find("table").find_all("tr")[-2]
 		if fast_flag == False:
 			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table") \
-					.findAll("tr")[-1].findAll("td")[1].find("a")["href"]
+					.find_all("tr")[-1].find_all("td")[1].find("a")["href"]
 			build_info['fmd5'] = get_md5_from_file("https://get.aosiprom.com" + fmd5)
-		fversion = nb.findAll("td")[1].find("a").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
-		build_info['flink'] = "https://get.aosiprom.com" + nb.findAll("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		fversion = nb.find_all("td")[1].find("a").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
+		build_info['flink'] = "https://get.aosiprom.com" + nb.find_all("td")[1].find("a")["href"]
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -102,15 +102,15 @@ def bliss(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-3]
+		nb = bsObj.find("div",{"id":"fallback"}).find("table").find_all("tr")[-3]
 		if fast_flag == False:
 			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table") \
-					.findAll("tr")[-2].findAll("td")[1].find("a")["href"]
+					.find_all("tr")[-2].find_all("td")[1].find("a")["href"]
 			build_info['fmd5'] = get_md5_from_file("https://downloads.blissroms.com" + fmd5)
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
-		fversion = nb.findAll("td")[1].find("a").get_text()
-		build_info['flink'] = "https://downloads.blissroms.com" + nb.findAll("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
+		fversion = nb.find_all("td")[1].find("a").get_text()
+		build_info['flink'] = "https://downloads.blissroms.com" + nb.find_all("td")[1].find("a")["href"]
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -123,11 +123,11 @@ def cardinal(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -140,11 +140,11 @@ def cosmicos(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -157,11 +157,11 @@ def dotos(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -201,14 +201,14 @@ def los(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"class":"striped bordered"}).find("tbody").find("tr")
-		fversion = nb.findAll("td")[2].find("a").get_text()
-		build_info['build_type'] = nb.findAll("td")[0].get_text()
-		build_info['build_version'] = nb.findAll("td")[1].get_text()
+		fversion = nb.find_all("td")[2].find("a").get_text()
+		build_info['build_type'] = nb.find_all("td")[0].get_text()
+		build_info['build_version'] = nb.find_all("td")[1].get_text()
 		if fast_flag == False:
-			build_info['fsha256'] = get_md5_from_file(nb.findAll("td")[2].find("a")["href"] + "?sha256")
-			build_info['fsha1'] = get_md5_from_file(nb.findAll("td")[2].find("a")["href"] + "?sha1")
-		build_info['fdate'] = nb.findAll("td")[-1].get_text()
-		build_info['flink'] = nb.findAll("td")[2].find("a")["href"]
+			build_info['fsha256'] = get_md5_from_file(nb.find_all("td")[2].find("a")["href"] + "?sha256")
+			build_info['fsha1'] = get_md5_from_file(nb.find_all("td")[2].find("a")["href"] + "?sha1")
+		build_info['fdate'] = nb.find_all("td")[-1].get_text()
+		build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -221,9 +221,9 @@ def los_u1(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("article",{"class":"markdown-body entry-content"}).findAll("a")[2]
+		nb = bsObj.find("article",{"class":"markdown-body entry-content"}).find_all("a")[2]
 		build_info['update_log'] = bsObj.find("article",{"class":"markdown-body entry-content"}) \
-					.findAll("ul")[0].get_text().replace("\n","\n    ")[5:-5]
+					.find_all("ul")[0].get_text().replace("\n","\n    ")[5:-5]
 		build_info['flink'] = nb["href"]
 		fversion = nb.get_text()
 	except:
@@ -238,25 +238,25 @@ def los_mg(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nba = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")
+		nba = bsObj.find("div",{"id":"fallback"}).find("table").find_all("tr")
 		fmd5 = fsha256 = None
 		for item in (nba[-1], nba[-2], nba[-3]):
-			file_type = item.findAll("td")[1].find("a").get_text().split(".")[-1]
+			file_type = item.find_all("td")[1].find("a").get_text().split(".")[-1]
 			if file_type == "zip":
-				fversion = item.findAll("td")[1].find("a").get_text()
+				fversion = item.find_all("td")[1].find("a").get_text()
 				nb = item
 			elif file_type == "md5sum":
-				fmd5 = item.findAll("td")[1].find("a")["href"]
+				fmd5 = item.find_all("td")[1].find("a")["href"]
 			elif file_type == "sha256sum":
-				fsha256 = item.findAll("td")[1].find("a")["href"]
+				fsha256 = item.find_all("td")[1].find("a")["href"]
 		if fast_flag == False:
 			if fmd5:
 				build_info['fmd5'] = get_md5_from_file("https://download.lineage.microg.org" + fmd5)
 			if fsha256:
 				build_info['fsha256'] = get_md5_from_file("https://download.lineage.microg.org" + fsha256)
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
-		build_info['flink'] = "https://download.lineage.microg.org" + nb.findAll("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
+		build_info['flink'] = "https://download.lineage.microg.org" + nb.find_all("td")[1].find("a")["href"]
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -284,7 +284,7 @@ def miui_c(fast_flag):
 		return open_failed(name)
 	try:
 		nb_s = bsObj.find("div",{"id":"content_t_451"}).find("div",{"class":"block"})
-		nb_d = bsObj.find("div",{"id":"content_t_451"}).findAll("div",{"class":"block"})[1]
+		nb_d = bsObj.find("div",{"id":"content_t_451"}).find_all("div",{"class":"block"})[1]
 		flink1 = nb_s.find("div",{"class":"to_miroute"}).find("a")["href"]
 		flink2 = nb_d.find("div",{"class":"to_miroute"}).find("a")["href"]
 		fvalue1 = nb_s.find("div",{"class":"supports"}).find("p")
@@ -337,7 +337,7 @@ def miui_g(fast_flag):
 		return open_failed(name)
 	try:
 		nb_s = bsObj.find("div",{"id":"content_t_438"}).find("div",{"class":"block"})
-		nb_d = bsObj.find("div",{"id":"content_t_438"}).findAll("div",{"class":"block"})[1]
+		nb_d = bsObj.find("div",{"id":"content_t_438"}).find_all("div",{"class":"block"})[1]
 		flink1 = nb_s.find("div",{"class":"stable div_margin"}).find("div").find("a")["href"]
 		flink2 = nb_d.find("div",{"class":"stable div_margin"}).find("div").find("a")["href"]
 		fvalue1 = nb_s.find("div",{"class":"supports"}).find("p")
@@ -399,8 +399,8 @@ def miui_mr(fast_flag):
 		fvalue2 = nb_g.find("div",{"class":"rom_info"})
 		fversion1 = fvalue1.find("span").get_text().split(" ")[-1]
 		fversion2 = fvalue2.find("span").get_text().split(" ")[-1]
-		fsize1 = fvalue1.findAll("span")[2].get_text().split(" ")[-2] + " MB"
-		fsize2 = fvalue2.findAll("span")[2].get_text().split(" ")[-2] + " MB"
+		fsize1 = fvalue1.find_all("span")[2].get_text().split(" ")[-2] + " MB"
+		fsize2 = fvalue2.find_all("span")[2].get_text().split(" ")[-2] + " MB"
 		flink3 = "https://mirror.byteturtle.eu/multirom/" + fname1
 		flink4 = "https://mirror.byteturtle.eu/multirom/" + fname2
 		# Download link from the official website can not be downloaded normally, 
@@ -436,11 +436,11 @@ def miui_pl(fast_flag):
 	try:
 		nb = bsObj.find("div",{"id":"redmi-note-3-pro"}).find_next().find("div",{"class":"col-sm-9"})
 		flink1 = nb.find("ul",{"class":"dwnl-b"}).find("li").find("a")["href"]
-		flink2 = nb.find("ul",{"class":"dwnl-b"}).findAll("li")[1].find("a")["href"]
-		flink3 = nb.findAll("ul",{"class":"dwnl-b"})[1].find("li").find("a")["href"]
+		flink2 = nb.find("ul",{"class":"dwnl-b"}).find_all("li")[1].find("a")["href"]
+		flink3 = nb.find_all("ul",{"class":"dwnl-b"})[1].find("li").find("a")["href"]
 		fvalue = nb.find("div",{"class":"dwnl-m"})
 		fversion = fvalue.find("ul").find("li").get_text().split(" ")[-1]
-		fsize = fvalue.find("ul").findAll("li")[-1].get_text().split(" ")[-1]
+		fsize = fvalue.find("ul").find_all("li")[-1].get_text().split(" ")[-1]
 		fvalue2 = fvalue.find("i").get_text().split(" ")
 		fmd5 = fvalue2[1]
 		fdate = fvalue2[-1]
@@ -486,8 +486,8 @@ def nos_o(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
-		nb2 = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		# Sometimes log and Rom locations are reversed due to the order of uploads,
 		# So...
 		if nb["title"].split(".")[-1] != "zip":
@@ -496,7 +496,7 @@ def nos_o(fast_flag):
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -509,15 +509,15 @@ def nos_s(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
-		nb2 = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		if nb["title"].split(".")[-1] != "zip":
 			swap_temp = nb;nb = nb2;nb2 = swap_temp
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -530,15 +530,15 @@ def omni(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
+		nb = bsObj.find("div",{"id":"fallback"}).find("table").find_all("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table"). \
-					findAll("tr")[-1].findAll("td")[1].find("a").get_text()
+			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table") \
+					.find_all("tr")[-1].find_all("td")[1].find("a").get_text()
 			build_info['fmd5'] = get_md5_from_file("http://dl.omnirom.org/kenzo/" + fmd5)
-		fversion = nb.findAll("td")[1].find("a").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
+		fversion = nb.find_all("td")[1].find("a").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
 		build_info['flink'] = "http://dl.omnirom.org/kenzo/" + fversion
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -551,15 +551,15 @@ def pe(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
-		nb2 = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[0]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		if nb["title"].split(".")[-1] != "zip":
 			swap_temp = nb;nb = nb2;nb2 = swap_temp
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -572,11 +572,11 @@ def rr(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"files_list"}).findAll("tbody")[0].findAll("tr")[1]
+		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
-		build_info['fsize'] = nb.findAll("td")[1].get_text()
+		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -590,12 +590,12 @@ def sudamod(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"class":"striped bordered"}).find("tbody").find("tr")
-		build_info['fmd5'] = nb.findAll("td")[2].find("small").get_text().split(" ")[1]
-		build_info['build_type'] = nb.findAll("td")[0].get_text()
-		fversion = nb.findAll("td")[2].find("a").get_text()
-		build_info['build_version'] = nb.findAll("td")[1].get_text()
-		build_info['fdate'] = nb.findAll("td")[-2].get_text()
-		build_info['flink'] = nb.findAll("td")[2].find("a")["href"]
+		build_info['fmd5'] = nb.find_all("td")[2].find("small").get_text().split(" ")[1]
+		build_info['build_type'] = nb.find_all("td")[0].get_text()
+		fversion = nb.find_all("td")[2].find("a").get_text()
+		build_info['build_version'] = nb.find_all("td")[1].get_text()
+		build_info['fdate'] = nb.find_all("td")[-2].get_text()
+		build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -608,12 +608,12 @@ def twrp(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("div",{"class":"post"}).findAll("article",
+		nb = bsObj.find("div",{"class":"post"}).find_all("article",
 				{"class":"post-content"})[1].find("table").find("tr")
 		nblink = nb.find("td").find("a")["href"]
 		fversion = nb.find("td").find("a").get_text()
-		build_info['fsize'] = nb.findAll("td")[1].find("small").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].find("em").get_text()
+		build_info['fsize'] = nb.find_all("td")[1].find("small").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].find("em").get_text()
 		ual2 = de_open("https://dl.twrp.me" + nblink)
 		bsObj2 = get_bs(ual2)
 		if not bsObj2:
@@ -636,7 +636,7 @@ def viperos(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("div",{"class":"table-scroll"}).find("tbody").find("tr")
-		fmd5 = nb.findAll("td")[1]
+		fmd5 = nb.find_all("td")[1]
 		fversion = fmd5.find("a").get_text()
 		build_info['flink'] = fmd5.find("a")["href"]
 		i = 1
@@ -645,8 +645,8 @@ def viperos(fast_flag):
 				build_info['fmd5'] = child.strip().split(" ")[1]
 				break
 			i+=1
-		build_info['fsize'] = nb.findAll("td")[2].get_text().strip()
-		build_info['fdate'] = nb.findAll("td")[3].get_text().strip()
+		build_info['fsize'] = nb.find_all("td")[2].get_text().strip()
+		build_info['fdate'] = nb.find_all("td")[3].get_text().strip()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -659,15 +659,15 @@ def xenonhd(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"id":"indexlist"}).findAll("tr")[-2]
+		nb = bsObj.find("table",{"id":"indexlist"}).find_all("tr")[-2]
 		if fast_flag == False:
-			fmd5 = bsObj.find("table",{"id":"indexlist"}).findAll("tr") \
-					[-1].findAll("td")[1].find("a").get_text()
+			fmd5 = bsObj.find("table",{"id":"indexlist"}).find_all("tr") \
+					[-1].find_all("td")[1].find("a").get_text()
 			build_info['fmd5'] = get_md5_from_file("https://mirrors.c0urier.net/android/teamhorizon/N/Official/kenzo/" + fmd5)
-		fversion = nb.findAll("td")[1].find("a").get_text()
-		build_info['fdate'] = nb.findAll("td")[2].get_text()
+		fversion = nb.find_all("td")[1].find("a").get_text()
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
 		build_info['flink'] = "https://mirrors.c0urier.net/android/teamhorizon/N/Official/kenzo/" + fversion
-		build_info['fsize'] = nb.findAll("td")[3].get_text()
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)

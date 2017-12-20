@@ -8,8 +8,7 @@ import rom_list
 
 def ua_open(urll):
 	# Use browser proxy to parse web pages
-	# Borrow random number generation function, randomly select the browser UA
-	# (Win10+Chrome、MacOS+Safari、Win7+Opera、MacOS+Firefox)
+	# Randomly select the browser UA
 	random_number = random.randint(1,4)
 	if random_number == 1:
 		headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
@@ -35,30 +34,23 @@ def de_open(urll):
 		return False
 
 def get_bs(urll):
-	# Check if webpage parsing is successful or False if the parsing fails
+	# Get beautifulSoup for the source of the page
 	if not urll:
 		return False
-	# Get beautifulSoup for the source of the page
 	try:
 		# The best use of the default:lxml
 		return BeautifulSoup(urll, "lxml")
-		# Parsing methods other than using the lxml library:
-		# Use Python standard library 
-		# (not recommended, will lead to some webpage parsing exception)
-		#~ return BeautifulSoup(urll,"html.parser")
-		# Use html5lib	
+		# Or use html5lib	
 		#~ return BeautifulSoup(urll,"html5lib")
 	except:
 		return False
 
 def open_failed(name):
-	# Output web page access failed message
 	print("\n%s:"%get_rom_name(name))
 	print("\n*** Access failed or request timeout!")
 	return None
 
 def analyze_failed(name):
-	# Output page parsing error message
 	print("\n%s:"%get_rom_name(name))
 	print("\n*** Parsing failed! Please tell the author to fix this error!")
 	return None
@@ -86,9 +78,10 @@ def get_md5_from_file(urll):
 			return "Failed to get!"
 
 def get_rom_name(name):
-	# According to the dictionary, get the project name by the function name identifier
+	# Get the item's name by the function name
 	roms = rom_list.Rom_List()
-	for lists in [roms.rom8_list, roms.rom7_list, roms.rom6_list, roms.other_list]:
+	for lists in \
+	[roms.rom8_list, roms.rom7_list, roms.rom6_list, roms.other_list]:
 		for key,value in lists.items():
 			if key == name:
 				return value
@@ -124,15 +117,13 @@ def out_put(fast_flag, name, fversion, build_info):
 		if info == None:
 			continue
 		print(info)
-	# After output, update the dictionary
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
 	return saved_update(get_rom_name(name), fversion, saved)
 
 def check_for_update(checked, temp2):
-	# Check whether the project has been updated, 
-	# If there is an update, the output prompt.
+	# If there is an update, output notification.
 	saved = read_from_json("save.json")
 	if not saved:
 		return False
@@ -143,25 +134,25 @@ def check_for_update(checked, temp2):
 	elif checked == "miui_g":
 		names = ("MIUI Global Stable ROM","MIUI Global Developer ROM")
 	elif checked == "miui_mr":
-		names = ("MIUI MultiRom China Developer ROM","MIUI MultiRom Global Developer ROM")
+		names = ("MIUI MultiRom China Developer ROM",
+				"MIUI MultiRom Global Developer ROM")
 	elif checked == "miui_pl":
 		name = "MIUI Poland Developer ROM"
 	# Normal
 	else:
 		name = get_rom_name(checked)
 	if names:
-		more_update_flag = False
+		flag = False
 		for name in names:
 			if (name in saved) and (saved[name] != temp2[name]):
-				more_update_flag = print_update_info(name, saved[name], temp2[name])
-		return more_update_flag
+				flag = print_update_info(name, saved[name], temp2[name])
+		return flag
 	else:
 		if (name in saved) and (saved[name] != temp2[name]):
 			return print_update_info(name, saved[name], temp2[name])
 		return False
 
 def print_update_info(name, old_name, new_name):
-	# Output update information
 	print("\n%s\n"%("*" * 100))
 	print("=== %s updated! Hurry to tell your friends :P\n"%name)
 	print("=== Old version: %s\n"%old_name)
@@ -170,16 +161,16 @@ def print_update_info(name, old_name, new_name):
 
 def saved_update(name, version, saved):
 	# Update dictionary
-	# If the dictionary does not exist, create a new one
 	if not saved:
 		saved = {}
-	saved[name]=version
+	saved[name] = version
 	return saved
 
 def save_to_json(ready_save_data, filename):
 	# Save the dictionary to json
 	with open(filename,'w') as savefile:
-		json.dump(ready_save_data, savefile, sort_keys=True, indent=4, ensure_ascii=False)
+		json.dump(ready_save_data, savefile,
+				sort_keys=True, indent=4, ensure_ascii=False)
 
 def read_from_json(filename):
 	# Read dictionary from json
@@ -188,8 +179,6 @@ def read_from_json(filename):
 			return json.load(savefile)
 	except:
 		try:
-			# If the json file is broken or can not read properly, 
-			# try removing it and return None.
 			os.remove(filename)
 		finally:
 			return None
