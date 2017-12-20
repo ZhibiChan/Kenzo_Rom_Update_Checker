@@ -238,12 +238,22 @@ def los_mg(fast_flag):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")[-2]
+		nba = bsObj.find("div",{"id":"fallback"}).find("table").findAll("tr")
+		fmd5 = fsha256 = None
+		for item in (nba[-1], nba[-2], nba[-3]):
+			file_type = item.findAll("td")[1].find("a").get_text().split(".")[-1]
+			if file_type == "zip":
+				fversion = item.findAll("td")[1].find("a").get_text()
+				nb = item
+			elif file_type == "md5sum":
+				fmd5 = item.findAll("td")[1].find("a")["href"]
+			elif file_type == "sha256sum":
+				fsha256 = item.findAll("td")[1].find("a")["href"]
 		if fast_flag == False:
-			fmd5 = bsObj.find("div",{"id":"fallback"}).find("table"). \
-					findAll("tr")[-1].findAll("td")[1].find("a")["href"]
-			build_info['fmd5'] = get_md5_from_file("https://download.lineage.microg.org" + fmd5)
-		fversion = nb.findAll("td")[1].find("a").get_text()
+			if fmd5:
+				build_info['fmd5'] = get_md5_from_file("https://download.lineage.microg.org" + fmd5)
+			if fsha256:
+				build_info['fsha256'] = get_md5_from_file("https://download.lineage.microg.org" + fsha256)
 		build_info['fdate'] = nb.findAll("td")[2].get_text()
 		build_info['flink'] = "https://download.lineage.microg.org" + nb.findAll("td")[1].find("a")["href"]
 		build_info['fsize'] = nb.findAll("td")[3].get_text()
