@@ -9,7 +9,7 @@ import check_update, rom_list, tools
 # ~ sys.exit()
 # TEST END
 
-''' Check OS, this program support Windows & Linux now '''
+''' Check OS '''
 sysstr = platform.system()
 if sysstr not in ("Windows", "Linux"):
 	print("\nFailed to run this program!")
@@ -21,6 +21,7 @@ if (sys.version.split(".")[0] != "3") \
 		or (int(sys.version.split(".")[1]) < 5):
 	print("\nFailed to run this program!")
 	print("\nRunning this program requires a Python 3.5+ version")
+	sys.exit()
 
 ''' Initialization parameters '''
 # Tools version
@@ -30,12 +31,16 @@ socket.setdefaulttimeout(20)
 # Import Rom List Dictionary
 roms = rom_list.Rom_List()
 # Define a range of numbers
-r8_s = 1		;r8_e = len(roms.rom8_list)
-r7_s = r8_e + 1	;r7_e = len(roms.rom7_list) + r8_e
-r6_s = r7_e + 1	;r6_e = len(roms.rom6_list) + r7_e
-r5_s = r6_e + 1	;r5_e = len(roms.check_list)
+r8_s = 1
+r8_e = len(roms.rom8_list)
+r7_s = r8_e + 1
+r7_e = len(roms.rom7_list) + r8_e
+r6_s = r7_e + 1
+r6_e = len(roms.rom6_list) + r7_e
+r5_s = r6_e + 1
+r5_e = len(roms.check_list)
+# Set terminal
 if sysstr == "Windows":
-	''' Set the terminal for Win OS '''
 	# Set the title
 	title = "title KENZO ROM UPDATE CHECKER " + tool_version
 	os.system(title)
@@ -51,7 +56,6 @@ if sysstr == "Windows":
 	os.system("%s%s%s /f >nul"%(set_terminal_size, hex_lines, hex_cols))
 	os.system("%s%s%s /f >nul"%(set_terminal_buffer, "07d0", hex_cols))
 else:
-	''' Set the terminal for Linux OS '''
 	term_cols = os.get_terminal_size().columns
 
 def main():
@@ -61,13 +65,13 @@ def main():
 	while True:
 		# Main interface
 		tools.os_clear_screen(sysstr)
-		print("")
+		print()
 		print("======================================")
 		print("     = KENZO ROM UPDATE CHECKER =")
 		print("======================================")
-		print("                             By: Pzqqt\n")
-		print("*** Tool version: " + tool_version)
-		print("")
+		print("                             By: Pzqqt")
+		print("# Tool version: " + tool_version)
+		print()
 		print("=== Rom List:")
 		print("|")
 		print("====①: Android 8.0")
@@ -101,32 +105,30 @@ def main():
 			for key in roms.other_list.keys():
 				print("  ====%s.%s"%(i, roms.other_list[key]))
 				i+=1
-		print("")
+		print()
 		# Start checking user input
 		# Expand subdirectories
 		selected = None
 		if not(r8 or r7 or r6 or r5):
-			print("*** Please enter the Rom type label you want to check and press Enter")
-			print("")
+			print("*** Please enter the Rom type label you want to check and press Enter\n")
 			selected = input('*** (Enter \'e\' to exit, enter \'9999\' to automatically check all): ')
 			# Check quit
 			if selected == "e" or selected == "E":
 				break
 			# Check input
-			if selected == "1":
+			elif selected == "1":
 				r8 = True
-			if selected == "2":
+			elif selected == "2":
 				r7 = True
-			if selected == "3":
+			elif selected == "3":
 				r6 = True
-			if selected == "4":
+			elif selected == "4":
 				r5 = True
-			if selected == "9999":
+			elif selected == "9999":
 				check_all_auto()
 			continue
 		# After the subdirectory expands
-		print("*** Please enter the Rom number you need to check and press Enter")
-		print("")
+		print("*** Please enter the Rom number you need to check and press Enter\n")
 		selected = input('*** (Enter \'0\' to close the sub-directory, enter \'e\' to exit): ')
 		# Check quit
 		if selected == "e" or selected == "E":
@@ -164,10 +166,7 @@ def main():
 
 def check_one(selected):
 	# Check a single item
-	print("")
-	print("=== Checking now, results will be shown below...")
-	print("")
-	print("*" * term_cols)
+	print("\n=== Checking now, results will be shown below...\n\n" + "*" * term_cols)
 	checking = "check_update." + roms.check_list[selected]
 	temp2 = eval(checking)(fast_flag = False)
 	if temp2:
@@ -177,14 +176,12 @@ def check_one(selected):
 		tools.check_for_update(checked, temp2)
 		# Save the new dictionary to json
 		tools.save_to_json(temp2, "save.json")
-	print("")
-	print("*" * term_cols)
-	print("")
+	print("\n%s\n"%("*" * term_cols))
 	if temp2:
 		print("=== Check completed!")
 	else:
 		print("=== Check Failed!")
-	print("")
+	print()
 
 def check_all_auto():
 	# Automatically check the mode
@@ -213,12 +210,9 @@ def check_all_auto():
 	check_2nd = ""
 	while True:
 		tools.os_clear_screen(sysstr)
-		print("")
-		print("=== Automatically check all Rom updates, please wait...")
-		print("")
-		print("=== Checking %s of %s %s..." %(j, len(roms.check_list), check_2nd))
-		print("")
-		print("*" * term_cols)
+		print("\n=== Automatically check all Rom updates, please wait...")
+		print("\n=== Checking %s of %s %s..." %(j, len(roms.check_list), check_2nd))
+		print("\n" + "*" * term_cols)
 		checking = "check_update." + roms.check_list[str(j)]
 		temp2 = eval(checking)(fast_flag = True)
 		if temp2:
@@ -244,9 +238,7 @@ def check_all_auto():
 		check_2nd = ""
 		j+=1
 		if new_flag:
-			print("")
-			print("*" * term_cols)
-			print("")
+			print("\n%s\n"%("*" * term_cols))
 			input('*** Press the Enter key to continue: ')
 		new_flag = False
 		if j > len(roms.check_list):
@@ -255,16 +247,13 @@ def check_all_auto():
 			# Write json dictionary to json
 			tools.save_to_json(saved, "save.json")
 			tools.os_clear_screen(sysstr)
-			print("")
-			print("*" * term_cols)
-			print("")
-			print("=== Check completed!")
-			print("")
+			print("\n%s\n"%("*" * term_cols))
+			print("=== Check completed!\n")
 			if len(failed_list) != 0:
 				print("*** Check failed items:")
 				for key,value in failed_list.items():
 					print("\n*** === %s. %s"%(key, tools.get_rom_name(value)))
-				print("")
+				print()
 			else:
 				print("=== No error occurred during the check.\n")
 			input('*** Press the Enter key to return to the main interface: ')

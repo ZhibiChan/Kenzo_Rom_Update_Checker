@@ -185,13 +185,11 @@ def read_from_json(filename):
 	# Read dictionary from json
 	try:
 		with open(filename,'r') as savefile:
-			json_saved = json.load(savefile)
+			return json.load(savefile)
 	except:
 		try:
 			# If the json file is broken or can not read properly, 
 			# try removing it and return None.
 			os.remove(filename)
-		except FileNotFoundError:
+		finally:
 			return None
-		return None
-	return json_saved
