@@ -18,7 +18,7 @@ if sysstr not in ("Windows", "Linux"):
 
 ''' Initialization parameters '''
 # Tools version
-tool_version = "v1.0.4 Alpha"
+tool_version = "v1.0.5 Alpha"
 # Connection timeout(Default 20s)
 socket.setdefaulttimeout(20)
 # Import Rom List dict
