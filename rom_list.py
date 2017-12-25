@@ -4,7 +4,8 @@
 class Rom_List:
 	def __init__(self):
 		roms_list = [
-			"aoscp",
+			"aoscp_u1",
+			"aoscp_u2",
 			"cardinal",
 			"nos_o",
 			"pe",
@@ -39,7 +40,8 @@ class Rom_List:
 			i+=1
 		
 		self.rom8_list = {
-			"aoscp":"AOSCP Unofficial",
+			"aoscp_u1":"AOSCP Unofficial By Aashiq Jacob",
+			"aoscp_u2":"AOSCP Unofficial By MIguelNdeCarvalho",
 			"cardinal":"Cardinal AOSP Official Test",
 			"nos_o":"Nitrogen OS 8.1 Test",
 			"pe":"Pixel Experience"
