@@ -508,7 +508,7 @@ def nos_o(fast_flag):
 		# Sometimes log and Rom locations are reversed due to the order of uploads,
 		# So...
 		if nb["title"].split(".")[-1] != "zip":
-			swap_temp = nb;nb = nb2;nb2 = swap_temp
+			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
@@ -529,7 +529,7 @@ def nos_s(fast_flag):
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		if nb["title"].split(".")[-1] != "zip":
-			swap_temp = nb;nb = nb2;nb2 = swap_temp
+			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
@@ -571,7 +571,7 @@ def pe(fast_flag):
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		if nb["title"].split(".")[-1] != "zip":
-			swap_temp = nb;nb = nb2;nb2 = swap_temp
+			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
