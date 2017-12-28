@@ -136,8 +136,6 @@ def check_for_update(checked, temp2):
 	elif checked == "miui_mr":
 		names = ("MIUI MultiRom China Developer ROM",
 				"MIUI MultiRom Global Developer ROM")
-	elif checked == "miui_pl":
-		name = "MIUI Poland Developer ROM"
 	# Normal
 	else:
 		name = get_rom_name(checked)

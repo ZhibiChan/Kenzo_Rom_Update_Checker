@@ -458,6 +458,7 @@ def miui_mr(fast_flag):
 
 def miui_pl(fast_flag):
 	name = "miui_pl"
+	build_info = {}
 	ual = ua_open("https://miuipolska.pl/download/")
 	bsObj = get_bs(ual)
 	if not bsObj:
@@ -469,25 +470,17 @@ def miui_pl(fast_flag):
 		flink3 = nb.find_all("ul",{"class":"dwnl-b"})[1].find("li").find("a")["href"]
 		fvalue = nb.find("div",{"class":"dwnl-m"})
 		fversion = fvalue.find("ul").find("li").get_text().split(" ")[-1]
-		fsize = fvalue.find("ul").find_all("li")[-1].get_text().split(" ")[-1]
 		fvalue2 = fvalue.find("i").get_text().split(" ")
-		fmd5 = fvalue2[1]
-		fdate = fvalue2[-1]
+		build_info['fsize'] = fvalue.find("ul").find_all("li")[-1].get_text().split(" ")[-1]
+		build_info['fmd5'] = fvalue2[1]
+		build_info['fdate'] = fvalue2[-1]
+		build_info['flink'] = \
+		"# Main server(sourceforge):\n\n    " + flink1 + \
+		"\n\n    # Spare 1(AFH):\n\n    " + flink2 + \
+		"\n\n    # Spare 2:\n\n    " + flink3
 	except:
 		return analyze_failed(name)
-	print("\nMIUI Poland Developer ROM:")
-	print("\n=== The latest version:\n\n    " + fversion)
-	print("\n=== Updated:\n\n    " + fdate)
-	print("\n=== MD5:\n\n    " + fmd5)
-	print("\n=== Download link:    ")
-	print("\n=== # Main server(sourceforge):\n\n    " + flink1)
-	print("\n=== # Spare 1(AFH):\n\n    " + flink2)
-	print("\n=== # Spare 2:\n\n    " + flink3)
-	print("\n=== Size:\n\n    " + fsize)
-	saved = None
-	if fast_flag == False:
-		saved = read_from_json("save.json")
-	return saved_update("MIUI Poland Developer ROM", fversion, saved)
+	return out_put(fast_flag, name, fversion, build_info)
 
 def mokee(fast_flag):
 	name = "mokee"
