@@ -82,7 +82,10 @@ def aoscp_u2(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		fversion = nb["title"]
+		build_info['fmd5'] = nb2[fversion]["md5"]
+		build_info['fsha1'] = nb2[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -141,7 +144,10 @@ def cardinal(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		fversion = nb["title"]
+		build_info['fmd5'] = nb2[fversion]["md5"]
+		build_info['fsha1'] = nb2[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -158,7 +164,10 @@ def cosmicos(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+		nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		fversion = nb["title"]
+		build_info['fmd5'] = nb2[fversion]["md5"]
+		build_info['fsha1'] = nb2[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -175,7 +184,10 @@ def dotos(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+		nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		fversion = nb["title"]
+		build_info['fmd5'] = nb2[fversion]["md5"]
+		build_info['fsha1'] = nb2[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -471,7 +483,7 @@ def miui_pl(fast_flag):
 	print("\n=== # Main server(sourceforge):\n\n    " + flink1)
 	print("\n=== # Spare 1(AFH):\n\n    " + flink2)
 	print("\n=== # Spare 2:\n\n    " + flink3)
-	print("\nSize:\n\n" + fsize)
+	print("\n=== Size:\n\n    " + fsize)
 	saved = None
 	if fast_flag == False:
 		saved = read_from_json("save.json")
@@ -505,12 +517,16 @@ def nos_o(fast_flag):
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+		nb3 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
+		# ~ print(nb3)
 		# Sometimes log and Rom locations are reversed due to the order of uploads,
 		# So...
 		if nb["title"].split(".")[-1] != "zip":
 			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
+		build_info['fmd5'] = nb3[fversion]["md5"]
+		build_info['fsha1'] = nb3[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -528,10 +544,13 @@ def nos_s(fast_flag):
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+		nb3 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		if nb["title"].split(".")[-1] != "zip":
 			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
+		build_info['fmd5'] = nb3[fversion]["md5"]
+		build_info['fsha1'] = nb3[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -570,10 +589,13 @@ def pe(fast_flag):
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+		nb3 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		if nb["title"].split(".")[-1] != "zip":
 			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
+		build_info['fmd5'] = nb3[fversion]["md5"]
+		build_info['fsha1'] = nb3[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
@@ -590,7 +612,10 @@ def rr(fast_flag):
 		return open_failed(name)
 	try:
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
+		nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
 		fversion = nb["title"]
+		build_info['fmd5'] = nb2[fversion]["md5"]
+		build_info['fsha1'] = nb2[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
 		build_info['flink'] = nb.find("th").find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
