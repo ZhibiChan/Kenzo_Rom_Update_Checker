@@ -525,10 +525,14 @@ def nos_o(fast_flag):
 			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
+		flink1 = nb.find("th").find("a")["href"]
+		flink2 = "https://sourceforge.mirrorservice.org/n/ni/nitrogen-project/kenzo/kenzo_test/8.1/" + fversion
 		build_info['fmd5'] = nb3[fversion]["md5"]
 		build_info['fsha1'] = nb3[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
-		build_info['flink'] = nb.find("th").find("a")["href"]
+		build_info['flink'] = \
+			"# Sourceforge:\n\n    " + flink1 + \
+			"\n\n    # Mirror for Sourceforge:\n\n    " + flink2
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
@@ -549,10 +553,14 @@ def nos_s(fast_flag):
 			nb, nb2 = nb2, nb
 		build_info['update_log'] = nb2.find("th").find("a")["href"]
 		fversion = nb["title"]
+		flink1 = nb.find("th").find("a")["href"]
+		flink2 = "https://sourceforge.mirrorservice.org/n/ni/nitrogen-project/kenzo/kenzo_stable/" + fversion
 		build_info['fmd5'] = nb3[fversion]["md5"]
 		build_info['fsha1'] = nb3[fversion]["sha1"]
 		build_info['fdate'] = nb.find("td").find("abbr")["title"]
-		build_info['flink'] = nb.find("th").find("a")["href"]
+		build_info['flink'] = \
+			"# Sourceforge:\n\n    " + flink1 + \
+			"\n\n    # Mirror for Sourceforge:\n\n    " + flink2
 		build_info['fsize'] = nb.find_all("td")[1].get_text()
 	except:
 		return analyze_failed(name)
