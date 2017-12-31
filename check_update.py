@@ -511,7 +511,6 @@ def nos_o(fast_flag):
 		nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[1]
 		nb2 = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
 		nb3 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
-		# ~ print(nb3)
 		# Sometimes log and Rom locations are reversed due to the order of uploads,
 		# So...
 		if nb["title"].split(".")[-1] != "zip":
