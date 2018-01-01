@@ -59,7 +59,7 @@ def aicp(fast_flag):
 def aoscp(fast_flag):
 	name = "aoscp"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/unofficial-cypheros-for-kenzo/files/")
+	ual = ua_open("https://sourceforge.net/projects/unofficial-cypheros-for-kenzo/files/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -138,7 +138,7 @@ def bliss(fast_flag):
 def cardinal(fast_flag):
 	name = "cardinal"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/cardinal-aosp/files/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/cardinal-aosp/files/kenzo/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -158,7 +158,7 @@ def cardinal(fast_flag):
 def cosmicos(fast_flag):
 	name = "cosmicos"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/cosmic-os/files/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/cosmic-os/files/kenzo/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -178,7 +178,7 @@ def cosmicos(fast_flag):
 def dotos(fast_flag):
 	name = "dotos"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/dotos-ota/files/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/dotos-ota/files/kenzo/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -503,7 +503,7 @@ Mokee Official Nightly:
 def nos_o(fast_flag):
 	name = "nos_o"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_test/8.1/")
+	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_test/8.1/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -533,7 +533,7 @@ def nos_o(fast_flag):
 def nos_s(fast_flag):
 	name = "nos_s"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_stable/")
+	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_stable/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -582,7 +582,7 @@ def omni(fast_flag):
 def pe(fast_flag):
 	name = "pe"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/pixel-experience-for-kenzo/files/")
+	ual = ua_open("https://sourceforge.net/projects/pixel-experience-for-kenzo/files/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
@@ -606,7 +606,7 @@ def pe(fast_flag):
 def rr(fast_flag):
 	name = "rr"
 	build_info = {}
-	ual = de_open("https://sourceforge.net/projects/resurrectionremix/files/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/resurrectionremix/files/kenzo/")
 	bsObj = get_bs(ual)
 	if not bsObj:
 		return open_failed(name)
