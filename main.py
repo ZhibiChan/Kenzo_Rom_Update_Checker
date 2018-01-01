@@ -185,6 +185,7 @@ def check_all_auto():
 		print("\n=== Automatically check all Rom updates, please wait...")
 		print("\n=== Checking %s of %s %s..." %(j, len(roms.check_list), check_2nd))
 		print("\n" + "*" * term_cols)
+		new_flag = False
 		checking = "check_update." + roms.check_list[str(j)]
 		temp2 = eval(checking)(fast_flag = True)
 		if temp2:
@@ -210,7 +211,6 @@ def check_all_auto():
 		if new_flag:
 			print("\n%s\n"%("*" * term_cols))
 			input('*** Press the Enter key to continue: ')
-		new_flag = False
 		if j > len(roms.check_list):
 			saved = {**saved, **temp3}
 			tools.save_to_json(saved, "save.json")
