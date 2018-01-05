@@ -24,7 +24,7 @@ if bs4_parser == None:
 	sys.exit()
 ''' Initialization parameters '''
 # Tools version
-tool_version = "v1.0.6 Alpha"
+tool_version = "v1.0.7 Test"
 # Connection timeout(Default 20s)
 socket.setdefaulttimeout(20)
 # Import Rom List dict

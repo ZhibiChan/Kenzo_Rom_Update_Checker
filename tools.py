@@ -63,6 +63,12 @@ def analyze_failed(name):
 	print("\n*** Parsing failed! Please tell the author to fix this error!")
 	return None
 
+def sf_rss_flag(flag):
+	if flag:
+		return "rss?path="
+	else:
+		return "files"
+
 def os_clear_screen(ostype):
 	if ostype == "Windows":
 		os.system("cls")
