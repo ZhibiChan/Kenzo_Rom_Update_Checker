@@ -143,15 +143,18 @@ def main():
 		if r5:
 			if selected_number < r5_s or selected_number > r5_e:
 				continue
-		tools.os_clear_screen(sysstr)
-		check_one(selected)
-		temp = input('*** Enter \'e\' to exit, enter other to return to the main interface: ')
+		while True:
+			temp, failed_flag = check_one(selected)
+			print(failed_flag)
+			if temp != "0" or not failed_flag:
+				break
 		if temp == "e" or temp == "E":
 			break
 		continue
 
 def check_one(selected):
 	# Check a single item
+	tools.os_clear_screen(sysstr)
 	print("\n=== Checking now, results will be shown below...\n\n" + "*" * term_cols)
 	checking = "check_update." + roms.check_list[selected]
 	temp2 = eval(checking)(False, bs4_parser)
@@ -162,9 +165,12 @@ def check_one(selected):
 	print("\n%s\n"%("*" * term_cols))
 	if temp2:
 		print("=== Check completed!")
+		check_2nd = ""
 	else:
 		print("=== Check Failed!")
+		check_2nd = "0 to try again, enter "
 	print()
+	return input('*** Enter %s\'e\' to exit, enter other to return to the main interface: '%check_2nd), check_2nd
 
 def check_all_auto():
 	# Automatically check all
