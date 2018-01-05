@@ -4,11 +4,11 @@
 import json, time, re
 from tools import *
 
-def aex(fast_flag):
+def aex(fast_flag, bs4_parser):
 	name = "aex"
 	build_info = {}
 	ual = ua_open("https://downloads.aospextended.com/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -31,11 +31,11 @@ def aex(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def aicp(fast_flag):
+def aicp(fast_flag, bs4_parser):
 	name = "aicp"
 	build_info = {}
 	ual = de_open("http://dwnld.aicp-rom.com/?device=kenzo")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -56,11 +56,11 @@ def aicp(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def aoscp(fast_flag):
+def aoscp(fast_flag, bs4_parser):
 	name = "aoscp"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/unofficial-cypheros-for-kenzo/files/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -76,11 +76,11 @@ def aoscp(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def aoscp_u1(fast_flag):
+def aoscp_u1(fast_flag, bs4_parser):
 	name = "aoscp_u1"
 	build_info = {}
 	ual = de_open("https://carvalho-server.no-ip.biz/?C=M;O=A")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -93,11 +93,11 @@ def aoscp_u1(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def aosip(fast_flag):
+def aosip(fast_flag, bs4_parser):
 	name = "aosip"
 	build_info = {}
 	ual = de_open("https://get.aosiprom.com/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -114,11 +114,11 @@ def aosip(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def bliss(fast_flag):
+def bliss(fast_flag, bs4_parser):
 	name = "bliss"
 	build_info = {}
 	ual = de_open("https://downloads.blissroms.com/Bliss/Official/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -135,11 +135,11 @@ def bliss(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def cardinal(fast_flag):
+def cardinal(fast_flag, bs4_parser):
 	name = "cardinal"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/cardinal-aosp/files/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -155,11 +155,11 @@ def cardinal(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def cosmicos(fast_flag):
+def cosmicos(fast_flag, bs4_parser):
 	name = "cosmicos"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/cosmic-os/files/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -175,11 +175,11 @@ def cosmicos(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def dotos(fast_flag):
+def dotos(fast_flag, bs4_parser):
 	name = "dotos"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/dotos-ota/files/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -195,11 +195,11 @@ def dotos(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def flyme(fast_flag):
+def flyme(fast_flag, bs4_parser):
 	name = "flyme"
 	build_info = {}
 	ual = de_open("http://www.flyme.cn/firmwarelist-51.html")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -221,11 +221,11 @@ def flyme(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def los(fast_flag):
+def los(fast_flag, bs4_parser):
 	name = "los"
 	build_info = {}
 	ual = de_open("https://download.lineageos.org/kenzo")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -242,11 +242,11 @@ def los(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def los_u1(fast_flag):
+def los_u1(fast_flag, bs4_parser):
 	name = "los_u1"
 	build_info = {}
 	ual = de_open("https://github.com/los-kenzo/downloads/blob/lk-7.1/README.md")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -259,11 +259,11 @@ def los_u1(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def los_mg(fast_flag):
+def los_mg(fast_flag, bs4_parser):
 	name = "los_mg"
 	build_info = {}
 	ual = de_open("https://download.lineage.microg.org/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -290,11 +290,11 @@ def los_mg(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def miui_br(fast_flag):
+def miui_br(fast_flag, bs4_parser):
 	name = "miui_br"
 	build_info = {}
 	ual = ua_open("http://miuibrasil.org/downloads/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -305,10 +305,10 @@ def miui_br(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def miui_c(fast_flag):
+def miui_c(fast_flag, bs4_parser):
 	name = "miui_c"
 	ual = de_open("http://www.miui.com/download-308.html")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -358,10 +358,10 @@ def miui_c(fast_flag):
 	saved = saved_update("MIUI China Developer ROM", fversion2, saved)
 	return saved
 
-def miui_g(fast_flag):
+def miui_g(fast_flag, bs4_parser):
 	name = "miui_g"
 	ual = de_open("http://en.miui.com/download-301.html")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -411,10 +411,10 @@ def miui_g(fast_flag):
 	saved = saved_update("MIUI Global Developer ROM", fversion2, saved)
 	return saved
 
-def miui_mr(fast_flag):
+def miui_mr(fast_flag, bs4_parser):
 	name = "miui_mr"
 	ual = ua_open("https://multirom.me/index.php?m=app&a=view&id=54&app=roms")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -456,11 +456,11 @@ def miui_mr(fast_flag):
 	saved = saved_update("MIUI MultiRom Developer ROM Global", fversion2, saved)
 	return saved
 
-def miui_pl(fast_flag):
+def miui_pl(fast_flag, bs4_parser):
 	name = "miui_pl"
 	build_info = {}
 	ual = ua_open("https://miuipolska.pl/download/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -482,7 +482,7 @@ def miui_pl(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def mokee(fast_flag):
+def mokee(fast_flag, bs4_parser):
 	name = "mokee"
 	# hahahaha
 	time.sleep(1)
@@ -500,11 +500,11 @@ Mokee Official Nightly:
     https://download.mokeedev.com/?device=kenzo''')
 	return None
 
-def nos_o(fast_flag):
+def nos_o(fast_flag, bs4_parser):
 	name = "nos_o"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_test/8.1/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -530,11 +530,11 @@ def nos_o(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def nos_s(fast_flag):
+def nos_s(fast_flag, bs4_parser):
 	name = "nos_s"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/files/kenzo/kenzo_stable/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -558,11 +558,11 @@ def nos_s(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def omni(fast_flag):
+def omni(fast_flag, bs4_parser):
 	name = "omni"
 	build_info = {}
 	ual = de_open("http://dl.omnirom.org/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -579,11 +579,11 @@ def omni(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def pe(fast_flag):
+def pe(fast_flag, bs4_parser):
 	name = "pe"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/pixel-experience-for-kenzo/files/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -603,11 +603,11 @@ def pe(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def rr(fast_flag):
+def rr(fast_flag, bs4_parser):
 	name = "rr"
 	build_info = {}
 	ual = ua_open("https://sourceforge.net/projects/resurrectionremix/files/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -623,11 +623,11 @@ def rr(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def sudamod(fast_flag):
+def sudamod(fast_flag, bs4_parser):
 	name = "sudamod"
 	build_info = {}
 	ual = de_open("https://sudamod.download/kenzo")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -642,11 +642,11 @@ def sudamod(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def twrp(fast_flag):
+def twrp(fast_flag, bs4_parser):
 	name = "twrp"
 	build_info = {}
 	ual = de_open("https://dl.twrp.me/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -669,11 +669,11 @@ def twrp(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def viperos(fast_flag):
+def viperos(fast_flag, bs4_parser):
 	name = "viperos"
 	build_info = {}
 	ual = ua_open("http://viper-os.com/devicedownloads/redminote3pro.html")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:
@@ -693,11 +693,11 @@ def viperos(fast_flag):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def xenonhd(fast_flag):
+def xenonhd(fast_flag, bs4_parser):
 	name = "xenonhd"
 	build_info = {}
 	ual = de_open("https://mirrors.c0urier.net/android/teamhorizon/N/Official/kenzo/")
-	bsObj = get_bs(ual)
+	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 	try:

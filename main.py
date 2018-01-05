@@ -15,7 +15,13 @@ if sysstr not in ("Windows", "Linux"):
 	print("\nFailed to run this program!")
 	print("\nNot support your OS!")
 	sys.exit()
-
+''' Check BS4 parser'''
+bs4_parser = tools.select_bs4_parser()
+if bs4_parser == None:
+	print("\nFailed to run this program!")
+	print("\nPlease install at least one parser " +
+			"in \"lxml\" and \"html5lib\"!")
+	sys.exit()
 ''' Initialization parameters '''
 # Tools version
 tool_version = "v1.0.5 Alpha"
@@ -60,7 +66,8 @@ def main():
 		print("     = KENZO ROM UPDATE CHECKER =")
 		print("======================================")
 		print("                             By: Pzqqt")
-		print("# Tool version: " + tool_version)
+		print("# Tool version : " + tool_version)
+		print("#  BS4 parser  : " + bs4_parser)
 		print()
 		print("=== Rom List:")
 		print("|")
@@ -147,7 +154,7 @@ def check_one(selected):
 	# Check a single item
 	print("\n=== Checking now, results will be shown below...\n\n" + "*" * term_cols)
 	checking = "check_update." + roms.check_list[selected]
-	temp2 = eval(checking)(fast_flag = False)
+	temp2 = eval(checking)(False, bs4_parser)
 	if temp2:
 		checked = roms.check_list[selected]
 		tools.check_for_update(checked, temp2)
@@ -187,7 +194,7 @@ def check_all_auto():
 		print("\n" + "*" * term_cols)
 		new_flag = False
 		checking = "check_update." + roms.check_list[str(j)]
-		temp2 = eval(checking)(fast_flag = True)
+		temp2 = eval(checking)(True, bs4_parser)
 		if temp2:
 			checked = roms.check_list[str(j)]
 			new_flag = tools.check_for_update(checked, temp2)

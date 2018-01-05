@@ -33,15 +33,23 @@ def de_open(urll):
 	except:
 		return False
 
-def get_bs(urll):
-	# Get beautifulSoup for the source of the page
+def select_bs4_parser():
+	try:
+		import lxml
+		return "lxml"
+	except ModuleNotFoundError:
+		try:
+			import html5lib
+			return "html5lib"
+		except ModuleNotFoundError:
+			return None
+
+def get_bs(urll, bs4_parser):
+	# Get BeautifulSoup for the source of the page
 	if not urll:
 		return False
 	try:
-		# The best use of the default:lxml
-		return BeautifulSoup(urll, "lxml")
-		# Or use html5lib	
-		#~ return BeautifulSoup(urll,"html5lib")
+		return BeautifulSoup(urll, bs4_parser)
 	except:
 		return False
 
