@@ -761,6 +761,7 @@ def twrp(fast_flag, bs4_parser):
 		fversion = nb.find("td").find("a").get_text()
 		build_info['fsize'] = nb.find_all("td")[1].find("small").get_text()
 		build_info['fdate'] = nb.find_all("td")[2].find("em").get_text()
+		# The default is to parse "Primary (Americas)" download page
 		ual2 = de_open("https://dl.twrp.me" + nblink)
 		bsObj2 = get_bs(ual2, bs4_parser)
 		if not bsObj2:
@@ -769,7 +770,11 @@ def twrp(fast_flag, bs4_parser):
 		if fast_flag == False:
 			fmd5 = nb2.find("header",{"class":"post-header"}).find("p").find("a")["href"]
 			build_info['fmd5'] = get_md5_from_file("https://dl.twrp.me" + fmd5)
-		build_info['flink'] = "https://dl.twrp.me" + nb2.find("article",{"class":"post-content"}).find("h3").find("a")["href"]
+		flink1 = "https://dl.twrp.me/kenzo/" + fversion
+		flink2 = "https://eu.dl.twrp.me/kenzo/" + fversion
+		build_info['flink'] = \
+			"# Primary (Americas):\n\n    " + flink1 + \
+			"\n\n    # Primary (Europe):\n\n    " + flink2
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
