@@ -6,17 +6,18 @@ from bs4 import BeautifulSoup
 import os, json, random
 import rom_list
 
-def ua_open(urll):
+def ua_open(urll, ua_type = None):
 	# Use browser proxy to parse web pages
-	# Randomly select the browser UA
-	random_number = random.randint(1,4)
-	if random_number == 1:
+	if ua_type == None:
+		# Randomly select the browser UA
+		ua_type = random.randint(1,4)
+	if ua_type == 1:
 		headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
-	elif random_number == 2:
+	elif ua_type== 2:
 		headers = {'User-Agent':'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'}
-	elif random_number == 3:
+	elif ua_type == 3:
 		headers = {'User-Agent':'Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11'}
-	elif random_number == 4:
+	elif ua_type == 4:
 		headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1'}
 	req = Request(url = urll, headers = headers)
 	try:
