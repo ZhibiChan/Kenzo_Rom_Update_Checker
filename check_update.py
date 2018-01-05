@@ -31,6 +31,44 @@ def aex(fast_flag, bs4_parser):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
+def aex_sf(fast_flag, bs4_parser):
+	name = "aex_sf"
+	build_info = {}
+	ual = ua_open("https://sourceforge.net/projects/aospextended-rom/" +
+				sf_rss_flag(fast_flag) + "/kenzo/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	if fast_flag:
+		try:
+			try:
+				nb = bsObj.find("channel").find_all("item")[0]
+			except:
+				fversion = "Looks like there is no Rom file right now"
+			else:
+				build_info['flink'] = nb.find("guid").get_text()
+				fversion = build_info['flink'].split("/")[-2]
+				build_info['fdate'] = nb.find("pubdate").get_text()
+				build_info['fmd5'] = nb.find("media:hash").get_text()
+		except:
+			return None
+	else:
+		try:
+			nb = bsObj.find("table",{"id":"files_list"}).find_all("tbody")[0].find_all("tr")[0]
+			if nb["class"] == ["empty"]:
+				fversion = "Looks like there is no Rom file right now"
+			else:
+				nb2 = json.loads(bsObj.find_all("script")[-1].get_text().split(" = ",1)[-1].split(";",1)[0])
+				fversion = nb["title"]
+				build_info['fmd5'] = nb2[fversion]["md5"]
+				build_info['fsha1'] = nb2[fversion]["sha1"]
+				build_info['fdate'] = nb.find("td").find("abbr")["title"]
+				build_info['flink'] = nb.find("th").find("a")["href"]
+				build_info['fsize'] = nb.find_all("td")[1].get_text()
+		except:
+			return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
 def aicp(fast_flag, bs4_parser):
 	name = "aicp"
 	build_info = {}
