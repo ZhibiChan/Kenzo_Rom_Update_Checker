@@ -125,23 +125,6 @@ def aoscp(fast_flag, bs4_parser):
 			return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def aoscp_u1(fast_flag, bs4_parser):
-	name = "aoscp_u1"
-	build_info = {}
-	ual = de_open("https://carvalho-server.no-ip.biz/?C=M;O=A")
-	bsObj = get_bs(ual, bs4_parser)
-	if not bsObj:
-		return open_failed(name)
-	try:
-		nb = bsObj.find("table",{"id":"indexlist"}).find_all("tr")[-1]
-		fversion = nb.find_all("td")[1].find("a").get_text()
-		build_info['fdate'] = nb.find_all("td")[2].get_text()
-		build_info['flink'] = "https://carvalho-server.no-ip.biz/" + nb.find_all("td")[1].find("a").get_text()
-		build_info['fsize'] = nb.find_all("td")[3].get_text()
-	except:
-		return analyze_failed(name)
-	return out_put(fast_flag, name, fversion, build_info)
-
 def aosip(fast_flag, bs4_parser):
 	name = "aosip"
 	build_info = {}

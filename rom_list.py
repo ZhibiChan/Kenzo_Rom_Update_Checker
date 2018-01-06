@@ -6,7 +6,6 @@ class Rom_List:
 		roms_list = [
 			"aex_sf",
 			"aoscp",
-			"aoscp_u1",
 			"cardinal",
 			"nos_o",
 			"pe",
@@ -43,7 +42,6 @@ class Rom_List:
 		self.rom8_list = {
 			"aex_sf":"AospExtended Oreo Official",
 			"aoscp":"AOSCP Official",
-			"aoscp_u1":"AOSCP Unofficial By Aashiq Jacob",
 			"cardinal":"Cardinal AOSP Official Test",
 			"nos_o":"Nitrogen OS 8.1 Test",
 			"pe":"Pixel Experience"
