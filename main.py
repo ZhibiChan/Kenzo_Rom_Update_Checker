@@ -145,7 +145,6 @@ def main():
 				continue
 		while True:
 			temp, failed_flag = check_one(selected)
-			print(failed_flag)
 			if temp != "0" or not failed_flag:
 				break
 		if temp == "e" or temp == "E":
