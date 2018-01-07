@@ -154,14 +154,14 @@ def main():
 			if selected_number < r5_s or selected_number > r5_e:
 				continue
 		while True:
-			temp, failed_flag = check_one(selected)
+			temp, failed_flag = check_one(selected, False)
 			if temp != "0" or not failed_flag:
 				break
 		if temp == "e" or temp == "E":
 			break
 		continue
 
-def check_one(selected):
+def check_one(selected, auto_flag):
 	# Check a single item
 	tools.os_clear_screen(sysstr)
 	print(
@@ -181,10 +181,14 @@ def check_one(selected):
 		print("=== Check Failed!")
 		check_2nd = "\"0\" to try again, enter "
 	print()
-	return input(
-		"*** Enter %s\"e\" to exit, "
-		"enter other to return to the main interface: "
-		%check_2nd), check_2nd
+	if auto_flag:
+		input("*** Press the Enter key to continue: ")
+		return None
+	else:
+		return input(
+			"*** Enter %s\"e\" to exit, "
+			"enter other to return to the main interface: "
+			%check_2nd), check_2nd
 
 def check_all_auto():
 	# Automatically check all
@@ -239,10 +243,14 @@ def check_all_auto():
 				check_2nd = "(Second check)"
 				continue
 		check_2nd = ""
-		j+=1
 		if new_flag:
 			print("\n%s\n"%("*" * term_cols))
-			input("*** Press the Enter key to continue: ")
+			temp = input(
+				"*** Enter \"0\" to view details, "
+				"enter other to continue: ")
+			if temp == "0":
+				check_one(str(j), True)
+		j+=1
 		if j > len(roms.check_list):
 			saved = {**saved, **temp3}
 			tools.save_to_json(saved, "save.json")
