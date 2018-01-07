@@ -12,13 +12,23 @@ def ua_open(urll, ua_type = None):
 		# Randomly select the browser UA
 		ua_type = random.randint(1,4)
 	if ua_type == 1:
-		headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
+		headers = {"User-Agent":
+			("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit"
+			"/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 "
+			"Safari/537.36")}
 	elif ua_type== 2:
-		headers = {'User-Agent':'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'}
+		headers = {"User-Agent":
+			("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) "
+			"AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 "
+			"Safari/534.50")}
 	elif ua_type == 3:
-		headers = {'User-Agent':'Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11'}
+		headers = {"User-Agent":
+			("Opera/9.80 (Windows NT 6.1; U; en) "
+			"Presto/2.8.131 Version/11.11")}
 	elif ua_type == 4:
-		headers = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) Gecko/20100101 Firefox/4.0.1'}
+		headers = {"User-Agent":
+			("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:2.0.1) "
+			"Gecko/20100101 Firefox/4.0.1")}
 	req = Request(url = urll, headers = headers)
 	try:
 		with urlopen(req) as xmldata:
@@ -61,7 +71,7 @@ def open_failed(name):
 
 def analyze_failed(name):
 	print("\n%s:"%get_rom_name(name))
-	print("\n*** Parsing failed! Please tell the author to fix this error!")
+	print("\n*** Parsing failed! Please tell author to fix this error!")
 	return None
 
 def sf_rss_flag(flag):
@@ -181,14 +191,14 @@ def saved_update(name, version, saved):
 
 def save_to_json(ready_save_data, filename):
 	# Save the dictionary to json
-	with open(filename,'w') as savefile:
+	with open(filename,"w") as savefile:
 		json.dump(ready_save_data, savefile,
 				sort_keys=True, indent=4, ensure_ascii=False)
 
 def read_from_json(filename):
 	# Read dictionary from json
 	try:
-		with open(filename,'r') as savefile:
+		with open(filename,"r") as savefile:
 			return json.load(savefile)
 	except:
 		try:

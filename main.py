@@ -46,9 +46,11 @@ if sysstr == "Windows":
 	hex_lines = hex(term_lines).replace("0x","").zfill(4)
 	hex_cols = hex(term_cols).replace("0x","").zfill(4)
 	set_terminal_size = \
-	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v WindowSize /d 0x"
+		("reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v "
+		"WindowSize /d 0x")
 	set_terminal_buffer = \
-	"reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v ScreenBufferSize /d 0x"
+		("reg add \"HKEY_CURRENT_USER\Console\" /t REG_DWORD /v "
+		"ScreenBufferSize /d 0x")
 	os.system("%s%s%s /f >nul"%(set_terminal_size, hex_lines, hex_cols))
 	os.system("%s%s%s /f >nul"%(set_terminal_buffer, "07d0", hex_cols))
 else:
@@ -105,8 +107,12 @@ def main():
 		print()
 		selected = None
 		if not(r8 or r7 or r6 or r5):
-			print("*** Please enter the Rom type label you want to check and press Enter\n")
-			selected = input('*** (Enter \'e\' to exit, enter \'9999\' to automatically check all): ')
+			print(
+				"*** Please enter the Rom type label you "
+				"want to check and press Enter\n")
+			selected = input(
+				"*** (Enter \"e\" to exit, "
+				"enter \"9999\" to automatically check all): ")
 			if selected == "e" or selected == "E":
 				break
 			elif selected == "1":
@@ -120,8 +126,12 @@ def main():
 			elif selected == "9999":
 				check_all_auto()
 			continue
-		print("*** Please enter the Rom number you need to check and press Enter\n")
-		selected = input('*** (Enter \'0\' to close the sub-directory, enter \'e\' to exit): ')
+		print(
+			"*** Please enter the Rom number you need "
+			"to check and press Enter\n")
+		selected = input(
+			"*** (Enter \"0\" to close the sub-directory, "
+			"enter \"e\" to exit): ")
 		if selected == "e" or selected == "E":
 			break
 		if selected == "0":
@@ -154,7 +164,9 @@ def main():
 def check_one(selected):
 	# Check a single item
 	tools.os_clear_screen(sysstr)
-	print("\n=== Checking now, results will be shown below...\n\n" + "*" * term_cols)
+	print(
+		"\n=== Checking now, results will be shown below...\n\n"
+		+ "*" * term_cols)
 	checking = "check_update." + roms.check_list[selected]
 	temp2 = eval(checking)(False, bs4_parser)
 	if temp2:
@@ -167,35 +179,41 @@ def check_one(selected):
 		check_2nd = ""
 	else:
 		print("=== Check Failed!")
-		check_2nd = "0 to try again, enter "
+		check_2nd = "\"0\" to try again, enter "
 	print()
-	return input('*** Enter %s\'e\' to exit, enter other to return to the main interface: '%check_2nd), check_2nd
+	return input(
+		"*** Enter %s\"e\" to exit, "
+		"enter other to return to the main interface: "
+		%check_2nd), check_2nd
 
 def check_all_auto():
 	# Automatically check all
 	'''
 	This mode does not perform the operation of downloading the MD5 file 
-	to obtain the hash check value (fast_flag is True) to improve the checking speed.
-	(Will not block the checksum that can be taken directly from the page)
+	to obtain the hash check value (fast_flag is True) 
+	to improve the checking speed.
+	(Will not block the hash that can be taken directly from the page)
 	'''
 	# Read saved Rom update status dictionary from json file
 	saved = tools.read_from_json("save.json")
 	if not saved:
 		saved = {}
-	# ~ Some URLs are not accessible right now (At least in my area is like this).
+	# ~ Some URLs are not accessible right now 
+	# ~ (At least in my area is like this).
 	# ~ such as: aex
 	# ~ But I will not ignore them anymore.
-	# ~ If you don't want to output these check failure messages after each auto check,
+	# ~ If you don't want to output these check failure messages,
 	# ~ Please write the corresponding function name in this tuple.
 	skip_tuple = ("mokee")
-	# Temporary dictionary
 	temp3 = failed_list = {}
 	j = 1
 	check_2nd = ""
 	while True:
 		tools.os_clear_screen(sysstr)
-		print("\n=== Automatically check all Rom updates, please wait...")
-		print("\n=== Checking %s of %s %s..." %(j, len(roms.check_list), check_2nd))
+		print("\n=== Automatically check all Rom updates, "
+				"please wait...")
+		print("\n=== Checking %s of %s %s..." 
+				%(j, len(roms.check_list), check_2nd))
 		print("\n" + "*" * term_cols)
 		new_flag = False
 		checking = "check_update." + roms.check_list[str(j)]
@@ -203,15 +221,17 @@ def check_all_auto():
 		if temp2:
 			checked = roms.check_list[str(j)]
 			new_flag = tools.check_for_update(checked, temp2)
-			# Update the temporary dictionary 
-			# (this method of merging dictionaries is limited to Python version 3.5 and above)
+			# Merging dictionaries
+			# (this method is limited to Python version 3.5 and above)
 			temp3 = {**temp3, **temp2}
-			#~ # Other ways of merging dictionaries:
-			#~ # 1.Dictionary analysis (the most stupid, the slowest, most reliable method):
-			#~ for key,value in temp2.items():
-				#~ temp3[key] = value
-			#~ # 2.element stitching (Python3 version can not be omitted "dictionary to list" step):
-			#~ temp3 = dict(list(temp3.items()) + list(temp2.items()))
+			# Other ways of :
+			# 1.Dictionary analysis 
+			# (the most stupid, the slowest, most reliable method):
+			# ~ for key,value in temp2.items():
+				# ~ temp3[key] = value
+			# 2.element stitching 
+			# (Python3 can not be omitted "dictionary to list" step):
+			# ~ temp3 = dict(list(temp3.items()) + list(temp2.items()))
 		elif roms.check_list[str(j)] not in skip_tuple:
 			if check_2nd == "(Second check)":
 				failed_list[j] = roms.check_list[str(j)]
@@ -222,7 +242,7 @@ def check_all_auto():
 		j+=1
 		if new_flag:
 			print("\n%s\n"%("*" * term_cols))
-			input('*** Press the Enter key to continue: ')
+			input("*** Press the Enter key to continue: ")
 		if j > len(roms.check_list):
 			saved = {**saved, **temp3}
 			tools.save_to_json(saved, "save.json")
@@ -232,14 +252,15 @@ def check_all_auto():
 			if len(failed_list) != 0:
 				print("*** Check failed items:")
 				for key,value in failed_list.items():
-					print("\n*** === %s. %s"%(key, tools.get_rom_name(value)))
+					print("\n*** === %s. %s"
+						%(key, tools.get_rom_name(value)))
 				print()
 			else:
 				print("=== No error occurred during the check.\n")
-			input('*** Press the Enter key to return to the main interface: ')
+			input("*** Press the Enter key to "
+				"return to the main interface: ")
 			break
 
 main()
-
 tools.os_clear_screen(sysstr)
 sys.exit()
