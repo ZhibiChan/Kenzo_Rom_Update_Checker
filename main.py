@@ -171,7 +171,7 @@ def check_one(selected, auto_flag):
 	temp2 = eval(checking)(False, bs4_parser)
 	if temp2:
 		checked = roms.check_list[selected]
-		tools.check_for_update(checked, temp2)
+		tools.check_for_update(checked, temp2, term_cols)
 		tools.save_to_json(temp2, "save.json")
 	print("\n%s\n"%("*" * term_cols))
 	if temp2:
@@ -224,7 +224,7 @@ def check_all_auto():
 		temp2 = eval(checking)(True, bs4_parser)
 		if temp2:
 			checked = roms.check_list[str(j)]
-			new_flag = tools.check_for_update(checked, temp2)
+			new_flag = tools.check_for_update(checked, temp2, term_cols)
 			# Merging dictionaries
 			# (this method is limited to Python version 3.5 and above)
 			temp3 = {**temp3, **temp2}

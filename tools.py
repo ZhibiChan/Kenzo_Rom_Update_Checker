@@ -147,7 +147,7 @@ def out_put(fast_flag, name, fversion, build_info):
 		saved = read_from_json("save.json")
 	return saved_update(get_rom_name(name), fversion, saved)
 
-def check_for_update(checked, temp2):
+def check_for_update(checked, temp2, term_cols):
 	# If there is an update, output notification.
 	saved = read_from_json("save.json")
 	if not saved:
@@ -168,15 +168,17 @@ def check_for_update(checked, temp2):
 		flag = False
 		for name in names:
 			if (name in saved) and (saved[name] != temp2[name]):
-				flag = print_update_info(name, saved[name], temp2[name])
+				flag = print_update_info(
+					name, term_cols, saved[name], temp2[name])
 		return flag
 	else:
 		if (name in saved) and (saved[name] != temp2[name]):
-			return print_update_info(name, saved[name], temp2[name])
+			return print_update_info(
+				name, term_cols, saved[name], temp2[name])
 		return False
 
-def print_update_info(name, old_name, new_name):
-	print("\n%s\n"%("*" * 100))
+def print_update_info(name, term_cols, old_name, new_name):
+	print("\n%s\n"%("*" * 2 * term_cols))
 	print("=== %s updated! Hurry to tell your friends :P\n"%name)
 	print("=== Old version: %s\n"%old_name)
 	print("=== New version: " + new_name)
