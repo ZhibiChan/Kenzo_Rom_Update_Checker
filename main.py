@@ -238,7 +238,7 @@ def check_all_auto():
 			# ~ temp3 = dict(list(temp3.items()) + list(temp2.items()))
 		elif roms.check_list[str(j)] not in skip_tuple:
 			if check_2nd == "(Second check)":
-				failed_list[j] = roms.check_list[str(j)]
+				failed_list[str(j)] = roms.check_list[str(j)]
 			else:
 				check_2nd = "(Second check)"
 				continue
