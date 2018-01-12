@@ -887,14 +887,14 @@ def twrp(fast_flag, bs4_parser):
 		build_info['fsize'] = \
 			nb.find_all("td")[1].find("small").get_text()
 		build_info['fdate'] = nb.find_all("td")[2].find("em").get_text()
-		# The default is to parse "Primary (Americas)" download page
-		ual2 = de_open("https://dl.twrp.me" + nblink)
-		bsObj2 = get_bs(ual2, bs4_parser)
-		if not bsObj2:
-			return open_failed(name)
-		nb2 = bsObj2.find("div",{"class":"page-content"})\
-			.find("div",{"class":"post"})
 		if fast_flag == False:
+			# The default is to parse "Primary (Americas)" download page
+			ual2 = de_open("https://dl.twrp.me" + nblink)
+			bsObj2 = get_bs(ual2, bs4_parser)
+			if not bsObj2:
+				return open_failed(name)
+			nb2 = bsObj2.find("div",{"class":"page-content"})\
+				.find("div",{"class":"post"})
 			fmd5 = \
 				nb2.find("header",{"class":"post-header"})\
 				.find("p").find("a")["href"]
