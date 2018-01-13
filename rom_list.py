@@ -8,7 +8,9 @@ class Rom_List:
 			"aoscp",
 			"cardinal",
 			"nos_o",
-			"pe",
+			"pe_u1",
+			"pe_u2s",
+			"pe_u2b",
 			"aex",
 			"aicp",
 			"aosip",
@@ -44,7 +46,9 @@ class Rom_List:
 			"aoscp":"AOSCP Official",
 			"cardinal":"Cardinal AOSP Official Test",
 			"nos_o":"Nitrogen OS 8.1 Test",
-			"pe":"Pixel Experience"
+			"pe_u1":"Pixel Experience (Unofficial By irvin16, miguelndecarval)",
+			"pe_u2s":"Pixel Experience Stable (Unofficial By irvin16)",
+			"pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)"
 		}
 		self.rom7_list = {
 			"aex":"AospExtended Official",

@@ -768,12 +768,98 @@ def omni(fast_flag, bs4_parser):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
-def pe(fast_flag, bs4_parser):
-	name = "pe"
+def pe_u1(fast_flag, bs4_parser):
+	name = "pe_u1"
 	build_info = {}
 	ual = ua_open(
 		"https://sourceforge.net/projects/pixel-experience-for-kenzo/" +
 		sf_rss_flag(fast_flag) + "/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	if fast_flag:
+		try:
+			nb = bsObj.find("channel").find_all("item")
+			nb1 = nb[0]; nb2 = nb[1]
+			if nb2.find("files:extra-info").get_text() != "text":
+				nb1, nb2 = nb2, nb1
+			build_info['update_log'] = nb2.find("guid").get_text()
+			build_info['flink'] = nb1.find("guid").get_text()
+			fversion = build_info['flink'].split("/")[-2]
+			build_info['fdate'] = nb1.find("pubdate").get_text()
+			build_info['fmd5'] = nb1.find("media:hash").get_text()
+		except:
+			return None
+	else:
+		try:
+			nb = bsObj.find("table",{"id":"files_list"})\
+				.find_all("tbody")[0].find_all("tr")[1]
+			nb2 = bsObj.find("table",{"id":"files_list"})\
+				.find_all("tbody")[0].find_all("tr")[0]
+			nb3 = json.loads(bsObj.find_all("script")[-1]\
+				.get_text().split(" = ",1)[-1].split(";",1)[0])
+			if nb["title"].split(".")[-1] != "zip":
+				nb, nb2 = nb2, nb
+			build_info['update_log'] = nb2.find("th").find("a")["href"]
+			fversion = nb["title"]
+			build_info['fmd5'] = nb3[fversion]["md5"]
+			build_info['fsha1'] = nb3[fversion]["sha1"]
+			build_info['fdate'] = nb.find("td").find("abbr")["title"]
+			build_info['flink'] = nb.find("th").find("a")["href"]
+			build_info['fsize'] = nb.find_all("td")[1].get_text()
+		except:
+			return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
+def pe_u2b(fast_flag, bs4_parser):
+	name = "pe_u2b"
+	build_info = {}
+	ual = ua_open(
+		"https://sourceforge.net/projects/pixel-experience/" +
+		sf_rss_flag(fast_flag) + "/Beta/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	if fast_flag:
+		try:
+			nb = bsObj.find("channel").find_all("item")
+			nb1 = nb[0]; nb2 = nb[1]
+			if nb2.find("files:extra-info").get_text() != "text":
+				nb1, nb2 = nb2, nb1
+			build_info['update_log'] = nb2.find("guid").get_text()
+			build_info['flink'] = nb1.find("guid").get_text()
+			fversion = build_info['flink'].split("/")[-2]
+			build_info['fdate'] = nb1.find("pubdate").get_text()
+			build_info['fmd5'] = nb1.find("media:hash").get_text()
+		except:
+			return None
+	else:
+		try:
+			nb = bsObj.find("table",{"id":"files_list"})\
+				.find_all("tbody")[0].find_all("tr")[1]
+			nb2 = bsObj.find("table",{"id":"files_list"})\
+				.find_all("tbody")[0].find_all("tr")[0]
+			nb3 = json.loads(bsObj.find_all("script")[-1]\
+				.get_text().split(" = ",1)[-1].split(";",1)[0])
+			if nb["title"].split(".")[-1] != "zip":
+				nb, nb2 = nb2, nb
+			build_info['update_log'] = nb2.find("th").find("a")["href"]
+			fversion = nb["title"]
+			build_info['fmd5'] = nb3[fversion]["md5"]
+			build_info['fsha1'] = nb3[fversion]["sha1"]
+			build_info['fdate'] = nb.find("td").find("abbr")["title"]
+			build_info['flink'] = nb.find("th").find("a")["href"]
+			build_info['fsize'] = nb.find_all("td")[1].get_text()
+		except:
+			return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
+def pe_u2s(fast_flag, bs4_parser):
+	name = "pe_u2s"
+	build_info = {}
+	ual = ua_open(
+		"https://sourceforge.net/projects/pixel-experience/" +
+		sf_rss_flag(fast_flag) + "/Stable/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
