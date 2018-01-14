@@ -4,44 +4,28 @@
 import json, time, re
 from tools import *
 
-def sf_check(bsObj, fast_flag, cl_flag = False, skip = 0):
+def sf_check(bsObj, cl_flag = False, skip = 0):
 	build_info = {}
-	if fast_flag:
-		try:
-			nb = bsObj.find("channel").find_all("item")
-			nb1 = nb[0]
-			if cl_flag:
-				nb2 = nb[1]
-				if nb2.find("files:extra-info").get_text() != "text":
-					nb1, nb2 = nb2, nb1
-				build_info['update_log'] = nb2.find("guid").get_text()
-			build_info['flink'] = nb1.find("guid").get_text()
-			fversion = build_info['flink'].split("/")[-2]
-			build_info['fdate'] = nb1.find("pubdate").get_text()
-			build_info['fmd5'] = nb1.find("media:hash").get_text()
-		except:
-			return None, None
-	else:
-		try:
-			nb = bsObj.find("table",{"id":"files_list"})\
-				.find_all("tbody")[0].find_all("tr")
-			nb1 = nb[skip]
-			if cl_flag:
-				nb2 = nb[skip + 1]
-				if nb1["title"].split(".")[-1] != "zip":
-					nb1, nb2 = nb2, nb1
-				build_info['update_log'] = \
-					nb2.find("th").find("a")["href"]
-			nb3 = json.loads(bsObj.find_all("script")[-1]\
-				.get_text().split(" = ",1)[-1].split(";",1)[0])
-			fversion = nb1["title"]
-			build_info['fmd5'] = nb3[fversion]["md5"]
-			build_info['fsha1'] = nb3[fversion]["sha1"]
-			build_info['fdate'] = nb1.find("td").find("abbr")["title"]
-			build_info['flink'] = nb1.find("th").find("a")["href"]
-			build_info['fsize'] = nb1.find_all("td")[1].get_text()
-		except:
-			return None, None
+	try:
+		nb = bsObj.find("table",{"id":"files_list"})\
+			.find_all("tbody")[0].find_all("tr")
+		nb1 = nb[skip]
+		if cl_flag:
+			nb2 = nb[skip + 1]
+			if nb1["title"].split(".")[-1] != "zip":
+				nb1, nb2 = nb2, nb1
+			build_info['update_log'] = \
+				nb2.find("th").find("a")["href"]
+		nb3 = json.loads(bsObj.find_all("script")[-1]\
+			.get_text().split(" = ",1)[-1].split(";",1)[0])
+		fversion = nb1["title"]
+		build_info['fmd5'] = nb3[fversion]["md5"]
+		build_info['fsha1'] = nb3[fversion]["sha1"]
+		build_info['fdate'] = nb1.find("td").find("abbr")["title"]
+		build_info['flink'] = nb1.find("th").find("a")["href"]
+		build_info['fsize'] = nb1.find_all("td")[1].get_text()
+	except:
+		return None, {}
 	return fversion, build_info
 
 def aex(fast_flag, bs4_parser):
@@ -78,8 +62,8 @@ def aex(fast_flag, bs4_parser):
 def aex_sf(fast_flag, bs4_parser):
 	name = "aex_sf"
 	build_info = {}
-	ual = ua_open("https://sourceforge.net/projects/aospextended-rom/" +
-				sf_rss_flag(fast_flag) + "/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"aospextended-rom/files/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
@@ -148,12 +132,11 @@ def aicp(fast_flag, bs4_parser):
 def aoscp(fast_flag, bs4_parser):
 	name = "aoscp"
 	ual = ua_open("https://sourceforge.net/projects/"
-		"unofficial-cypheros-for-kenzo/" +
-		sf_rss_flag(fast_flag) + "/")
+		"unofficial-cypheros-for-kenzo/files/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
+	fversion, build_info = sf_check(bsObj, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -215,39 +198,39 @@ def bliss(fast_flag, bs4_parser):
 
 def cardinal(fast_flag, bs4_parser):
 	name = "cardinal"
-	ual = ua_open("https://sourceforge.net/projects/cardinal-aosp/" +
-				sf_rss_flag(fast_flag) + "/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"cardinal-aosp/files/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
+	fversion, build_info = sf_check(bsObj, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def cosmicos(fast_flag, bs4_parser):
 	name = "cosmicos"
-	ual = ua_open("https://sourceforge.net/projects/cosmic-os/" +
-				sf_rss_flag(fast_flag) + "/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"cosmic-os/files/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
 		bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag)
+	fversion, build_info = sf_check(bsObj)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def dotos(fast_flag, bs4_parser):
 	name = "dotos"
-	ual = ua_open("https://sourceforge.net/projects/dotos-ota/" +
-				sf_rss_flag(fast_flag) + "/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"dotos-ota/files/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag)
+	fversion, build_info = sf_check(bsObj)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -604,12 +587,12 @@ Mokee Official Nightly:
 
 def nos_o(fast_flag, bs4_parser):
 	name = "nos_o"
-	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/" +
-				sf_rss_flag(fast_flag) + "/kenzo/kenzo_test/8.1/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"nitrogen-project/files/kenzo/kenzo_test/8.1/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, True)
+	fversion, build_info = sf_check(bsObj, cl_flag = True)
 	if fversion == None:
 		return analyze_failed(name)
 	flink2 = ("https://sourceforge.mirrorservice.org"
@@ -622,12 +605,12 @@ def nos_o(fast_flag, bs4_parser):
 
 def nos_s(fast_flag, bs4_parser):
 	name = "nos_s"
-	ual = ua_open("https://sourceforge.net/projects/nitrogen-project/" + 
-				sf_rss_flag(fast_flag) + "/kenzo/kenzo_stable/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"nitrogen-project/files/kenzo/kenzo_stable/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, True)
+	fversion, build_info = sf_check(bsObj, cl_flag = True)
 	if fversion == None:
 		return analyze_failed(name)
 	flink2 = "https://sourceforge.mirrorservice.org" + \
@@ -664,52 +647,48 @@ def omni(fast_flag, bs4_parser):
 
 def pe_u1(fast_flag, bs4_parser):
 	name = "pe_u1"
-	ual = ua_open(
-		"https://sourceforge.net/projects/pixel-experience-for-kenzo/" +
-		sf_rss_flag(fast_flag) + "/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"pixel-experience-for-kenzo/files/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, True)
+	fversion, build_info = sf_check(bsObj, cl_flag = True)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def pe_u2b(fast_flag, bs4_parser):
 	name = "pe_u2b"
-	ual = ua_open(
-		"https://sourceforge.net/projects/pixel-experience/" +
-		sf_rss_flag(fast_flag) + "/Beta/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"pixel-experience/files/Beta/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, True)
+	fversion, build_info = sf_check(bsObj, cl_flag = True)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def pe_u2s(fast_flag, bs4_parser):
 	name = "pe_u2s"
-	ual = ua_open(
-		"https://sourceforge.net/projects/pixel-experience/" +
-		sf_rss_flag(fast_flag) + "/Stable/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"pixel-experience/files/Stable/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, True)
+	fversion, build_info = sf_check(bsObj, cl_flag = True)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def rr(fast_flag, bs4_parser):
 	name = "rr"
-	ual = ua_open(
-		"https://sourceforge.net/projects/resurrectionremix/" +
-		sf_rss_flag(fast_flag) + "/kenzo/")
+	ual = ua_open("https://sourceforge.net/projects/"
+		"resurrectionremix/files/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
+	fversion, build_info = sf_check(bsObj, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
 	build_info['update_log'] = (
