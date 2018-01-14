@@ -15,13 +15,15 @@ if sysstr not in ("Windows", "Linux"):
 	print("\nFailed to run this program!")
 	print("\nNot support your OS!")
 	sys.exit()
+
 ''' Check BS4 parser'''
 bs4_parser = tools.select_bs4_parser()
 if bs4_parser == None:
 	print("\nFailed to run this program!")
-	print("\nPlease install at least one parser " +
+	print("\nPlease install at least one parser "
 			"in \"lxml\" and \"html5lib\"!")
 	sys.exit()
+
 ''' Initialization parameters '''
 # Tools version
 tool_version = "v1.0.7 Test"
@@ -38,6 +40,7 @@ r6_s = r7_e + 1
 r6_e = len(roms.rom6_list) + r7_e
 r5_s = r6_e + 1
 r5_e = len(roms.check_list)
+
 # Set terminal
 if sysstr == "Windows":
 	os.system("title KENZO ROM UPDATE CHECKER " + tool_version)

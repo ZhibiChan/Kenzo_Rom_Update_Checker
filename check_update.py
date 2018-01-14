@@ -153,8 +153,7 @@ def aoscp(fast_flag, bs4_parser):
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = \
-		sf_check(bsObj, fast_flag, skip = 1)
+	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -221,8 +220,7 @@ def cardinal(fast_flag, bs4_parser):
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = \
-		sf_check(bsObj, fast_flag, skip = 1)
+	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -711,12 +709,12 @@ def rr(fast_flag, bs4_parser):
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	fversion, build_info = sf_check(bsObj, fast_flag)
+	fversion, build_info = sf_check(bsObj, fast_flag, skip = 1)
 	if fversion == None:
 		return analyze_failed(name)
-	build_info['update_log'] = \
-		"https://sourceforge.net/projects/resurrectionremix" + \
-		"/files/kenzo/Changelog.txt/download"
+	build_info['update_log'] = (
+		"https://sourceforge.net/projects/resurrectionremix"
+		"/files/kenzo/Changelog.txt/download")
 	return out_put(fast_flag, name, fversion, build_info)
 
 def sudamod(fast_flag, bs4_parser):
