@@ -151,14 +151,23 @@ def aosip(fast_flag, bs4_parser):
 	try:
 		nb = \
 			bsObj.find("div",{"id":"fallback"})\
-			.find("table").find_all("tr")[-2]
-		if fast_flag == False:
-			fmd5 = \
-				bsObj.find("div",{"id":"fallback"}).find("table")\
-				.find_all("tr")[-1].find_all("td")[1].find("a")["href"]
-			build_info['fmd5'] = \
-				get_md5_from_file("https://get.aosiprom.com" + fmd5)
-		fversion = nb.find_all("td")[1].find("a").get_text()
+			.find("table").find_all("tr")[-1]
+		fmd5 = nb
+		while True:
+			fversion = nb.find_all("td")[1].find("a").get_text()
+			if fversion.split(".")[-1] == "zip":
+				break
+			nb = nb.previous_sibling
+		for child in nb.parent:
+			try:
+				file_md5 = child.find_all("td")[1].find("a").get_text()
+			except IndexError:
+				continue
+			if file_md5 == (fversion + ".md5sum"):
+				fmd5 = child.find_all("td")[1].find("a")["href"]
+				build_info['fmd5'] = \
+					get_md5_from_file("https://get.aosiprom.com" + fmd5)
+				break
 		build_info['fdate'] = nb.find_all("td")[2].get_text()
 		build_info['flink'] = \
 			"https://get.aosiprom.com" + \
