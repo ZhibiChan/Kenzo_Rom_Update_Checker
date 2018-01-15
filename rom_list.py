@@ -13,6 +13,7 @@ class Rom_List:
 			"pe_u1",
 			"pe_u2s",
 			"pe_u2b",
+			"validus_u1",
 			"aex",
 			"aicp",
 			"bliss",
@@ -50,7 +51,8 @@ class Rom_List:
 			"nos_o":"Nitrogen OS 8.1 Test",
 			"pe_u1":"Pixel Experience (Unofficial By irvin16, miguelndecarval)",
 			"pe_u2s":"Pixel Experience Stable (Unofficial By irvin16)",
-			"pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)"
+			"pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)",
+			"validus_u1":"Validus (Unofficial By sarveshrulz)"
 		}
 		self.rom7_list = {
 			"aex":"AospExtended Official",

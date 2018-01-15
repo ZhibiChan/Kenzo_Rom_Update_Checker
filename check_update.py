@@ -763,6 +763,18 @@ def twrp(fast_flag, bs4_parser):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
+def validus_u1(fast_flag, bs4_parser):
+	name = "validus_u1"
+	ual = ua_open("https://sourceforge.net/projects/"
+		"sarveshrulz/files/Validus/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	fversion, build_info = sf_check(bsObj)
+	if fversion == None:
+		return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
 def viperos(fast_flag, bs4_parser):
 	name = "viperos"
 	build_info = {}
