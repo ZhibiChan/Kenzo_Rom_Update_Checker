@@ -6,6 +6,7 @@ class Rom_List:
 		roms_list = [
 			"aex_sf",
 			"aoscp",
+			"aosip",
 			"cardinal",
 			"cosmicos",
 			"nos_o",
@@ -14,7 +15,6 @@ class Rom_List:
 			"pe_u2b",
 			"aex",
 			"aicp",
-			"aosip",
 			"bliss",
 			"dotos",
 			"los",
@@ -44,6 +44,7 @@ class Rom_List:
 		self.rom8_list = {
 			"aex_sf":"AospExtended Oreo Official",
 			"aoscp":"AOSCP Official",
+			"aosip":"AOSiP Official",
 			"cardinal":"Cardinal AOSP Official Test",
 			"cosmicos":"Cosmic OS Official",
 			"nos_o":"Nitrogen OS 8.1 Test",
@@ -54,7 +55,6 @@ class Rom_List:
 		self.rom7_list = {
 			"aex":"AospExtended Official",
 			"aicp":"AICP Official",
-			"aosip":"AOSiP Official",
 			"bliss":"Bliss Official",
 			"dotos":"DotOS Official",
 			"los":"LineageOS Official",
