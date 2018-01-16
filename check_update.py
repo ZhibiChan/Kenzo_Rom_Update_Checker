@@ -152,7 +152,6 @@ def aosip(fast_flag, bs4_parser):
 		nb = \
 			bsObj.find("div",{"id":"fallback"})\
 			.find("table").find_all("tr")[-1]
-		fmd5 = nb
 		while True:
 			fversion = nb.find_all("td")[1].find("a").get_text()
 			if fversion.split(".")[-1] == "zip":
