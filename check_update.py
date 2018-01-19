@@ -28,6 +28,39 @@ def sf_check(bsObj, cl_flag = False, skip = 0):
 		return None, {}
 	return fversion, build_info
 
+def h5ai_check(bsObj, fast_flag, web_link):
+	build_info = {}
+	try:
+		nb = bsObj.find("div",{"id":"fallback"})\
+			.find("table").find_all("tr")[-1]
+		while True:
+			fversion = nb.find_all("td")[1].find("a").get_text()
+			if fversion.split(".")[-1] == "zip":
+				break
+			nb = nb.previous_sibling
+		if fast_flag == False:
+			for child in nb.parent:
+				try:
+					file_hash = \
+						child.find_all("td")[1].find("a").get_text()
+				except IndexError:
+					continue
+				if file_hash == (fversion + ".md5sum"):
+					fmd5 = child.find_all("td")[1].find("a")["href"]
+					build_info['fmd5'] = \
+						get_md5_from_file(web_link + fmd5)
+				if file_hash == (fversion + ".sha256sum"):
+					fsha256 = child.find_all("td")[1].find("a")["href"]
+					build_info['fsha256'] = \
+						get_md5_from_file(web_link + fsha256)
+		build_info['fdate'] = nb.find_all("td")[2].get_text()
+		build_info['flink'] = \
+			web_link + nb.find_all("td")[1].find("a")["href"]
+		build_info['fsize'] = nb.find_all("td")[3].get_text()
+	except:
+		return None, {}
+	return fversion, build_info
+
 def aex(fast_flag, bs4_parser):
 	name = "aex"
 	build_info = {}
@@ -129,64 +162,26 @@ def aoscp(fast_flag, bs4_parser):
 
 def aosip(fast_flag, bs4_parser):
 	name = "aosip"
-	build_info = {}
 	ual = de_open("https://get.aosiprom.com/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	try:
-		nb = \
-			bsObj.find("div",{"id":"fallback"})\
-			.find("table").find_all("tr")[-1]
-		while True:
-			fversion = nb.find_all("td")[1].find("a").get_text()
-			if fversion.split(".")[-1] == "zip":
-				break
-			nb = nb.previous_sibling
-		for child in nb.parent:
-			try:
-				file_md5 = child.find_all("td")[1].find("a").get_text()
-			except IndexError:
-				continue
-			if file_md5 == (fversion + ".md5sum"):
-				fmd5 = child.find_all("td")[1].find("a")["href"]
-				build_info['fmd5'] = \
-					get_md5_from_file("https://get.aosiprom.com" + fmd5)
-				break
-		build_info['fdate'] = nb.find_all("td")[2].get_text()
-		build_info['flink'] = \
-			"https://get.aosiprom.com" + \
-			nb.find_all("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.find_all("td")[3].get_text()
-	except:
+	fversion, build_info = \
+		h5ai_check(bsObj, fast_flag, "https://get.aosiprom.com")
+	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def bliss(fast_flag, bs4_parser):
 	name = "bliss"
-	build_info = {}
 	ual = de_open(
 		"https://downloads.blissroms.com/Bliss/Official/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	try:
-		nb = \
-			bsObj.find("div",{"id":"fallback"})\
-			.find("table").find_all("tr")[-3]
-		if fast_flag == False:
-			fmd5 = \
-				bsObj.find("div",{"id":"fallback"}).find("table")\
-				.find_all("tr")[-2].find_all("td")[1].find("a")["href"]
-			build_info['fmd5'] = get_md5_from_file(
-				"https://downloads.blissroms.com" + fmd5)
-		build_info['fdate'] = nb.find_all("td")[2].get_text()
-		fversion = nb.find_all("td")[1].find("a").get_text()
-		build_info['flink'] = \
-			"https://downloads.blissroms.com" + \
-			nb.find_all("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.find_all("td")[3].get_text()
-	except:
+	fversion, build_info = \
+		h5ai_check(bsObj, fast_flag, "https://downloads.blissroms.com")
+	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
@@ -308,39 +303,13 @@ def los_u1(fast_flag, bs4_parser):
 
 def los_mg(fast_flag, bs4_parser):
 	name = "los_mg"
-	build_info = {}
 	ual = de_open("https://download.lineage.microg.org/kenzo/")
 	bsObj = get_bs(ual, bs4_parser)
 	if not bsObj:
 		return open_failed(name)
-	try:
-		nba = bsObj.find("div",{"id":"fallback"})\
-			.find("table").find_all("tr")
-		fmd5 = fsha256 = None
-		for item in (nba[-1], nba[-2], nba[-3]):
-			file_type = \
-				item.find_all("td")[1].find("a")\
-				.get_text().split(".")[-1]
-			if file_type == "zip":
-				fversion = item.find_all("td")[1].find("a").get_text()
-				nb = item
-			elif file_type == "md5sum":
-				fmd5 = item.find_all("td")[1].find("a")["href"]
-			elif file_type == "sha256sum":
-				fsha256 = item.find_all("td")[1].find("a")["href"]
-		if fast_flag == False:
-			if fmd5:
-				build_info['fmd5'] = get_md5_from_file(
-					"https://download.lineage.microg.org" + fmd5)
-			if fsha256:
-				build_info['fsha256'] = get_md5_from_file(
-					"https://download.lineage.microg.org" + fsha256)
-		build_info['fdate'] = nb.find_all("td")[2].get_text()
-		build_info['flink'] = \
-			"https://download.lineage.microg.org" + \
-			nb.find_all("td")[1].find("a")["href"]
-		build_info['fsize'] = nb.find_all("td")[3].get_text()
-	except:
+	fversion, build_info = h5ai_check(
+		bsObj, fast_flag, "https://download.lineage.microg.org")
+	if fversion == None:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
