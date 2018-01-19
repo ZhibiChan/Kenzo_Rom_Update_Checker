@@ -639,6 +639,31 @@ def omni(fast_flag, bs4_parser):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
+def pe(fast_flag, bs4_parser):
+	name = "pe"
+	build_info = {}
+	ual = ua_open("https://download.pixelexperience.org/kenzo/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	try:
+		nb = bsObj.find("table",{"class":"cm"})\
+			.find("tbody").find("tr").find_all("td")
+		nb_info = nb[1].get_text().split(" ")
+		fversion = nb_info[0].strip()
+		build_info['fsize'] = nb_info[3] + " " + nb_info[4]
+		build_info['fmd5'] = nb_info[6]
+		build_info['update_log'] = \
+			"https://download.pixelexperience.org" + \
+			nb[1].find_all("a")[1]["href"]
+		build_info['flink'] = \
+			"https://download.pixelexperience.org" + \
+			nb[1].find("a")["href"]
+		build_info['fdate'] = nb[2].get_text().strip()
+	except:
+		return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
 def pe_u1(fast_flag, bs4_parser):
 	name = "pe_u1"
 	ual = ua_open("https://sourceforge.net/projects/"
