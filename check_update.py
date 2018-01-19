@@ -548,8 +548,26 @@ Mokee Official Nightly:
     https://download.mokeedev.com/?device=kenzo''')
 	return None
 
-def nos_o(fast_flag, bs4_parser):
-	name = "nos_o"
+def nos_o1(fast_flag, bs4_parser):
+	name = "nos_o1"
+	ual = ua_open("https://sourceforge.net/projects/"
+		"nitrogen-project/files/kenzo/kenzo_test/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	fversion, build_info = sf_check(bsObj, cl_flag = True, skip = 1)
+	if fversion == None:
+		return analyze_failed(name)
+	flink2 = ("https://sourceforge.mirrorservice.org"
+		"/n/ni/nitrogen-project/kenzo/kenzo_test/"
+		 + fversion)
+	build_info['flink'] = \
+		"# Sourceforge:\n\n    " + build_info['flink'] + \
+		"\n\n    # Mirror for Sourceforge:\n\n    " + flink2
+	return out_put(fast_flag, name, fversion, build_info)
+
+def nos_o2(fast_flag, bs4_parser):
+	name = "nos_o2"
 	ual = ua_open("https://sourceforge.net/projects/"
 		"nitrogen-project/files/kenzo/kenzo_test/8.1/")
 	bsObj = get_bs(ual, bs4_parser)
