@@ -5,8 +5,8 @@ import json, time, re
 from tools import *
 
 def sf_check(bsObj, cl_flag = False, skip = 0):
-	build_info = {}
 	try:
+		build_info = {}
 		nb = bsObj.find("table",{"id":"files_list"})\
 			.find_all("tbody")[0].find_all("tr")
 		nb1 = nb[skip]
@@ -24,13 +24,13 @@ def sf_check(bsObj, cl_flag = False, skip = 0):
 		build_info['fdate'] = nb1.find("td").find("abbr")["title"]
 		build_info['flink'] = nb1.find("th").find("a")["href"]
 		build_info['fsize'] = nb1.find_all("td")[1].get_text()
+		return fversion, build_info
 	except:
 		return None, {}
-	return fversion, build_info
 
 def h5ai_check(bsObj, fast_flag, web_link):
-	build_info = {}
 	try:
+		build_info = {}
 		nb = bsObj.find("div",{"id":"fallback"})\
 			.find("table").find_all("tr")[-1]
 		while True:
@@ -57,9 +57,9 @@ def h5ai_check(bsObj, fast_flag, web_link):
 		build_info['flink'] = \
 			web_link + nb.find_all("td")[1].find("a")["href"]
 		build_info['fsize'] = nb.find_all("td")[3].get_text()
+		return fversion, build_info
 	except:
 		return None, {}
-	return fversion, build_info
 
 def aex(fast_flag, bs4_parser):
 	name = "aex"
@@ -69,25 +69,16 @@ def aex(fast_flag, bs4_parser):
 	if not bsObj:
 		return open_failed(name)
 	try:
-		nb = bsObj.find("table",{"class":"cm"}).find("tbody").find("tr")
-		i=0
-		for child in nb.find_all("td")[1]:
-			i+=1
-			if i == 5:
-				fsize=child
-				continue
-			if i == 7:
-				fmd5=child
-				break
-		build_info['fsize'] = fsize.split(" ",3)[3]
-		build_info['fmd5'] = fmd5.split(" ",2)[2]
-		fversion = \
-			nb.find_all("td")[1].find("a").find("strong").get_text()
-		build_info['fdate'] = \
-			nb.find_all("td")[2].find("strong").get_text().strip()
+		nb = bsObj.find("table",{"class":"cm"})\
+			.find("tbody").find("tr").find_all("td")
+		nb_info = nb[1].get_text().split(" ")
+		fversion = nb_info[0].strip()
+		build_info['fsize'] = nb_info[3] + " " + nb_info[4]
+		build_info['fmd5'] = nb_info[6]
 		build_info['flink'] = \
 			"https://downloads.aospextended.com" + \
-			nb.find_all("td")[1].find("a")["href"]
+			nb[1].find("a")["href"]
+		build_info['fdate'] = nb[2].get_text().strip()
 	except:
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
@@ -344,30 +335,14 @@ def miui_c(fast_flag, bs4_parser):
 			nb_s.find("div",{"class":"to_miroute"}).find("a")["href"]
 		flink2 = \
 			nb_d.find("div",{"class":"to_miroute"}).find("a")["href"]
-		fvalue1 = nb_s.find("div",{"class":"supports"}).find("p")
-		fvalue2 = nb_d.find("div",{"class":"supports"}).find("p")
-		i=0
-		for child in fvalue1:
-			i+=1
-			if i == 3:
-				fversion1=child
-				continue
-			if i == 5:
-				fsize1=child
-				break
-		i=0
-		for child in fvalue2:
-			i+=1
-			if i == 3:
-				fversion2=child
-				continue
-			if i == 5:
-				fsize2=child
-				break
-		fversion1 = fversion1.split("：")[1].strip()
-		fversion2 = fversion2.split("：")[1].strip()
-		fsize1 = fsize1.split("：")[1]
-		fsize2 = fsize2.split("：")[1]
+		fvalue1 = nb_s.find("div",{"class":"supports"})\
+			.find("p").get_text().replace("\n","").split("：")
+		fvalue2 = nb_d.find("div",{"class":"supports"})\
+			.find("p").get_text().replace("\n","").split("：")
+		fversion1 = fvalue1[2][:-2]
+		fsize1 = fvalue1[-1]
+		fversion2 = fvalue2[2][:-2]
+		fsize2 = fvalue2[-1]
 	except:
 		return analyze_failed(name)
 	print("\nMIUI China:")
@@ -401,30 +376,14 @@ def miui_g(fast_flag, bs4_parser):
 			.find("div").find("a")["href"]
 		flink2 = nb_d.find("div",{"class":"stable div_margin"})\
 			.find("div").find("a")["href"]
-		fvalue1 = nb_s.find("div",{"class":"supports"}).find("p")
-		fvalue2 = nb_d.find("div",{"class":"supports"}).find("p")
-		i=0
-		for child in fvalue1:
-			i+=1
-			if i == 3:
-				fversion1=child
-				continue
-			if i == 5:
-				fsize1=child
-				break
-		i=0
-		for child in fvalue2:
-			i+=1
-			if i == 3:
-				fversion2=child
-				continue
-			if i == 5:
-				fsize2=child
-				break
-		fversion1 = fversion1.split(" ",1)[1].strip()
-		fversion2 = fversion2.split(" ",1)[1].strip()
-		fsize1 = fsize1.split(" ",1)[1]
-		fsize2 = fsize2.split(" ",1)[1]
+		fvalue1 = nb_s.find("div",{"class":"supports"})\
+			.find("p").get_text().replace("\n","").split(": ")
+		fvalue2 = nb_d.find("div",{"class":"supports"})\
+			.find("p").get_text().replace("\n","").split(": ")
+		fversion1 = fvalue1[2][:-4]
+		fsize1 = fvalue1[-1]
+		fversion2 = fvalue2[2][:-4]
+		fsize2 = fvalue2[-1]
 	except:
 		return analyze_failed(name)
 	print("\nMIUI Global:")
