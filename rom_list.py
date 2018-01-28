@@ -5,6 +5,7 @@ class Rom_List:
 	def __init__(self):
 		roms_list = [
 			"aex_sf",
+			"aim_u1",
 			"aoscp",
 			"aosip",
 			"cardinal",
@@ -15,6 +16,7 @@ class Rom_List:
 			"pe_u1",
 			"pe_u2s",
 			"pe_u2b",
+			"screwd_u1",
 			"validus_u1",
 			"aex",
 			"aicp",
@@ -46,6 +48,7 @@ class Rom_List:
 		
 		self.rom8_list = {
 			"aex_sf":"AospExtended Oreo Official",
+			"aim_u1":"AIM (Unofficial By carlosarriaga)",
 			"aoscp":"AOSCP Official",
 			"aosip":"AOSiP Official",
 			"cardinal":"Cardinal AOSP Official Test",
@@ -56,6 +59,7 @@ class Rom_List:
 			"pe_u1":"Pixel Experience (Unofficial By irvin16, miguelndecarval)",
 			"pe_u2s":"Pixel Experience Stable (Unofficial By irvin16)",
 			"pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)",
+			"screwd_u1":"Screwd (Unofficial By carlosarriaga)",
 			"validus_u1":"Validus (Unofficial By sarveshrulz)"
 		}
 		self.rom7_list = {

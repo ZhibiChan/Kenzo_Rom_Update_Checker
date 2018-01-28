@@ -139,6 +139,18 @@ def aicp(fast_flag, bs4_parser):
 		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
+def aim_u1(fast_flag, bs4_parser):
+	name = "aim_u1"
+	ual = ua_open("https://sourceforge.net/projects/"
+		"redmi-note-3/files/AIM/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	fversion, build_info = sf_check(bsObj)
+	if fversion == None:
+		return analyze_failed(name)
+	return out_put(fast_flag, name, fversion, build_info)
+
 def aoscp(fast_flag, bs4_parser):
 	name = "aoscp"
 	ual = ua_open("https://sourceforge.net/projects/"
@@ -659,6 +671,18 @@ def rr(fast_flag, bs4_parser):
 	build_info['update_log'] = (
 		"https://sourceforge.net/projects/resurrectionremix"
 		"/files/kenzo/Changelog.txt/download")
+	return out_put(fast_flag, name, fversion, build_info)
+
+def screwd_u1(fast_flag, bs4_parser):
+	name = "screwd_u1"
+	ual = ua_open("https://sourceforge.net/projects/"
+		"redmi-note-3/files/Screwd/")
+	bsObj = get_bs(ual, bs4_parser)
+	if not bsObj:
+		return open_failed(name)
+	fversion, build_info = sf_check(bsObj)
+	if fversion == None:
+		return analyze_failed(name)
 	return out_put(fast_flag, name, fversion, build_info)
 
 def sudamod(fast_flag, bs4_parser):
