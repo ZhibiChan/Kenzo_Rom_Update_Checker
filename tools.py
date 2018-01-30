@@ -184,10 +184,9 @@ def saved_update(name, version, saved):
 
 def save_to_json(ready_save_data, filename):
     # Save the dictionary to json
-    try:
-        with open(filename,"w") as savefile:
-            json.dump(ready_save_data, savefile,
-                sort_keys=True, indent=4, ensure_ascii=False)
+    with open(filename,"w") as savefile:
+        json.dump(ready_save_data, savefile,
+                  sort_keys=True, indent=4, ensure_ascii=False)
 
 def read_from_json(filename):
     # Read dictionary from json
