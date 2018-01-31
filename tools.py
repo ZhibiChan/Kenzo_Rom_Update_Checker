@@ -65,12 +65,10 @@ def get_bs(urll, bs4_parser):
 def open_failed(name):
     print("\n%s:"%get_rom_name(name))
     print("\n*** Access failed or request timeout!")
-    return
 
 def analyze_failed(name):
     print("\n%s:"%get_rom_name(name))
     print("\n*** Parsing failed! Please tell author to fix this error!")
-    return
 
 def os_clear_screen(ostype):
     if ostype == "Windows":
