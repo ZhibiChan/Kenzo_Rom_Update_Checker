@@ -32,7 +32,7 @@ def ua_open(urll, ua_type = None):
         with urlopen(req) as xmldata:
             return xmldata.read()
     except:
-        return False
+        return
 
 def de_open(urll):
     # The general method of parsing the page
@@ -40,7 +40,7 @@ def de_open(urll):
         with urlopen(urll) as xmldata:
             return xmldata.read()
     except:
-        return False
+        return
 
 def select_bs4_parser():
     try:
@@ -51,26 +51,26 @@ def select_bs4_parser():
             import html5lib
             return "html5lib"
         except ModuleNotFoundError:
-            return None
+            return
 
 def get_bs(urll, bs4_parser):
     # Get BeautifulSoup for the source of the page
     if not urll:
-        return False
+        return
     try:
         return BeautifulSoup(urll, bs4_parser)
     except:
-        return False
+        return
 
 def open_failed(name):
     print("\n%s:"%get_rom_name(name))
     print("\n*** Access failed or request timeout!")
-    return None
+    return
 
 def analyze_failed(name):
     print("\n%s:"%get_rom_name(name))
     print("\n*** Parsing failed! Please tell author to fix this error!")
-    return None
+    return
 
 def os_clear_screen(ostype):
     if ostype == "Windows":
@@ -142,7 +142,7 @@ def check_for_update(checked, temp2, term_cols):
     # If there is an update, output notification.
     saved = read_from_json("save.json")
     if not saved:
-        return False
+        return
     names = None
     # Special
     if checked == "miui_c":
@@ -159,14 +159,14 @@ def check_for_update(checked, temp2, term_cols):
         flag = False
         for name in names:
             if (name in saved) and (saved[name] != temp2[name]):
-                flag = print_update_info(
-                    name, term_cols, saved[name], temp2[name])
+                flag = print_update_info(name, term_cols,
+                                         saved[name], temp2[name])
         return flag
     else:
         if (name in saved) and (saved[name] != temp2[name]):
-            return print_update_info(
-                name, term_cols, saved[name], temp2[name])
-        return False
+            return print_update_info(name, term_cols,
+                                      saved[name], temp2[name])
+        return
 
 def print_update_info(name, term_cols, old_name, new_name):
     print("\n%s\n"%("*" * 2 * term_cols))
@@ -197,4 +197,4 @@ def read_from_json(filename):
         try:
             os.remove(filename)
         finally:
-            return None
+            return

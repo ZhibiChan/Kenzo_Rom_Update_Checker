@@ -179,7 +179,7 @@ def check_one(selected, auto_flag):
     print()
     if auto_flag:
         input("*** Press the Enter key to continue: ")
-        return None
+        return
     else:
         return input("*** Enter %s\"e\" to exit, "
                      "enter other to return to the main interface: "

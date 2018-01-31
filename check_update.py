@@ -510,7 +510,7 @@ Mokee Official Nightly:
     You need to see the advertisement before you can get it :P
 
     https://download.mokeedev.com/?device=kenzo''')
-    return None
+    return
 
 def nos_o1(fast_flag, bs4_parser):
     name = "nos_o1"
