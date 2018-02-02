@@ -317,10 +317,10 @@ def miui_br(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb = bsObj.find("div",{"id":"kenzo"})\
-             .find("div",{"class":"x-accordion-inner"}).find("a")
-        build_info['flink'] = nb["href"]
-        fversion = nb.get_text().split(" ")[-1]
+        nb = bsObj.find("div",{"id":"markw"})\
+             .find("div",{"class":"x-accordion-inner"}).find_all("p")
+        build_info['flink'] = nb[3].find("a")["href"]
+        fversion = nb[0].find("strong").get_text()
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
