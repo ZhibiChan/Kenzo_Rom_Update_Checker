@@ -44,7 +44,7 @@ r5_e = len(roms.check_list)
 # Set terminal
 if sysstr == "Windows":
     os.system("title KENZO ROM UPDATE CHECKER " + tool_version)
-    term_lines = 38
+    term_lines = 41
     term_cols = 138
     hex_lines = hex(term_lines).replace("0x","").zfill(4)
     hex_cols = hex(term_cols).replace("0x","").zfill(4)
@@ -111,6 +111,8 @@ def main():
             print("  |")
             print("  ====\"a\": Automatically check all")
             print("  |")
+            print("  ====\"l\": Show saved info")
+            print("  |")
             print("  ====\"e\": Exit")
         print()
         selected = None
@@ -127,6 +129,11 @@ def main():
                 r5 = True
             elif selected == "a" or selected == "A":
                 check_all_auto()
+            elif selected == "l" or selected == "L":
+                tools.os_clear_screen(sysstr)
+                show_info()
+                input("\n*** Press the Enter key to "
+                      "return to the main interface: ")
             elif selected == "e" or selected == "E":
                 break
             continue
@@ -277,6 +284,20 @@ def show_list():
     for key in sorted(roms.list_all.keys()):
         print("    %s : %s"%(key.ljust(10), roms.list_all[key]))
 
+def show_info():
+    saved_info = tools.read_from_json("save.json")
+    if not saved_info:
+        print("\nRead \"save.json\" failed or no such file!\n")
+        sys.exit()
+    print("\nSaved info:\n")
+    if term_cols >= 120:
+        for key, value in saved_info.items():
+            print("    %s : %s"%(key.ljust(60), value))
+    else:
+        for key, value in saved_info.items():
+            print("  %s :\n"%key + \
+                  "      %s\n"%value)
+
 if __name__ == '__main__':
     
     if len(sys.argv) == 1:
@@ -290,6 +311,9 @@ if __name__ == '__main__':
         if sys.argv[1] == "-s":
             print("\nUsage: main.py -s <argv>")
             show_list()
+            sys.exit()
+        if sys.argv[1] == "-l":
+            show_info()
             sys.exit()
     elif len(sys.argv) == 3:
         if sys.argv[1] == "-s":
@@ -307,4 +331,5 @@ if __name__ == '__main__':
     print("  None         Goto main interface")
     print("  -a           Automatically check all Rom updates")
     print("  -s <argv>    Check a single item")
+    print("  -l           Show saved info")
     sys.exit()
