@@ -113,6 +113,8 @@ def main():
             print("  |")
             print("  ==== L : Show saved info")
             print("  |")
+            print("  ==== X : Preview Kenzo's XDA development page")
+            print("  |")
             print("  ==== E : Exit")
         print()
         selected = None
@@ -134,6 +136,11 @@ def main():
                 show_info()
                 input("*** Press the Enter key to "
                       "return to the main interface: ")
+            elif selected == "x" or selected == "X":
+                tools.os_clear_screen(sysstr)
+                print("\n=== Parsing now, please wait...\n\n"
+                      + "*" * term_cols)
+                check_update.xda(sysstr, bs4_parser)
             elif selected == "e" or selected == "E":
                 break
             continue
@@ -306,18 +313,22 @@ if __name__ == '__main__':
         tools.os_clear_screen(sysstr)
         sys.exit()
     elif len(sys.argv) == 2:
-        if sys.argv[1] == "-a":
+        if sys.argv[1] == "-a" or sys.argv[1] == "-A":
             check_all_auto(True)
             sys.exit()
-        if sys.argv[1] == "-s":
+        if sys.argv[1] == "-s" or sys.argv[1] == "-S":
             print("\nUsage: main.py -s <argv>")
             show_list()
             sys.exit()
-        if sys.argv[1] == "-l":
+        if sys.argv[1] == "-l" or sys.argv[1] == "-L":
             show_info()
             sys.exit()
+        if sys.argv[1] == "-x" or sys.argv[1] == "-X":
+            print("\n=== Parsing now, please wait...")
+            check_update.xda(sysstr, bs4_parser)
+            sys.exit()
     elif len(sys.argv) == 3:
-        if sys.argv[1] == "-s":
+        if sys.argv[1] == "-s" or sys.argv[1] == "-S":
             if sys.argv[2] in roms.check_list.values():
                 check_one(sys.argv[2], argv_flag = True)
                 sys.exit()
@@ -333,4 +344,5 @@ if __name__ == '__main__':
     print("  -a           Automatically check all Rom updates")
     print("  -s <argv>    Check a single item")
     print("  -l           Show saved info")
+    print("  -x           Preview Kenzo's XDA development page")
     sys.exit()

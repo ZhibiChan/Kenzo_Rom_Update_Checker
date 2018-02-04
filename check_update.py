@@ -766,6 +766,66 @@ def viperos(fast_flag, bs4_parser):
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
 
+def xda(sysstr, bs4_parser):
+    name = "xda"
+    build_info = {}
+    url = ("https://forum.xda-developers.com")
+    ual = ua_open(url + "/redmi-note-3/development")
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed(name)
+    try:
+        nb = bsObj.find("div",{"class":"thread-listing"}).children
+    except:
+        return analyze_failed(name)
+    threads = []
+    for thread in nb:
+        try:
+            post_info = {}
+            if thread.find("div",{"class":"thread-title-cell"}).get_text().lstrip()[:7] == "Sticky:":
+                continue
+            post_web = thread.find("div",{"class":"thread-title-cell"}).find("a",{"class":"threadTitle threadTitleUnread"})
+            title = post_web.get_text()
+            author = thread.find("div",{"class":"smallfont"}).find("a").get_text()
+            latest_post = thread.find("div",{"class":"info-cell"}).find_all("a")[-1].get_text()
+            web_link = post_web["href"]
+            post_info["Title"] = title
+            post_info["Author"] = author
+            post_info["Latest Post"] = latest_post
+            post_info["Link"] = url + web_link
+            threads.append(post_info)
+        except:
+            continue
+    while True:
+        os_clear_screen(sysstr)
+        print("\n===Options:")
+        print("  |")
+        print("  === 1.Show all posts")
+        print("  |")
+        print("  === 2.Have author's new reply")
+        print("  |")
+        print("  === 0.Exit to main interface")
+        temp = input("\n*** Please enter the "
+                     "option and press Enter: ")
+        os_clear_screen(sysstr)
+        if temp == "1":
+            print("\n=== Post List:\n")
+            for thread in threads:
+                for key, value in thread.items():
+                    print("%s : %s"%(key.ljust(12), value))
+                print()
+            input("*** Press the Enter key to return: ")
+        if temp == "2":
+            print("\n=== Post List:\n")
+            for thread in threads:
+                if thread["Author"] == thread["Latest Post"]:
+                    for key, value in thread.items():
+                        print("%s : %s"%(key.ljust(12), value))
+                    print()
+            input("*** Press the Enter key to return: ")
+        if temp == "0":
+            return
+
 def xenonhd(fast_flag, bs4_parser):
     name = "xenonhd"
     build_info = {}
