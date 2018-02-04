@@ -73,48 +73,51 @@ def main():
         print("#  BS4 parser  : " + bs4_parser)
         print()
         print("=== Rom List:")
-        print("|")
-        print("====①: Android 8.0")
+        print("  |")
+        print("  ====①: Android 8.0")
         if r8:
             i = r8_s
-            print("| |")
+            print("  | |")
             for key in roms.rom8_list.keys():
-                print("| ====%s.%s"%(i, roms.rom8_list[key]))
+                print("  | ====%s.%s"%(i, roms.rom8_list[key]))
                 i+=1
-        print("|")
-        print("====②: Android 7.x")
+        print("  |")
+        print("  ====②: Android 7.x")
         if r7:
             i = r7_s
-            print("| |")
+            print("  | |")
             for key in roms.rom7_list.keys():
-                print("| ====%s.%s"%(i, roms.rom7_list[key]))
+                print("  | ====%s.%s"%(i, roms.rom7_list[key]))
                 i+=1
-        print("|")
-        print("====③: Android 6.0")
+        print("  |")
+        print("  ====③: Android 6.0")
         if r6:
             i = r6_s
-            print("| |")
+            print("  | |")
             for key in roms.rom6_list.keys():
-                print("| ====%s.%s"%(i, roms.rom6_list[key]))
+                print("  | ====%s.%s"%(i, roms.rom6_list[key]))
                 i+=1
-        print("|")
-        print("====④: Other")
+        print("  |")
+        print("  ====④: Other")
         if r5:
             i = r5_s
-            print("  |")
+            print("    |")
             for key in roms.other_list.keys():
-                print("  ====%s.%s"%(i, roms.other_list[key]))
+                print("    ====%s.%s"%(i, roms.other_list[key]))
                 i+=1
+        if not(r8 or r7 or r6 or r5):
+            print()
+            print("===Other options")
+            print("  |")
+            print("  ====\"a\": Automatically check all")
+            print("  |")
+            print("  ====\"e\": Exit")
         print()
         selected = None
         if not(r8 or r7 or r6 or r5):
-            print("*** Please enter the Rom type label you "
-                  "want to check and press Enter\n")
-            selected = input("*** (Enter \"e\" to exit, enter \"9999\""
-                             " to automatically check all): ")
-            if selected == "e" or selected == "E":
-                break
-            elif selected == "1":
+            selected = input("*** Please enter the Rom type label you "
+                             "want to check and press Enter: ")
+            if selected == "1":
                 r8 = True
             elif selected == "2":
                 r7 = True
@@ -122,15 +125,15 @@ def main():
                 r6 = True
             elif selected == "4":
                 r5 = True
-            elif selected == "9999":
+            elif selected == "a" or selected == "A":
                 check_all_auto()
+            elif selected == "e" or selected == "E":
+                break
             continue
         print("*** Please enter the Rom number you need "
               "to check and press Enter\n")
-        selected = input("*** (Enter \"0\" to close the sub-directory,"
-                         " enter \"e\" to exit): ")
-        if selected == "e" or selected == "E":
-            break
+        selected = input("*** Enter \"0\" to close "
+                         "the sub-directory: ")
         if selected == "0":
             r8 = r7 = r6 = r5 = False
             continue
@@ -151,22 +154,27 @@ def main():
             if selected_number < r5_s or selected_number > r5_e:
                 continue
         while True:
-            temp, failed_flag = check_one(selected, False)
+            temp, failed_flag = check_one(selected)
             if temp != "0" or not failed_flag:
                 break
         if temp == "e" or temp == "E":
             break
-        continue
 
-def check_one(selected, auto_flag):
+def check_one(selected, auto_flag = False, argv_flag = False):
     # Check a single item
     tools.os_clear_screen(sysstr)
     print("\n=== Checking now, results will be shown below...\n\n"
           + "*" * term_cols)
-    checking = "check_update." + roms.check_list[selected]
+    if argv_flag:
+        checking = "check_update." + selected
+    else:
+        checking = "check_update." + roms.check_list[selected]
     temp2 = eval(checking)(False, bs4_parser)
     if temp2:
-        checked = roms.check_list[selected]
+        if argv_flag:
+            checked = selected
+        else:
+            checked = roms.check_list[selected]
         tools.check_for_update(checked, temp2, term_cols)
         tools.save_to_json(temp2, "save.json")
     print("\n%s\n"%("*" * term_cols))
@@ -176,16 +184,16 @@ def check_one(selected, auto_flag):
     else:
         print("=== Check Failed!")
         check_2nd = "\"0\" to try again, enter "
-    print()
     if auto_flag:
-        input("*** Press the Enter key to continue: ")
+        input("\n*** Press the Enter key to continue: ")
         return
-    else:
-        return input("*** Enter %s\"e\" to exit, "
-                     "enter other to return to the main interface: "
-                     %check_2nd), check_2nd
+    if argv_flag:
+        return
+    return input("\n*** Enter %s\"e\" to exit, "
+                  "enter other to return to the main interface: "
+                  %check_2nd), check_2nd
 
-def check_all_auto():
+def check_all_auto(argv_flag = False):
     # Automatically check all
     '''
     This mode does not perform the operation of downloading the MD5 file 
@@ -243,7 +251,7 @@ def check_all_auto():
             temp = input("*** Enter \"0\" to view details, "
                          "enter other to continue: ")
             if temp == "0":
-                check_one(str(j), True)
+                check_one(str(j), auto_flag = True)
         j+=1
         if j > len(roms.check_list):
             saved = {**saved, **temp3}
@@ -255,14 +263,48 @@ def check_all_auto():
                 print("*** Check failed items:")
                 for key,value in failed_list.items():
                     print("\n*** === %s. %s"
-                          %(key, tools.get_rom_name(value)))
+                          %(key, roms.list_all[value]))
                 print()
             else:
                 print("=== No error occurred during the check.\n")
-            input("*** Press the Enter key to "
-                  "return to the main interface: ")
+            if not argv_flag:
+                input("*** Press the Enter key to "
+                      "return to the main interface: ")
             break
 
-main()
-tools.os_clear_screen(sysstr)
-sys.exit()
+def show_list():
+    print("\nAvailable parameters:\n")
+    for key in sorted(roms.list_all.keys()):
+        print("    %s : %s"%(key.ljust(10), roms.list_all[key]))
+
+if __name__ == '__main__':
+    
+    if len(sys.argv) == 1:
+        main()
+        tools.os_clear_screen(sysstr)
+        sys.exit()
+    elif len(sys.argv) == 2:
+        if sys.argv[1] == "-a":
+            check_all_auto(True)
+            sys.exit()
+        if sys.argv[1] == "-s":
+            print("\nUsage: main.py -s <argv>")
+            show_list()
+            sys.exit()
+    elif len(sys.argv) == 3:
+        if sys.argv[1] == "-s":
+            if sys.argv[2] in roms.check_list.values():
+                check_one(sys.argv[2], argv_flag = True)
+                sys.exit()
+            else:
+                print("\nIncorrect parameter!")
+                show_list()
+                sys.exit()
+    print()
+    print("Usage: main.py [<command>] [<argv>]")
+    print()
+    print("Available commands:")
+    print("  None         Goto main interface")
+    print("  -a           Automatically check all Rom updates")
+    print("  -s <argv>    Check a single item")
+    sys.exit()

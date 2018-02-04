@@ -89,9 +89,10 @@ class Rom_List:
         self.other_list = {
             "twrp":"TWRP Official"
         }
-        self.list_all = [
-            self.rom8_list,
-            self.rom7_list,
-            self.rom6_list,
-            self.other_list
-        ]
+        self.list_all = {
+            **self.rom8_list,
+            **self.rom7_list,
+            **self.rom6_list,
+            **self.other_list
+        }
+        
