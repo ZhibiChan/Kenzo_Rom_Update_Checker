@@ -74,7 +74,7 @@ def main():
         print()
         print("=== Rom List:")
         print("  |")
-        print("  ====①: Android 8.0")
+        print("  ==== ①: Android 8.0")
         if r8:
             i = r8_s
             print("  | |")
@@ -82,7 +82,7 @@ def main():
                 print("  | ====%s.%s"%(i, roms.rom8_list[key]))
                 i+=1
         print("  |")
-        print("  ====②: Android 7.x")
+        print("  ==== ②: Android 7.x")
         if r7:
             i = r7_s
             print("  | |")
@@ -90,7 +90,7 @@ def main():
                 print("  | ====%s.%s"%(i, roms.rom7_list[key]))
                 i+=1
         print("  |")
-        print("  ====③: Android 6.0")
+        print("  ==== ③: Android 6.0")
         if r6:
             i = r6_s
             print("  | |")
@@ -98,7 +98,7 @@ def main():
                 print("  | ====%s.%s"%(i, roms.rom6_list[key]))
                 i+=1
         print("  |")
-        print("  ====④: Other")
+        print("  ==== ④: Other")
         if r5:
             i = r5_s
             print("    |")
@@ -107,13 +107,13 @@ def main():
                 i+=1
         if not(r8 or r7 or r6 or r5):
             print()
-            print("===Other options")
+            print("=== Other options")
             print("  |")
-            print("  ====\"a\": Automatically check all")
+            print("  ==== A : Automatically check all")
             print("  |")
-            print("  ====\"l\": Show saved info")
+            print("  ==== L : Show saved info")
             print("  |")
-            print("  ====\"e\": Exit")
+            print("  ==== E : Exit")
         print()
         selected = None
         if not(r8 or r7 or r6 or r5):
