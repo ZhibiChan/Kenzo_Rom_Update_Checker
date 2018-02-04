@@ -117,8 +117,8 @@ def main():
         print()
         selected = None
         if not(r8 or r7 or r6 or r5):
-            selected = input("*** Please enter the Rom type label you "
-                             "want to check and press Enter: ")
+            selected = input("*** Please enter the "
+                             "option and press Enter: ")
             if selected == "1":
                 r8 = True
             elif selected == "2":
@@ -132,7 +132,7 @@ def main():
             elif selected == "l" or selected == "L":
                 tools.os_clear_screen(sysstr)
                 show_info()
-                input("\n*** Press the Enter key to "
+                input("*** Press the Enter key to "
                       "return to the main interface: ")
             elif selected == "e" or selected == "E":
                 break
@@ -288,11 +288,12 @@ def show_info():
     saved_info = tools.read_from_json("save.json")
     if not saved_info:
         print("\nRead \"save.json\" failed or no such file!\n")
-        sys.exit()
+        return
     print("\nSaved info:\n")
     if term_cols >= 120:
         for key, value in saved_info.items():
             print("    %s : %s"%(key.ljust(60), value))
+        print()
     else:
         for key, value in saved_info.items():
             print("  %s :\n"%key + \
