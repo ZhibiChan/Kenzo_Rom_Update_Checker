@@ -817,6 +817,7 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
         except:
             continue
     while True:
+        temp = ""
         os_clear_screen(sysstr)
         print("\n===Current page number: %s\n"%page_no)
         print("===Options:")
@@ -856,9 +857,13 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
                     print()
             input("*** Press the Enter key to return: ")
         if temp == "8":
+            if page_no == 1:
+                continue
             page_no-=1
             return xda(bs4_parser, sysstr, term_cols, page_no)
         if temp == "9":
+            if page_no == last_page_no:
+                continue
             page_no+=1
             return xda(bs4_parser, sysstr, term_cols, page_no)
         if temp == "i" or temp == "I":
