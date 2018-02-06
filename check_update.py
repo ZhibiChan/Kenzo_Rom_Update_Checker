@@ -148,6 +148,18 @@ def aim_u1(fast_flag, bs4_parser):
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
 
+def aim_u2(fast_flag, bs4_parser):
+    name = "aim_u2"
+    ual = ua_open("https://sourceforge.net/projects/"
+                  "sarveshrulz/files/Aim/")
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed(name)
+    fversion, build_info = sf_check(bsObj)
+    if fversion == None:
+        return analyze_failed(name)
+    return out_put(fast_flag, name, fversion, build_info)
+
 def aoscp(fast_flag, bs4_parser):
     name = "aoscp"
     ual = ua_open("https://sourceforge.net/projects/"

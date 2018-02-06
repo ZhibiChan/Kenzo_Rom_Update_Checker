@@ -6,6 +6,7 @@ class Rom_List:
         roms_list = [
             "aex_sf",
             "aim_u1",
+            "aim_u2",
             "aoscp",
             "aosip",
             "cardinal",
@@ -49,6 +50,7 @@ class Rom_List:
         self.rom8_list = {
             "aex_sf":"AospExtended Oreo Official",
             "aim_u1":"AIM (Unofficial By carlosarriaga)",
+            "aim_u2":"AIM (Unofficial By sarveshrulz)",
             "aoscp":"AOSCP Official",
             "aosip":"AOSiP Official",
             "cardinal":"Cardinal AOSP Official Test",
