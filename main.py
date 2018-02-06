@@ -79,7 +79,7 @@ def main():
             i = r8_s
             print("  | |")
             for key in roms.rom8_list.keys():
-                print("  | ====%s.%s"%(i, roms.rom8_list[key]))
+                print("  | ====%s.%s"%(i, roms.list_all[key]))
                 i+=1
         print("  |")
         print("  ==== ②: Android 7.x")
@@ -87,7 +87,7 @@ def main():
             i = r7_s
             print("  | |")
             for key in roms.rom7_list.keys():
-                print("  | ====%s.%s"%(i, roms.rom7_list[key]))
+                print("  | ====%s.%s"%(i, roms.list_all[key]))
                 i+=1
         print("  |")
         print("  ==== ③: Android 6.0")
@@ -95,7 +95,7 @@ def main():
             i = r6_s
             print("  | |")
             for key in roms.rom6_list.keys():
-                print("  | ====%s.%s"%(i, roms.rom6_list[key]))
+                print("  | ====%s.%s"%(i, roms.list_all[key]))
                 i+=1
         print("  |")
         print("  ==== ④: Other")
@@ -103,7 +103,7 @@ def main():
             i = r5_s
             print("    |")
             for key in roms.other_list.keys():
-                print("    ====%s.%s"%(i, roms.other_list[key]))
+                print("    ====%s.%s"%(i, roms.list_all[key]))
                 i+=1
         if not(r8 or r7 or r6 or r5):
             print()
@@ -137,10 +137,7 @@ def main():
                 input("*** Press the Enter key to "
                       "return to the main interface: ")
             elif selected == "x" or selected == "X":
-                tools.os_clear_screen(sysstr)
-                print("\n=== Parsing now, please wait...\n\n"
-                      + "*" * term_cols)
-                check_update.xda(sysstr, bs4_parser)
+                check_update.xda(bs4_parser, sysstr, term_cols)
             elif selected == "e" or selected == "E":
                 break
             continue
@@ -171,8 +168,6 @@ def main():
             temp, failed_flag = check_one(selected)
             if temp != "0" or not failed_flag:
                 break
-        if temp == "e" or temp == "E":
-            break
 
 def check_one(selected, auto_flag = False, argv_flag = False):
     # Check a single item
@@ -203,8 +198,7 @@ def check_one(selected, auto_flag = False, argv_flag = False):
         return
     if argv_flag:
         return
-    return input("\n*** Enter %s\"e\" to exit, "
-                  "enter other to return to the main interface: "
+    return input("\n*** Enter %sother to return to the main interface: "
                   %check_2nd), check_2nd
 
 def check_all_auto(argv_flag = False):
@@ -324,8 +318,8 @@ if __name__ == '__main__':
             show_info()
             sys.exit()
         if sys.argv[1] == "-x" or sys.argv[1] == "-X":
-            print("\n=== Parsing now, please wait...")
-            check_update.xda(sysstr, bs4_parser)
+            check_update.xda(bs4_parser, sysstr, term_cols)
+            tools.os_clear_screen(sysstr)
             sys.exit()
     elif len(sys.argv) == 3:
         if sys.argv[1] == "-s" or sys.argv[1] == "-S":

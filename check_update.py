@@ -766,28 +766,48 @@ def viperos(fast_flag, bs4_parser):
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
 
-def xda(sysstr, bs4_parser):
-    name = "xda"
-    build_info = {}
+def xda(bs4_parser, sysstr, term_cols, page_no = 1):
+    os_clear_screen(sysstr)
+    print("\n=== Request page & parsing now,"
+          + " please wait...\n\n" + "*" * term_cols)
+    name = "XDA Kenzo development page"
     url = ("https://forum.xda-developers.com")
-    ual = ua_open(url + "/redmi-note-3/development")
+    url_page = ""
+    if page_no > 1:
+        url_page = "/page" + str(page_no)
+    ual = ua_open(url + "/redmi-note-3/development" + url_page)
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        open_failed("", "%s %s "%(name, page_no))
+        if input("\n*** Enter \"0\" to try again, enter"
+                  " other to return to the main interface: ") == "0":
+            return xda(bs4_parser, sysstr, term_cols, page_no)
+        return
     try:
         nb = bsObj.find("div",{"class":"thread-listing"}).children
     except:
-        return analyze_failed(name)
+        analyze_failed("", "%s %s "%(name, page_no))
+        if input("\n*** Enter \"0\" to try again, enter"
+                  " other to return to the main interface: ") == "0":
+            return xda(bs4_parser, sysstr, term_cols, page_no)
+        return
+    i = 1
+    last_page_no = int(bsObj.find("div",{"class":"pagenav"}).find("a",{"rel":"last"})["href"][-2:])
     threads = []
     for thread in nb:
         try:
             post_info = {}
-            if thread.find("div",{"class":"thread-title-cell"}).get_text().lstrip()[:7] == "Sticky:":
+            if thread.find("div",{"class":"thread-title-cell"})\
+               .get_text().lstrip()[:7] == "Sticky:":
                 continue
-            post_web = thread.find("div",{"class":"thread-title-cell"}).find("a",{"class":"threadTitle threadTitleUnread"})
+            post_web = thread\
+                    .find("div",{"class":"thread-title-cell"})\
+                    .find("a",{"class":"threadTitle threadTitleUnread"})
             title = post_web.get_text()
-            author = thread.find("div",{"class":"smallfont"}).find("a").get_text()
-            latest_post = thread.find("div",{"class":"info-cell"}).find_all("a")[-1].get_text()
+            author = thread.find("div",{"class":"smallfont"}).find("a")\
+                     .get_text()
+            latest_post = thread.find("div",{"class":"info-cell"})\
+                          .find_all("a")[-1].get_text()
             web_link = post_web["href"]
             post_info["Title"] = title
             post_info["Author"] = author
@@ -798,17 +818,28 @@ def xda(sysstr, bs4_parser):
             continue
     while True:
         os_clear_screen(sysstr)
-        print("\n===Options:")
+        print("\n===Current page number: %s\n"%page_no)
+        print("===Options:")
         print("  |")
         print("  === 1.Show all posts")
         print("  |")
-        print("  === 2.Have author's new reply")
+        print("  === 2.Posts of have author's new reply")
         print("  |")
-        print("  === 0.Exit to main interface")
+        if page_no != 1:
+            print("  === 8.← Previous page")
+            print("  |")
+        if page_no != last_page_no:
+            print("  === 9.→ Next page")
+            print("  |")
+        print("  === I.Input page number")
+        print("  |")
+        print("  === R.Refresh page")
+        print("  |")
+        print("  === E.Exit to main interface")
         temp = input("\n*** Please enter the "
                      "option and press Enter: ")
-        os_clear_screen(sysstr)
         if temp == "1":
+            os_clear_screen(sysstr)
             print("\n=== Post List:\n")
             for thread in threads:
                 for key, value in thread.items():
@@ -816,6 +847,7 @@ def xda(sysstr, bs4_parser):
                 print()
             input("*** Press the Enter key to return: ")
         if temp == "2":
+            os_clear_screen(sysstr)
             print("\n=== Post List:\n")
             for thread in threads:
                 if thread["Author"] == thread["Latest Post"]:
@@ -823,7 +855,24 @@ def xda(sysstr, bs4_parser):
                         print("%s : %s"%(key.ljust(12), value))
                     print()
             input("*** Press the Enter key to return: ")
-        if temp == "0":
+        if temp == "8":
+            page_no-=1
+            return xda(bs4_parser, sysstr, term_cols, page_no)
+        if temp == "9":
+            page_no+=1
+            return xda(bs4_parser, sysstr, term_cols, page_no)
+        if temp == "i" or temp == "I":
+            print("\n=== Enter other to return:\n")
+            try:
+                temp2 = int(input("*** Range: 1 ~ %s : "%last_page_no))
+            except ValueError:
+                continue
+            if temp2 < 1 or temp2 > last_page_no:
+                continue
+            return xda(bs4_parser, sysstr, term_cols, temp2)
+        if temp == "r" or temp == "R":
+            return xda(bs4_parser, sysstr, term_cols, page_no)
+        if temp == "e" or temp == "E":
             return
 
 def xenonhd(fast_flag, bs4_parser):

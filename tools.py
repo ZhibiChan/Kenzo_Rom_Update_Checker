@@ -62,12 +62,18 @@ def get_bs(urll, bs4_parser):
     except:
         return
 
-def open_failed(name):
-    print("\n%s:"%get_rom_name(name))
+def open_failed(name, real_name = None):
+    if real_name:
+        print("\n%s:"%real_name)
+    else:
+        print("\n%s:"%get_rom_name(name))
     print("\n*** Access failed or request timeout!")
 
-def analyze_failed(name):
-    print("\n%s:"%get_rom_name(name))
+def analyze_failed(name, real_name = None):
+    if real_name:
+        print("\n%s:" + real_name)
+    else:
+        print("\n%s:"%get_rom_name(name))
     print("\n*** Parsing failed! Please tell author to fix this error!")
 
 def os_clear_screen(ostype):
@@ -92,7 +98,7 @@ def get_md5_from_file(urll):
         except:
             return "Failed to get!"
 
-def get_rom_name(name, roms = None):
+def get_rom_name(name):
     # Get the item's name by the function name
     roms = rom_list.Rom_List()
     for key,value in roms.list_all.items():
