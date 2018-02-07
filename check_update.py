@@ -797,18 +797,18 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
         return
     try:
         nb = bsObj.find("div",{"class":"thread-listing"}).children
+        last_page_no = int(bsObj.find("div",{"class":"pagenav"})\
+                           .find("a",{"rel":"last"})["href"][-2:])
     except:
         analyze_failed("", "%s %s "%(name, page_no))
         if input("\n*** Enter \"0\" to try again, enter"
                   " other to return to the main interface: ") == "0":
             return xda(bs4_parser, sysstr, term_cols, page_no)
         return
-    i = 1
-    last_page_no = int(bsObj.find("div",{"class":"pagenav"}).find("a",{"rel":"last"})["href"][-2:])
     threads = []
     for thread in nb:
         try:
-            post_info = {}
+            post_info = []
             if thread.find("div",{"class":"thread-title-cell"})\
                .get_text().lstrip()[:7] == "Sticky:":
                 continue
@@ -820,19 +820,29 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
                      .get_text()
             latest_post = thread.find("div",{"class":"info-cell"})\
                           .find_all("a")[-1].get_text()
+            latest_post_link = thread.find("div",{"class":"info-cell"})\
+                               .find("a")["href"]
             web_link = post_web["href"]
-            post_info["Title"] = title
-            post_info["Author"] = author
-            post_info["Latest Post"] = latest_post
-            post_info["Link"] = url + web_link
+            post_info.append("Title".ljust(17) + " : "
+                             + title)
+            post_info.append("Author".ljust(17) + " : "
+                             + author)
+            post_info.append("Latest Post".ljust(17) + " : "
+                             + latest_post)
+            post_info.append("Link".ljust(17) + " : "
+                             + url + web_link)
+            post_info.append("Latest Post Link".ljust(17) + " : "
+                             + url + latest_post_link)
+            if author == latest_post:
+                post_info.append("Author Post Flag")
             threads.append(post_info)
         except:
             continue
     while True:
         temp = ""
         os_clear_screen(sysstr)
-        print("\n===Current page number: %s\n"%page_no)
-        print("===Options:")
+        print("\n=== Current page number: %s\n"%page_no)
+        print("=== Options:")
         print("  |")
         print("  === 1.Show all posts")
         print("  |")
@@ -855,17 +865,18 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
             os_clear_screen(sysstr)
             print("\n=== Post List:\n")
             for thread in threads:
-                for key, value in thread.items():
-                    print("%s : %s"%(key.ljust(12), value))
+                for info in thread[:5]:
+                    print(info)
                 print()
+            print("\nTotal Post: %s\n"%len(threads))
             input("*** Press the Enter key to return: ")
         if temp == "2":
             os_clear_screen(sysstr)
             print("\n=== Post List:\n")
             for thread in threads:
-                if thread["Author"] == thread["Latest Post"]:
-                    for key, value in thread.items():
-                        print("%s : %s"%(key.ljust(12), value))
+                if len(thread) == 6:
+                    for info in thread[:5]:
+                        print(info)
                     print()
             input("*** Press the Enter key to return: ")
         if temp == "8":
