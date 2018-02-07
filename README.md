@@ -33,5 +33,17 @@ python main.py
 python3 main.py
 ```
 
+你还可以使用参数来进行一些快捷的操作。<br>
+(You can also use the parameters for some quick operation.)
+
+比如：<br>
+(Such as:)
+```sh
+main.py -a        # 自动检查所有Rom的更新(Automatically check all Rom updates)
+main.py -s <argv> # 检查单个项目的更新(Check a single item)
+main.py -l        # 显示已保存的最新版本信息(Show saved info)
+main.py -x        # 预览Kenzo的XDA Development页面(Preview Kenzo's XDA development page)
+```
+
 请享受！<br>
 (Enjoy!)
