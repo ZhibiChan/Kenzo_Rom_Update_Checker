@@ -71,7 +71,7 @@ def open_failed(name, real_name = None):
 
 def analyze_failed(name, real_name = None):
     if real_name:
-        print("\n%s:" + real_name)
+        print("\n%s:"%real_name)
     else:
         print("\n%s:"%get_rom_name(name))
     print("\n*** Parsing failed! Please tell author to fix this error!")

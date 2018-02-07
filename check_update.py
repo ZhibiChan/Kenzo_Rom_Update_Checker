@@ -778,7 +778,7 @@ def viperos(fast_flag, bs4_parser):
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
 
-def xda(bs4_parser, sysstr, term_cols, page_no = 1):
+def xda(bs4_parser, sysstr, term_cols, page_no = 1, last_page_no = 0):
     os_clear_screen(sysstr)
     print("\n=== Request page & parsing now,"
           + " please wait...\n\n" + "*" * term_cols)
@@ -797,20 +797,20 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
         return
     try:
         nb = bsObj.find("div",{"class":"thread-listing"}).children
-        last_page_no = int(bsObj.find("div",{"class":"pagenav"})\
-                           .find("a",{"rel":"last"})["href"][-2:])
+        if page_no == 1:
+            last_page_no = int(bsObj.find("div",{"class":"pagenav"})
+                               .find("a",{"rel":"last"})["href"][-2:])
     except:
         analyze_failed("", "%s %s "%(name, page_no))
-        if input("\n*** Enter \"0\" to try again, enter"
-                  " other to return to the main interface: ") == "0":
-            return xda(bs4_parser, sysstr, term_cols, page_no)
+        input("*** Press the Enter key to "
+              "return to the main interface: ")
         return
     threads = []
     for thread in nb:
         try:
             post_info = []
             if thread.find("div",{"class":"thread-title-cell"})\
-               .get_text().lstrip()[:7] == "Sticky:":
+               .get_text().lstrip().startswith("Sticky:"):
                 continue
             post_web = thread\
                     .find("div",{"class":"thread-title-cell"})\
@@ -868,7 +868,7 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
                 for info in thread[:5]:
                     print(info)
                 print()
-            print("\nTotal Post: %s\n"%len(threads))
+            print("Total Post: %s\n"%len(threads))
             input("*** Press the Enter key to return: ")
         if temp == "2":
             os_clear_screen(sysstr)
@@ -883,12 +883,14 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
             if page_no == 1:
                 continue
             page_no-=1
-            return xda(bs4_parser, sysstr, term_cols, page_no)
+            return xda(bs4_parser, sysstr,
+                       term_cols, page_no, last_page_no)
         if temp == "9":
             if page_no == last_page_no:
                 continue
             page_no+=1
-            return xda(bs4_parser, sysstr, term_cols, page_no)
+            return xda(bs4_parser, sysstr,
+                       term_cols, page_no, last_page_no)
         if temp == "i" or temp == "I":
             print("\n=== Enter other to return:\n")
             try:
@@ -897,9 +899,11 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1):
                 continue
             if temp2 < 1 or temp2 > last_page_no:
                 continue
-            return xda(bs4_parser, sysstr, term_cols, temp2)
+            return xda(bs4_parser, sysstr,
+                       term_cols, temp2, last_page_no)
         if temp == "r" or temp == "R":
-            return xda(bs4_parser, sysstr, term_cols, page_no)
+            return xda(bs4_parser, sysstr,
+                       term_cols, page_no, last_page_no)
         if temp == "e" or temp == "E":
             return
 
