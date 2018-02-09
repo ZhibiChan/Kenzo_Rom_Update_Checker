@@ -17,6 +17,7 @@ class Rom_List:
             "pe_u1",
             "pe_u2s",
             "pe_u2b",
+            "rr_o",
             "screwd_u1",
             "validus_u1",
             "aex",
@@ -61,6 +62,7 @@ class Rom_List:
             "pe_u1":"Pixel Experience (Unofficial By irvin16, miguelndecarval)",
             "pe_u2s":"Pixel Experience Stable (Unofficial By irvin16)",
             "pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)",
+            "rr_o":"Resurrection Remix OS Oreo Official",
             "screwd_u1":"Screwd (Unofficial By carlosarriaga)",
             "validus_u1":"Validus (Unofficial By sarveshrulz)"
         }

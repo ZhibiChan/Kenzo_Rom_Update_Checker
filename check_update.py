@@ -671,6 +671,20 @@ def rr(fast_flag, bs4_parser):
     build_info['update_log'] = url + "Changelog.txt/download"
     return out_put(fast_flag, name, fversion, build_info)
 
+def rr_o(fast_flag, bs4_parser):
+    name = "rr_o"
+    url = ("https://sourceforge.net/projects/"
+           "resurrectionremix-oreo/files/kenzo/")
+    ual = ua_open(url)
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed(name)
+    fversion, build_info = sf_check(bsObj, cl_flag = True)
+    if fversion == None:
+        return analyze_failed(name)
+    del build_info['update_log']
+    return out_put(fast_flag, name, fversion, build_info)
+
 def screwd_u1(fast_flag, bs4_parser):
     name = "screwd_u1"
     ual = ua_open("https://sourceforge.net/projects/"
