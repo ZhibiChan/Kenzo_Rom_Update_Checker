@@ -4,30 +4,59 @@
 import json, time, re
 from tools import *
 
-def sf_check(bsObj, cl_flag = False, skip = 0):
+def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
+    ual = ua_open("https://sourceforge.net/projects/" + url)
+    bsObj = get_bs(ual, parser)
+    if not bsObj:
+        return open_failed(name)
     try:
         build_info = {}
         nb = bsObj.find("table",{"id":"files_list"})\
              .find_all("tbody")[0].find_all("tr")
         nb1 = nb[skip]
-        if cl_flag:
-            nb2 = nb[skip + 1]
-            if nb1["title"].split(".")[-1] != "zip":
-                nb1, nb2 = nb2, nb1
-            build_info['update_log'] = nb2.find("th").find("a")["href"]
-        nb3 = json.loads(bsObj.find_all("script")[-1]\
-              .get_text().split(" = ",1)[-1].split(";",1)[0])
-        fversion = nb1["title"]
-        build_info['fmd5'] = nb3[fversion]["md5"]
-        build_info['fsha1'] = nb3[fversion]["sha1"]
-        build_info['fdate'] = nb1.find("td").find("abbr")["title"]
-        build_info['flink'] = nb1.find("th").find("a")["href"]
-        build_info['fsize'] = nb1.find_all("td")[1].get_text()
-        return fversion, build_info
+        if nb1["class"] == ["empty"]:
+            fversion = "Looks like there is no Rom file right now"
+        else:
+            if cl_flag:
+                nb2 = nb[skip + 1]
+                if nb1["title"].split(".")[-1] != "zip":
+                    nb1, nb2 = nb2, nb1
+                build_info['update_log'] = nb2.find("th")\
+                                           .find("a")["href"]
+            nb3 = json.loads(bsObj.find_all("script")[-1]\
+                  .get_text().split(" = ",1)[-1].split(";",1)[0])
+            fversion = nb1["title"]
+            build_info['fmd5'] = nb3[fversion]["md5"]
+            build_info['fsha1'] = nb3[fversion]["sha1"]
+            build_info['fdate'] = nb1.find("td").find("abbr")["title"]
+            build_info['flink'] = nb1.find("th").find("a")["href"]
+            build_info['fsize'] = nb1.find_all("td")[1].get_text()
     except:
-        return None, {}
+        return analyze_failed(name)
+    if name == "nos_o1":
+        flink2 = "kenzo_test/" + fversion
+    if name == "nos_o2":
+        flink2 = "kenzo_test/8.1/" + fversion
+    if name == "nos_s":
+        flink2 = "kenzo_stable/" + fversion
+    if name.startswith("nos"):
+        flink2 = ("https://sourceforge.mirrorservice.org"
+                  "/n/ni/nitrogen-project/kenzo/" + flink2)
+        build_info['flink'] = (
+            "# Sourceforge:\n\n    " + build_info['flink']
+            + "\n\n    # Mirror for Sourceforge:\n\n    " + flink2)
+    if name == "rr":
+        build_info['update_log'] = ("https://sourceforge.net/projects/"
+                                    + url + "Changelog.txt/download")
+    if name == "rr_o":
+        del build_info['update_log']
+    return out_put(fast_flag, name, fversion, build_info)
 
-def h5ai_check(bsObj, fast_flag, web_link):
+def h5ai_check(fast_flag, parser, name, url, url2):
+    ual = de_open(url + url2)
+    bsObj = get_bs(ual, parser)
+    if not bsObj:
+        return open_failed(name)
     try:
         build_info = {}
         nb = bsObj.find("div",{"id":"fallback"})\
@@ -47,18 +76,18 @@ def h5ai_check(bsObj, fast_flag, web_link):
                 if file_hash == (fversion + ".md5sum"):
                     fmd5 = child.find_all("td")[1].find("a")["href"]
                     build_info['fmd5'] = \
-                        get_md5_from_file(web_link + fmd5)
+                        get_md5_from_file(url + fmd5)
                 if file_hash == (fversion + ".sha256sum"):
                     fsha256 = child.find_all("td")[1].find("a")["href"]
                     build_info['fsha256'] = \
-                        get_md5_from_file(web_link + fsha256)
+                        get_md5_from_file(url + fsha256)
         build_info['fdate'] = nb.find_all("td")[2].get_text()
-        build_info['flink'] = web_link + \
+        build_info['flink'] = url + \
                               nb.find_all("td")[1].find("a")["href"]
         build_info['fsize'] = nb.find_all("td")[3].get_text()
-        return fversion, build_info
     except:
-        return None, {}
+        return analyze_failed(name)
+    return out_put(fast_flag, name, fversion, build_info)
 
 def aex(fast_flag, bs4_parser):
     name = "aex"
@@ -82,30 +111,8 @@ def aex(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def aex_sf(fast_flag, bs4_parser):
-    name = "aex_sf"
-    build_info = {}
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "aospextended-rom/files/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    try:
-        nb = bsObj.find("table",{"id":"files_list"})\
-            .find_all("tbody")[0].find_all("tr")[0]
-        if nb["class"] == ["empty"]:
-            fversion = "Looks like there is no Rom file right now"
-        else:
-            nb2 = json.loads(bsObj.find_all("script")[-1]\
-                  .get_text().split(" = ",1)[-1].split(";",1)[0])
-            fversion = nb["title"]
-            build_info['fmd5'] = nb2[fversion]["md5"]
-            build_info['fsha1'] = nb2[fversion]["sha1"]
-            build_info['fdate'] = nb.find("td").find("abbr")["title"]
-            build_info['flink'] = nb.find("th").find("a")["href"]
-            build_info['fsize'] = nb.find_all("td")[1].get_text()
-    except:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "aex_sf", "aospextended-rom/files/kenzo/")
 
 def aicp(fast_flag, bs4_parser):
     name = "aicp"
@@ -116,8 +123,8 @@ def aicp(fast_flag, bs4_parser):
         return open_failed(name)
     try:
         nb = bsObj.find("table",
-		                {"class":"table table-bordered table-striped"}
-		               ).find("tbody").find("tr")
+                        {"class":"table table-bordered table-striped"}
+                        ).find("tbody").find("tr")
         build_info['build_type'] = nb.find_all("td")[1].get_text()
         build_info['fsize'] = nb.find_all("td")[3].get_text()
         build_info['update_log'] = nb.find_all("td")[2]\
@@ -137,105 +144,42 @@ def aicp(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def aim_u1(fast_flag, bs4_parser):
-    name = "aim_u1"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "redmi-note-3/files/AIM/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "aim_u1", "redmi-note-3/files/AIM/")
 
 def aim_u2(fast_flag, bs4_parser):
-    name = "aim_u2"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "sarveshrulz/files/Aim/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "aim_u2", "sarveshrulz/files/Aim/")
 
 def aoscp(fast_flag, bs4_parser):
-    name = "aoscp"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "unofficial-cypheros-for-kenzo/files/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, skip = 1)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "aoscp", "unofficial-cypheros-for-kenzo/files/",
+                    skip = 1)
 
 def aosip(fast_flag, bs4_parser):
-    name = "aosip"
-    url = "https://get.aosiprom.com"
-    ual = de_open(url + "/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = \
-        h5ai_check(bsObj, fast_flag, url)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return h5ai_check(fast_flag, bs4_parser, 
+                      "aosip",
+                      "https://get.aosiprom.com",
+                      "/kenzo/")
 
 def bliss(fast_flag, bs4_parser):
-    name = "bliss"
-    url = "https://downloads.blissroms.com"
-    ual = de_open(url + "/Bliss/Official/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = \
-        h5ai_check(bsObj, fast_flag, url)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return h5ai_check(fast_flag, bs4_parser, 
+                      "bliss", 
+                      "https://downloads.blissroms.com",
+                      "/Bliss/Official/kenzo/")
 
 def cardinal(fast_flag, bs4_parser):
-    name = "cardinal"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "cardinal-aosp/files/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, skip = 1)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "cardinal", "cardinal-aosp/files/kenzo/",
+                    skip = 1)
 
 def cosmicos(fast_flag, bs4_parser):
-    name = "cosmicos"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "cosmic-os/files/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-        bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "cosmicos", "cosmic-os/files/kenzo/")
 
 def dotos(fast_flag, bs4_parser):
-    name = "dotos"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "dotos-ota/files/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "dotos", "dotos-ota/files/kenzo/")
 
 def flyme(fast_flag, bs4_parser):
     name = "flyme"
@@ -310,16 +254,10 @@ def los_u1(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def los_mg(fast_flag, bs4_parser):
-    name = "los_mg"
-    url = "https://download.lineage.microg.org"
-    ual = de_open(url + "/kenzo/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = h5ai_check(bsObj, fast_flag, url)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return h5ai_check(fast_flag, bs4_parser, 
+                      "los_mg",
+                      "https://download.lineage.microg.org",
+                      "/kenzo/")
 
 def miui_br(fast_flag, bs4_parser):
     name = "miui_br"
@@ -525,57 +463,22 @@ Mokee Official Nightly:
     return
 
 def nos_o1(fast_flag, bs4_parser):
-    name = "nos_o1"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "nitrogen-project/files/kenzo/kenzo_test/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True, skip = 1)
-    if fversion == None:
-        return analyze_failed(name)
-    flink2 = ("https://sourceforge.mirrorservice.org"
-              "/n/ni/nitrogen-project/kenzo/kenzo_test/"
-              + fversion)
-    build_info['flink'] = \
-        "# Sourceforge:\n\n    " + build_info['flink'] + \
-        "\n\n    # Mirror for Sourceforge:\n\n    " + flink2
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "nos_o1",
+                    "nitrogen-project/files/kenzo/kenzo_test/",
+                    cl_flag = True, skip = 1)
 
 def nos_o2(fast_flag, bs4_parser):
-    name = "nos_o2"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "nitrogen-project/files/kenzo/kenzo_test/8.1/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    flink2 = ("https://sourceforge.mirrorservice.org"
-              "/n/ni/nitrogen-project/kenzo/kenzo_test/8.1/"
-              + fversion)
-    build_info['flink'] = \
-        "# Sourceforge:\n\n    " + build_info['flink'] + \
-        "\n\n    # Mirror for Sourceforge:\n\n    " + flink2
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "nos_o2",
+                    "nitrogen-project/files/kenzo/kenzo_test/8.1/",
+                    cl_flag = True)
 
 def nos_s(fast_flag, bs4_parser):
-    name = "nos_s"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "nitrogen-project/files/kenzo/kenzo_stable/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    flink2 = "https://sourceforge.mirrorservice.org" + \
-             "/n/ni/nitrogen-project/kenzo/kenzo_stable/" + fversion
-    build_info['flink'] = \
-        "# Sourceforge:\n\n    " + build_info['flink'] + \
-        "\n\n    # Mirror for Sourceforge:\n\n    " + flink2
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "nos_s",
+                    "nitrogen-project/files/kenzo/kenzo_stable/",
+                    cl_flag = True)
 
 def omni(fast_flag, bs4_parser):
     name = "omni"
@@ -622,80 +525,33 @@ def pe(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def pe_u1(fast_flag, bs4_parser):
-    name = "pe_u1"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "pixel-experience-for-kenzo/files/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "pe_u1", "pixel-experience-for-kenzo/files/",
+                    cl_flag = True)
 
 def pe_u2b(fast_flag, bs4_parser):
-    name = "pe_u2b"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "pixel-experience/files/Beta/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "pe_u2b", "pixel-experience/files/Beta/",
+                    cl_flag = True)
 
 def pe_u2s(fast_flag, bs4_parser):
-    name = "pe_u2s"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "pixel-experience/files/Stable/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "pe_u2s", "pixel-experience/files/Stable/",
+                    cl_flag = True)
 
 def rr(fast_flag, bs4_parser):
-    name = "rr"
-    url = ("https://sourceforge.net/projects/"
-           "resurrectionremix/files/kenzo/")
-    ual = ua_open(url)
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, skip = 1)
-    if fversion == None:
-        return analyze_failed(name)
-    build_info['update_log'] = url + "Changelog.txt/download"
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "rr", "resurrectionremix/files/kenzo/",
+                    skip = 1)
 
 def rr_o(fast_flag, bs4_parser):
-    name = "rr_o"
-    url = ("https://sourceforge.net/projects/"
-           "resurrectionremix-oreo/files/kenzo/")
-    ual = ua_open(url)
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj, cl_flag = True)
-    if fversion == None:
-        return analyze_failed(name)
-    del build_info['update_log']
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "rr_o", "resurrectionremix-oreo/files/kenzo/",
+                    cl_flag = True)
 
 def screwd_u1(fast_flag, bs4_parser):
-    name = "screwd_u1"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "redmi-note-3/files/Screwd/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "screwd_u1", "redmi-note-3/files/Screwd/")
 
 def sudamod(fast_flag, bs4_parser):
     name = "sudamod"
@@ -755,16 +611,8 @@ def twrp(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def validus_u1(fast_flag, bs4_parser):
-    name = "validus_u1"
-    ual = ua_open("https://sourceforge.net/projects/"
-                  "sarveshrulz/files/Validus/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    fversion, build_info = sf_check(bsObj)
-    if fversion == None:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
+    return sf_check(fast_flag, bs4_parser,
+                    "validus_u1", "sarveshrulz/files/Validus/")
 
 def viperos(fast_flag, bs4_parser):
     name = "viperos"
