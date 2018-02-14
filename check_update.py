@@ -26,7 +26,7 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
             nb3 = json.loads(bsObj.find_all("script")[-1]\
                   .get_text().split(" = ",1)[-1].split(";",1)[0])
             fversion = nb1["title"]
-            build_info['fmd5'] = nb3[fversion]["md5"]
+            build_info['fmd5']  = nb3[fversion]["md5"]
             build_info['fsha1'] = nb3[fversion]["sha1"]
             build_info['fdate'] = nb1.find("td").find("abbr")["title"]
             build_info['flink'] = nb1.find("th").find("a")["href"]
@@ -40,11 +40,11 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
     if name == "nos_s":
         flink2 = "kenzo_stable/" + fversion
     if name.startswith("nos"):
-        flink2 = ("https://sourceforge.mirrorservice.org"
-                  "/n/ni/nitrogen-project/kenzo/" + flink2)
         build_info['flink'] = (
             "# Sourceforge:\n\n    " + build_info['flink']
-            + "\n\n    # Mirror for Sourceforge:\n\n    " + flink2)
+            + "\n\n    # Mirror for Sourceforge:\n\n    "
+            + "https://sourceforge.mirrorservice.org"
+            + "/n/ni/nitrogen-project/kenzo/" + flink2)
     if name == "rr":
         build_info['update_log'] = ("https://sourceforge.net/projects/"
                                     + url + "Changelog.txt/download")
@@ -103,7 +103,7 @@ def aex(fast_flag, bs4_parser):
         nb_info = nb[1].get_text().split(" ")
         fversion = nb_info[0].strip()
         build_info['fsize'] = nb_info[3] + " " + nb_info[4]
-        build_info['fmd5'] = nb_info[6]
+        build_info['fmd5']  = nb_info[6]
         build_info['flink'] = url + nb[1].find("a")["href"]
         build_info['fdate'] = nb[2].get_text().strip()
     except:
@@ -125,20 +125,21 @@ def aicp(fast_flag, bs4_parser):
         nb = bsObj.find("table",
                         {"class":"table table-bordered table-striped"}
                         ).find("tbody").find("tr")
-        build_info['build_type'] = nb.find_all("td")[1].get_text()
-        build_info['fsize'] = nb.find_all("td")[3].get_text()
-        build_info['update_log'] = nb.find_all("td")[2]\
-                                   .find_all("a")[1]["href"]
         fversion = nb.find_all("td")[2].find("a").get_text()
-        build_info['fdate'] = nb.find_all("td")[-1].get_text()
         fmd5_temp = nb.find_all("td")[2].find("small")\
                     .get_text().split(":")[1]
         fmd5 = ""
         for char in fmd5_temp:
             if re.match('[0-9a-fA-F]',char):
                 fmd5+=char
-        build_info['fmd5'] = fmd5
-        build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
+        build_info['build_type'] = nb.find_all("td")[1].get_text()
+        build_info['fsize']      = nb.find_all("td")[3].get_text()
+        build_info['fdate']      = nb.find_all("td")[-1].get_text()
+        build_info['fmd5']       = fmd5
+        build_info['update_log'] = nb.find_all("td")[2]\
+                                   .find_all("a")[1]["href"]
+        build_info['flink']      = nb.find_all("td")[2]\
+                                   .find("a")["href"]
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
@@ -201,10 +202,10 @@ def flyme(fast_flag, bs4_parser):
         # The latter has stopped updating, so give up.
         nb = nb["0_1"]
         fversion = nb["name"]
-        build_info['flink'] = nb["download"]
-        build_info['fsize'] = nb["size"] + "MB"
-        build_info['fdate'] = nb["time"]
-        build_info['fmd5'] = nb["md5"]
+        build_info['flink']      = nb["download"]
+        build_info['fsize']      = nb["size"] + "MB"
+        build_info['fdate']      = nb["time"]
+        build_info['fmd5']       = nb["md5"]
         build_info['update_log'] = nb["log"].replace("\n","\n    ")
     except:
         return analyze_failed(name)
@@ -221,9 +222,10 @@ def los(fast_flag, bs4_parser):
         nb = bsObj.find("table",{"class":"striped bordered"})\
              .find("tbody").find("tr")
         fversion = nb.find_all("td")[2].find("a").get_text()
-        build_info['build_type'] = nb.find_all("td")[0].get_text()
+        build_info['build_type']    = nb.find_all("td")[0].get_text()
         build_info['build_version'] = nb.find_all("td")[1].get_text()
-        build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
+        build_info['flink']         = nb.find_all("td")[2]\
+                                      .find("a")["href"]
         if fast_flag == False:
             build_info['fsha256'] = \
                 get_md5_from_file(build_info['flink'] + "?sha256")
@@ -245,10 +247,10 @@ def los_u1(fast_flag, bs4_parser):
     try:
         nb = bsObj.find("article",
                         {"class":"markdown-body entry-content"})
+        fversion = nb.find_all("a")[2].get_text()
+        build_info['flink']      = nb.find_all("a")[2]["href"]
         build_info['update_log'] = nb.find_all("ul")[0].get_text()\
                                    .replace("\n","\n    ")[5:-5]
-        build_info['flink'] = nb.find_all("a")[2]["href"]
-        fversion = nb.find_all("a")[2].get_text()
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
@@ -282,22 +284,22 @@ def miui_c(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb_s = bsObj.find("div",{"id":"content_t_451"})\
-               .find("div",{"class":"block"})
-        nb_d = bsObj.find("div",{"id":"content_t_451"})\
-               .find_all("div",{"class":"block"})[1]
-        flink1 = nb_s.find("div",{"class":"to_miroute"})\
-                 .find("a")["href"]
-        flink2 = nb_d.find("div",{"class":"to_miroute"})\
-                 .find("a")["href"]
-        fvalue1 = nb_s.find("div",{"class":"supports"})\
-                  .find("p").get_text().replace("\n","").split("：")
-        fvalue2 = nb_d.find("div",{"class":"supports"})\
-                  .find("p").get_text().replace("\n","").split("：")
+        nb_s      = bsObj.find("div",{"id":"content_t_451"})\
+                    .find("div",{"class":"block"})
+        nb_d      = bsObj.find("div",{"id":"content_t_451"})\
+                    .find_all("div",{"class":"block"})[1]
+        flink1    = nb_s.find("div",{"class":"to_miroute"})\
+                    .find("a")["href"]
+        flink2    = nb_d.find("div",{"class":"to_miroute"})\
+                    .find("a")["href"]
+        fvalue1   = nb_s.find("div",{"class":"supports"})\
+                    .find("p").get_text().replace("\n","").split("：")
+        fvalue2   = nb_d.find("div",{"class":"supports"})\
+                    .find("p").get_text().replace("\n","").split("：")
         fversion1 = fvalue1[2][:-2]
-        fsize1 = fvalue1[-1]
+        fsize1    = fvalue1[-1]
         fversion2 = fvalue2[2][:-2]
-        fsize2 = fvalue2[-1]
+        fsize2    = fvalue2[-1]
     except:
         return analyze_failed(name)
     print("\nMIUI China:")
@@ -323,22 +325,22 @@ def miui_g(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb_s = bsObj.find("div",{"id":"content_t_438"})\
-               .find("div",{"class":"block"})
-        nb_d = bsObj.find("div",{"id":"content_t_438"})\
-               .find_all("div",{"class":"block"})[1]
-        flink1 = nb_s.find("div",{"class":"stable div_margin"})\
-                 .find("div").find("a")["href"]
-        flink2 = nb_d.find("div",{"class":"stable div_margin"})\
-                 .find("div").find("a")["href"]
-        fvalue1 = nb_s.find("div",{"class":"supports"})\
-                  .find("p").get_text().replace("\n","").split(": ")
-        fvalue2 = nb_d.find("div",{"class":"supports"})\
-                  .find("p").get_text().replace("\n","").split(": ")
+        nb_s      = bsObj.find("div",{"id":"content_t_438"})\
+                    .find("div",{"class":"block"})
+        nb_d      = bsObj.find("div",{"id":"content_t_438"})\
+                    .find_all("div",{"class":"block"})[1]
+        flink1    = nb_s.find("div",{"class":"stable div_margin"})\
+                    .find("div").find("a")["href"]
+        flink2    = nb_d.find("div",{"class":"stable div_margin"})\
+                    .find("div").find("a")["href"]
+        fvalue1   = nb_s.find("div",{"class":"supports"})\
+                    .find("p").get_text().replace("\n","").split(": ")
+        fvalue2   = nb_d.find("div",{"class":"supports"})\
+                    .find("p").get_text().replace("\n","").split(": ")
         fversion1 = fvalue1[2][:-4]
-        fsize1 = fvalue1[-1]
+        fsize1    = fvalue1[-1]
         fversion2 = fvalue2[2][:-4]
-        fsize2 = fvalue2[-1]
+        fsize2    = fvalue2[-1]
     except:
         return analyze_failed(name)
     print("\nMIUI Global:")
@@ -365,31 +367,31 @@ def miui_mr(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb_c = bsObj.find("div",{"id":"last_roms142"})
-        nb_g = bsObj.find("div",{"id":"last_roms186"})
-        flink1 = nb_c.find("div",{"class":"wbtn-center"})\
-                 .find("a")["href"]
-        flink2 = nb_g.find("div",{"class":"wbtn-center"})\
-                 .find("a")["href"]
-        fname1 = flink1.split("/",4)[-1]
-        fname2 = flink2.split("/",4)[-1]
-        fvalue1 = nb_c.find("div",{"class":"rom_info"})
-        fvalue2 = nb_g.find("div",{"class":"rom_info"})
-        fversion1 = fvalue1.find("span").get_text().split(" ")[-1]
-        fversion2 = fvalue2.find("span").get_text().split(" ")[-1]
-        fsize1 = fvalue1.find_all("span")[2]\
-                 .get_text().split(" ")[-2] + " MB"
-        fsize2 = fvalue2.find_all("span")[2]\
-                 .get_text().split(" ")[-2] + " MB"
+        nb_c       = bsObj.find("div",{"id":"last_roms142"})
+        nb_g       = bsObj.find("div",{"id":"last_roms186"})
+        flink1     = nb_c.find("div",{"class":"wbtn-center"})\
+                     .find("a")["href"]
+        flink2     = nb_g.find("div",{"class":"wbtn-center"})\
+                     .find("a")["href"]
+        fname1     = flink1.split("/",4)[-1]
+        fname2     = flink2.split("/",4)[-1]
+        fvalue1    = nb_c.find("div",{"class":"rom_info"})
+        fvalue2    = nb_g.find("div",{"class":"rom_info"})
+        fversion1  = fvalue1.find("span").get_text().split(" ")[-1]
+        fversion2  = fvalue2.find("span").get_text().split(" ")[-1]
+        fsize1     = fvalue1.find_all("span")[2]\
+                     .get_text().split(" ")[-2] + " MB"
+        fsize2     = fvalue2.find_all("span")[2]\
+                     .get_text().split(" ")[-2] + " MB"
         mirror_url = "https://mirror.byteturtle.eu/multirom/"
-        flink3 = mirror_url + fname1
-        flink4 = mirror_url + fname2
+        flink3     = mirror_url + fname1
+        flink4     = mirror_url + fname2
         # Download link from the official website can not
         # be downloaded normally, so give up.
-        flink1 = flink3
-        flink2 = flink4
-        flink3 = None
-        flink4 = None
+        flink1     = flink3
+        flink2     = flink4
+        flink3     = None
+        flink4     = None
     except:
         return analyze_failed(name)
     print("\nMIUI MultiRom Developer ROM:")
@@ -420,21 +422,21 @@ def miui_pl(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb = bsObj.find("div",{"id":"redmi-note-3-pro"})\
-             .find_next().find("div",{"class":"col-sm-9"})
-        flink1 = nb.find("ul",{"class":"dwnl-b"})\
-                 .find("li").find("a")["href"]
-        flink2 = nb.find("ul",{"class":"dwnl-b"})\
-                 .find_all("li")[1].find("a")["href"]
-        flink3 = nb.find_all("ul",{"class":"dwnl-b"})[1]\
-                 .find("li").find("a")["href"]
-        fvalue = nb.find("div",{"class":"dwnl-m"})
+        nb       = bsObj.find("div",{"id":"redmi-note-3-pro"})\
+                   .find_next().find("div",{"class":"col-sm-9"})
+        flink1   = nb.find("ul",{"class":"dwnl-b"})\
+                   .find("li").find("a")["href"]
+        flink2   = nb.find("ul",{"class":"dwnl-b"})\
+                   .find_all("li")[1].find("a")["href"]
+        flink3   = nb.find_all("ul",{"class":"dwnl-b"})[1]\
+                   .find("li").find("a")["href"]
+        fvalue   = nb.find("div",{"class":"dwnl-m"})
         fversion = fvalue.find("ul").find("li")\
                    .get_text().split(" ")[-1]
-        fvalue2 = fvalue.find("i").get_text().split(" ")
+        fvalue2  = fvalue.find("i").get_text().split(" ")
         build_info['fsize'] = fvalue.find("ul").find_all("li")[-1]\
                               .get_text().split(" ")[-1]
-        build_info['fmd5'] = fvalue2[1]
+        build_info['fmd5']  = fvalue2[1]
         build_info['fdate'] = fvalue2[-1]
         build_info['flink'] = \
             "# Main server(sourceforge):\n\n    " + flink1 + \
@@ -515,11 +517,11 @@ def pe(fast_flag, bs4_parser):
              .find("tbody").find("tr").find_all("td")
         nb_info = nb[1].get_text().split(" ")
         fversion = nb_info[0].strip()
-        build_info['fsize'] = nb_info[3] + " " + nb_info[4]
-        build_info['fmd5'] = nb_info[6]
+        build_info['fsize']      = nb_info[3] + " " + nb_info[4]
+        build_info['fmd5']       = nb_info[6]
         build_info['update_log'] = url +  nb[1].find_all("a")[1]["href"]
-        build_info['flink'] = url + nb[1].find("a")["href"]
-        build_info['fdate'] = nb[2].get_text().strip()
+        build_info['flink']      = url + nb[1].find("a")["href"]
+        build_info['fdate']      = nb[2].get_text().strip()
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
@@ -563,13 +565,15 @@ def sudamod(fast_flag, bs4_parser):
     try:
         nb = bsObj.find("table",{"class":"striped bordered"})\
              .find("tbody").find("tr")
-        build_info['fmd5'] = nb.find_all("td")[2].find("small")\
-                             .get_text().split(" ")[1]
         fversion = nb.find_all("td")[2].find("a").get_text()
-        build_info['build_type'] = nb.find_all("td")[0].get_text()
+        build_info['build_type']    = nb.find_all("td")[0].get_text()
         build_info['build_version'] = nb.find_all("td")[1].get_text()
-        build_info['fdate'] = nb.find_all("td")[-2].get_text()
-        build_info['flink'] = nb.find_all("td")[2].find("a")["href"]
+        build_info['fdate']         = nb.find_all("td")[-2].get_text()
+        build_info['flink']         = nb.find_all("td")[2]\
+                                      .find("a")["href"]
+        build_info['fmd5']          = nb.find_all("td")[2]\
+                                      .find("small").get_text()\
+                                      .split(" ")[1]
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
@@ -628,12 +632,7 @@ def viperos(fast_flag, bs4_parser):
         fmd5 = nb.find_all("td")[1]
         fversion = fmd5.find("a").get_text()
         build_info['flink'] = fmd5.find("a")["href"]
-        i = 1
-        for child in fmd5:
-            if i == 4:
-                build_info['fmd5'] = child.strip().split(" ")[1]
-                break
-            i+=1
+        build_info['fmd5']  = fmd5.get_text().strip()[-32:]
         build_info['fsize'] = nb.find_all("td")[2].get_text().strip()
         build_info['fdate'] = nb.find_all("td")[3].get_text().strip()
     except:
