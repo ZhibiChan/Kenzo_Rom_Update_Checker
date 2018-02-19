@@ -157,6 +157,10 @@ def aoscp(fast_flag, bs4_parser):
                     "aoscp", "unofficial-cypheros-for-kenzo/files/",
                     skip = 1)
 
+def aoscp_u1(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "aoscp", "sarveshrulz/files/Aoscp/",)
+
 def aosip(fast_flag, bs4_parser):
     return h5ai_check(fast_flag, bs4_parser, 
                       "aosip",
