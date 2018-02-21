@@ -153,13 +153,33 @@ def aim_u2(fast_flag, bs4_parser):
                     "aim_u2", "sarveshrulz/files/Aim/")
 
 def aoscp(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "aoscp", "unofficial-cypheros-for-kenzo/files/",
-                    skip = 1)
+    name = "aoscp"
+    build_info = {}
+    ual = de_open("http://get.cypheros.co")
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed(name)
+    try:
+        nb = bsObj.find("aside",{"id":"kenzo"}).find("div",{"class":"valign-wrapper"})
+        fvalue = nb.find("h3").get_text().split(": ")
+        build_info['build_version']  = fvalue[1].split("\n")[0]
+        build_info['fdate']          = fvalue[2].split("\n")[0]
+        build_info['fsize']          = fvalue[3].split("\n")[0]
+        build_info['fmd5']           = fvalue[4].split("\n")[0]
+        build_info['flink']          = nb.find("a")["href"]
+        fversion = build_info['flink'].split("/")[-1]
+    except:
+        return analyze_failed(name)
+    return out_put(fast_flag, name, fversion, build_info)
 
 def aoscp_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "aoscp_u1", "sarveshrulz/files/Aoscp/",)
+
+def aoscp_u2(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "aoscp_u2", "unofficial-cypheros-for-kenzo/files/",
+                    skip = 1)
 
 def aosip(fast_flag, bs4_parser):
     return h5ai_check(fast_flag, bs4_parser, 
