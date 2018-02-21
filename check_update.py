@@ -159,7 +159,7 @@ def aoscp(fast_flag, bs4_parser):
 
 def aoscp_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
-                    "aoscp", "sarveshrulz/files/Aoscp/",)
+                    "aoscp_u1", "sarveshrulz/files/Aoscp/",)
 
 def aosip(fast_flag, bs4_parser):
     return h5ai_check(fast_flag, bs4_parser, 
