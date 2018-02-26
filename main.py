@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os, sys, socket, platform
-import check_update, rom_list, tools
+import os
+import sys
+import socket
+import platform
+
+import check_update
+import rom_list
+import tools
 
 # TEST FUNCTION
 # ~ check_update.atomic(False, "lxml")

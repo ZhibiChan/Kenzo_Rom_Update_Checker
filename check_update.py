@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import json, time, re
+import json
+import time
+import re
+
 from tools import *
 
 def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
@@ -160,7 +163,8 @@ def aoscp(fast_flag, bs4_parser):
     if not bsObj:
         return open_failed(name)
     try:
-        nb = bsObj.find("aside",{"id":"kenzo"}).find("div",{"class":"valign-wrapper"})
+        nb = bsObj.find("aside",{"id":"kenzo"})\
+             .find("div",{"class":"valign-wrapper"})
         fvalue = nb.find("h3").get_text().split(": ")
         build_info['build_version']  = fvalue[1].split("\n")[0]
         build_info['fdate']          = fvalue[2].split("\n")[0]

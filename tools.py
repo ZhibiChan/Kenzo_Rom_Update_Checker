@@ -3,7 +3,10 @@
 
 from urllib.request import *
 from bs4 import BeautifulSoup
-import os, json, random
+import os
+import json
+import random
+
 import rom_list
 
 def ua_open(urll, ua_type = None):
@@ -108,9 +111,7 @@ def get_rom_name(name):
 
 def out_put(fast_flag, name, fversion, build_info):
     # Output check results
-    print_info = []
-    while len(print_info) <= 11:
-        print_info.append(None)
+    print_info = ["None" for i in range(11)]
     print_info[0] = "\n%s:"%get_rom_name(name)
     print_info[1] = "\n=== The latest version:\n\n    " + fversion
     for key, value in build_info.items():
@@ -133,7 +134,7 @@ def out_put(fast_flag, name, fversion, build_info):
         elif key == "fsize":
             print_info[10] = "\n=== Size:\n\n    " + value
     for info in print_info:
-        if info == None:
+        if info == "None":
             continue
         print(info)
     saved = None
@@ -146,7 +147,6 @@ def check_for_update(checked, temp2, term_cols):
     saved = read_from_json("save.json")
     if not saved:
         return
-    names = None
     # Special
     if checked == "miui_c":
         names = ("MIUI China Stable ROM","MIUI China Developer ROM")
@@ -158,6 +158,7 @@ def check_for_update(checked, temp2, term_cols):
     # Normal
     else:
         name = get_rom_name(checked)
+        names = None
     if names:
         flag = False
         for name in names:
