@@ -37,16 +37,6 @@ tool_version = "v1.0.7 Test"
 socket.setdefaulttimeout(20)
 # Import Rom List dict
 roms = rom_list.Rom_List()
-# Define a range of numbers
-r8_s = 1
-r8_e = len(roms.rom8_list)
-r7_s = r8_e + 1
-r7_e = len(roms.rom7_list) + r8_e
-r6_s = r7_e + 1
-r6_e = len(roms.rom6_list) + r7_e
-r5_s = r6_e + 1
-r5_e = len(roms.check_list)
-
 # Set terminal
 if sysstr == "Windows":
     os.system("title KENZO ROM UPDATE CHECKER " + tool_version)
@@ -67,8 +57,33 @@ def main():
     ''' The main interface loop begins '''
     # Close all subdirectories
     r8 = r7 = r6 = r5 = False
+    # Define a range of numbers
+    r8_s = 1
+    r8_e = len(roms.rom8_list)
+    r7_s = r8_e + 1
+    r7_e = len(roms.rom7_list) + r8_e
+    r6_s = r7_e + 1
+    r6_e = len(roms.rom6_list) + r7_e
+    r5_s = r6_e + 1
+    r5_e = len(roms.check_list)
+    # Pre-generate Rom list for display
+    no = 1
+    print_r8 = print_r7 = print_r6 = "  | |\n"
+    print_r5 = "    |\n"
+    for key in roms.rom8_list.keys():
+        print_r8+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        no+=1
+    for key in roms.rom7_list.keys():
+        print_r7+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        no+=1
+    for key in roms.rom6_list.keys():
+        print_r6+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        no+=1
+    for key in roms.other_list.keys():
+        print_r5+="    ====%s.%s\n"%(no, roms.list_all[key])
+        no+=1
+    # Main interface
     while True:
-        # Main interface
         tools.os_clear_screen(sysstr)
         print()
         print("======================================")
@@ -82,35 +97,19 @@ def main():
         print("  |")
         print("  ==== ①: Android 8.0")
         if r8:
-            i = r8_s
-            print("  | |")
-            for key in roms.rom8_list.keys():
-                print("  | ====%s.%s"%(i, roms.list_all[key]))
-                i+=1
+            print(print_r8.rstrip())
         print("  |")
         print("  ==== ②: Android 7.x")
         if r7:
-            i = r7_s
-            print("  | |")
-            for key in roms.rom7_list.keys():
-                print("  | ====%s.%s"%(i, roms.list_all[key]))
-                i+=1
+            print(print_r7.rstrip())
         print("  |")
         print("  ==== ③: Android 6.0")
         if r6:
-            i = r6_s
-            print("  | |")
-            for key in roms.rom6_list.keys():
-                print("  | ====%s.%s"%(i, roms.list_all[key]))
-                i+=1
+            print(print_r6.rstrip())
         print("  |")
         print("  ==== ④: Other")
         if r5:
-            i = r5_s
-            print("    |")
-            for key in roms.other_list.keys():
-                print("    ====%s.%s"%(i, roms.list_all[key]))
-                i+=1
+            print(print_r5.rstrip())
         if not(r8 or r7 or r6 or r5):
             print()
             print("=== Other options")
@@ -149,11 +148,13 @@ def main():
             continue
         print("*** Please enter the Rom number you need "
               "to check and press Enter\n")
-        selected = input("*** Enter \"0\" to close "
-                         "the sub-directory: ")
+        selected = input("*** Enter \"0\" to close the sub-directory,"
+                         " enter \"E\" to exit : ")
         if selected == "0":
             r8 = r7 = r6 = r5 = False
             continue
+        elif selected == "e" or selected == "E":
+            break
         try:
             selected_number = int(selected)
         except ValueError:
@@ -195,17 +196,18 @@ def check_one(selected, auto_flag = False, argv_flag = False):
     print("\n%s\n"%("*" * term_cols))
     if temp2:
         print("=== Check completed!")
-        check_2nd = ""
+        check_res = ("\n*** Press the Enter key ")
+        exit_st = 0
     else:
         print("=== Check Failed!")
-        check_2nd = "\"0\" to try again, enter "
+        check_res = ("\n*** Enter \"0\" to try again, enter other ")
+        exit_st = 1
     if auto_flag:
         input("\n*** Press the Enter key to continue: ")
         return
     if argv_flag:
         return
-    return input("\n*** Enter %sother to return to the main interface: "
-                  %check_2nd), check_2nd
+    return input(check_res + "to return to the main interface: "), exit_st
 
 def check_all_auto(argv_flag = False):
     # Automatically check all
@@ -336,6 +338,8 @@ if __name__ == '__main__':
                 print("\nIncorrect parameter!")
                 show_list()
                 sys.exit()
+    print()
+    print("Kenzo Rom Update Checker " + tool_version)
     print()
     print("Usage: main.py [<command>] [<argv>]")
     print()

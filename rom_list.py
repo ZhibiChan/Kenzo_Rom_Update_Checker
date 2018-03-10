@@ -3,7 +3,7 @@
 
 class Rom_List:
     def __init__(self):
-        roms_list = [
+        __roms_list = [
             "aex_sf",
             "aim_u1",
             "aim_u2",
@@ -46,7 +46,7 @@ class Rom_List:
         ]
         self.check_list = {}
         i = 1
-        for item in roms_list:
+        for item in __roms_list:
             self.check_list[str(i)] = item
             i+=1
         
