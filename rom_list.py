@@ -55,7 +55,7 @@ class Rom_List:
             "aim_u1":"AIM (Unofficial By carlosarriaga)",
             "aim_u2":"AIM (Unofficial By sarveshrulz)",
             "aosip":"AOSiP Official",
-            "cardinal":"Cardinal AOSP Official Test",
+            "cardinal":"Cardinal AOSP Official",
             "cosmicos":"Cosmic OS Official",
             "aoscp":"CypherOS Official",
             "aoscp_u1":"CypherOS (Unofficial By sarveshrulz)",
