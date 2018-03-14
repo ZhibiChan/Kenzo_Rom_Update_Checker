@@ -27,6 +27,7 @@ class Rom_List:
             "aicp",
             "bliss",
             "dotos",
+            "flyme",
             "los",
             "los_mg",
             "los_u1",
@@ -37,7 +38,6 @@ class Rom_List:
             "sudamod",
             "viperos",
             "xenonhd",
-            "flyme",
             "miui_br",
             "miui_c",
             "miui_g",
@@ -77,6 +77,7 @@ class Rom_List:
             "aicp":"AICP Official",
             "bliss":"Bliss Official",
             "dotos":"DotOS Official",
+            "flyme":"Flyme Official(haohao3344)",
             "los":"LineageOS Official",
             "los_mg":"LineageOS for MicroG Unofficial",
             "los_u1":"LineageOS 14.1 Unofficial(By Umang96)",
@@ -89,7 +90,6 @@ class Rom_List:
             "xenonhd":"XenonHD Official"
         }
         self.rom6_list = {
-            "flyme":"Flyme Official(haohao3344)",
             "miui_br":"MIUI Brazil Developer ROM",
             "miui_c":"MIUI China",
             "miui_g":"MIUI Global",
