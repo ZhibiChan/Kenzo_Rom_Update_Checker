@@ -147,6 +147,10 @@ def aicp(fast_flag, bs4_parser):
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
 
+def aim(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "aim", "aimroms/files/kenzo/")
+
 def aim_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "aim_u1", "redmi-note-3/files/AIM/")
