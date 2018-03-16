@@ -190,10 +190,22 @@ def saved_update(name, version, saved):
     return saved
 
 def save_to_json(ready_save_data, filename):
+	# Remove error items
+    ekey = []
+    for key in ready_save_data.keys():
+        if key in [ str(i) for i in range(100) ]:
+            ekey.append(key)
+    for k in ekey:
+        del ready_save_data[k]
     # Save the dictionary to json
-    with open(filename,"w") as savefile:
-        json.dump(ready_save_data, savefile,
-                  sort_keys=True, indent=4, ensure_ascii=False)
+    try:
+        with open(filename,"w") as savefile:
+            json.dump(ready_save_data, savefile,
+                      sort_keys=True, indent=4, ensure_ascii=False)
+    # Debug
+    except:
+        print(ready_save_data)
+        raise Exception("Write json failed!")
 
 def read_from_json(filename):
     # Read dictionary from json
