@@ -293,6 +293,10 @@ def los_mg(fast_flag, bs4_parser):
                       "https://download.lineage.microg.org",
                       "/kenzo/")
 
+def los_o_u1(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "los_o_u1", "rn3-los15/files/Rom/",)
+
 def miui_br(fast_flag, bs4_parser):
     name = "miui_br"
     build_info = {}

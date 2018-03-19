@@ -190,7 +190,7 @@ def saved_update(name, version, saved):
     return saved
 
 def save_to_json(ready_save_data, filename):
-	# Remove error items
+    # Remove error items
     ekey = []
     for key in ready_save_data.keys():
         if key in [ str(i) for i in range(100) ]:
