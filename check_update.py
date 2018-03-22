@@ -214,6 +214,10 @@ def dotos(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "dotos", "dotos-ota/files/kenzo/")
 
+def du_u1(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "du_u1", "sarveshrulz/files/DU/")
+
 def flyme(fast_flag, bs4_parser):
     name = "flyme"
     build_info = {}
