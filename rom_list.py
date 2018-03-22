@@ -65,7 +65,7 @@ class Rom_List:
             "aoscp_u1":"CypherOS (Unofficial By sarveshrulz)",
             "aoscp_u2":"CypherOS (Unofficial By miguelndecarval)",
             "du_u1":"Dirty Unicorns (Unofficial By sarveshrulz)",
-            "los_o_u1":"LineageOS 15 (Unofficial By LokManSiu)",
+            "los_o_u1":"LineageOS 15.1 (Unofficial By LokManSiu)",
             "nos_o1":"Nitrogen OS Official Test",
             "nos_o2":"Nitrogen OS Official 8.1 Test",
             "pe":"Pixel Experience Official",
