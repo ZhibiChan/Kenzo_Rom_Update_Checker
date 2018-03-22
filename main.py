@@ -71,16 +71,16 @@ def main():
     print_r8 = print_r7 = print_r6 = "  | |\n"
     print_r5 = "    |\n"
     for key in roms.rom8_list.keys():
-        print_r8+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        print_r8+="  | ==== %s.%s\n"%(str(no).rjust(2), roms.list_all[key])
         no+=1
     for key in roms.rom7_list.keys():
-        print_r7+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        print_r7+="  | ==== %s.%s\n"%(no, roms.list_all[key])
         no+=1
     for key in roms.rom6_list.keys():
-        print_r6+="  | ====%s.%s\n"%(no, roms.list_all[key])
+        print_r6+="  | ==== %s.%s\n"%(no, roms.list_all[key])
         no+=1
     for key in roms.other_list.keys():
-        print_r5+="    ====%s.%s\n"%(no, roms.list_all[key])
+        print_r5+="    ==== %s.%s\n"%(no, roms.list_all[key])
         no+=1
     # Main interface
     while True:
