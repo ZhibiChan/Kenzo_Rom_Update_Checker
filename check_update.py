@@ -218,6 +218,26 @@ def du_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "du_u1", "sarveshrulz/files/DU/")
 
+def firehound(fast_flag, bs4_parser):
+    name = "firehound"
+    build_info = {}
+    ual = de_open("https://dl.firehound.me/?dir=kenzo")
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed(name)
+    try:
+        nb = bsObj.find("ul",{"id":"directory-listing"})\
+             .find_all("li")[1]
+        fversion = nb["data-name"]
+        fvalue = nb.find("div",{"class":"row"}).find_all("span")
+        build_info['flink'] = "https://dl.firehound.me/"\
+                              + nb["data-href"]
+        build_info['fsize'] = fvalue[1].get_text().strip()
+        build_info['fdate'] = fvalue[2].get_text().strip()
+    except:
+        return analyze_failed(name)
+    return out_put(fast_flag, name, fversion, build_info)
+
 def flyme(fast_flag, bs4_parser):
     name = "flyme"
     build_info = {}
