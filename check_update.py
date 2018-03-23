@@ -282,12 +282,14 @@ def los(fast_flag, bs4_parser):
         build_info['build_version'] = nb.find_all("td")[1].get_text()
         build_info['flink']         = nb.find_all("td")[2]\
                                       .find("a")["href"]
+        build_info['fdate']         = nb.find_all("td")[-1].get_text()
+        build_info['update_log']    = ("https://download.lineageos.org"
+                                       "/kenzo/changes/")
         if fast_flag == False:
             build_info['fsha256'] = \
                 get_md5_from_file(build_info['flink'] + "?sha256")
             build_info['fsha1'] = \
                 get_md5_from_file(build_info['flink'] + "?sha1")
-        build_info['fdate'] = nb.find_all("td")[-1].get_text()
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)

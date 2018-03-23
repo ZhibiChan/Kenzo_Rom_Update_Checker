@@ -203,8 +203,7 @@ def check_one(selected, auto_flag = False, argv_flag = False):
         check_res = ("\n*** Enter \"0\" to try again, enter other ")
         exit_st = 1
     if auto_flag:
-        input("\n*** Press the Enter key to continue: ")
-        return
+        return input("\n*** Press the Enter key to continue: ")
     if argv_flag:
         return
     return input(check_res + "to return to the main interface: "), exit_st
@@ -316,28 +315,22 @@ if __name__ == '__main__':
         sys.exit()
     elif len(sys.argv) == 2:
         if sys.argv[1] == "-a" or sys.argv[1] == "-A":
-            check_all_auto(True)
-            sys.exit()
+            sys.exit(check_all_auto(True))
         if sys.argv[1] == "-s" or sys.argv[1] == "-S":
             print("\nUsage: main.py -s <argv>")
-            show_list()
-            sys.exit()
+            sys.exit(show_list())
         if sys.argv[1] == "-l" or sys.argv[1] == "-L":
-            show_info()
-            sys.exit()
+            sys.exit(show_info())
         if sys.argv[1] == "-x" or sys.argv[1] == "-X":
             check_update.xda(bs4_parser, sysstr, term_cols)
-            tools.os_clear_screen(sysstr)
-            sys.exit()
+            sys.exit(tools.os_clear_screen(sysstr))
     elif len(sys.argv) == 3:
         if sys.argv[1] == "-s" or sys.argv[1] == "-S":
             if sys.argv[2] in roms.check_list.values():
-                check_one(sys.argv[2], argv_flag = True)
-                sys.exit()
+                sys.exit(check_one(sys.argv[2], argv_flag = True))
             else:
                 print("\nIncorrect parameter!")
-                show_list()
-                sys.exit()
+                sys.exit(show_list())
     print()
     print("Kenzo Rom Update Checker " + tool_version)
     print()
