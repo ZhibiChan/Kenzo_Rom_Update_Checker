@@ -41,7 +41,6 @@ class Rom_List:
             "sudamod",
             "viperos",
             "xenonhd",
-            "miui_br",
             "miui_c",
             "miui_g",
             "miui_mr",
@@ -96,7 +95,6 @@ class Rom_List:
             "xenonhd":"XenonHD Official"
         }
         self.rom6_list = {
-            "miui_br":"MIUI Brazil Developer ROM",
             "miui_c":"MIUI China",
             "miui_g":"MIUI Global",
             "miui_mr":"MIUI MultiRom Developer ROM",

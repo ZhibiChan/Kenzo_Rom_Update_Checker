@@ -329,22 +329,6 @@ def los_o_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "los_o_u1", "rn3-los15/files/Rom/",)
 
-def miui_br(fast_flag, bs4_parser):
-    name = "miui_br"
-    build_info = {}
-    ual = ua_open("http://miuibrasil.org/downloads/")
-    bsObj = get_bs(ual, bs4_parser)
-    if not bsObj:
-        return open_failed(name)
-    try:
-        nb = bsObj.find("div",{"id":"markw"})\
-             .find("div",{"class":"x-accordion-inner"}).find_all("p")
-        build_info['flink'] = nb[3].find("a")["href"]
-        fversion = nb[0].find("strong").get_text()
-    except:
-        return analyze_failed(name)
-    return out_put(fast_flag, name, fversion, build_info)
-
 def miui_c(fast_flag, bs4_parser):
     name = "miui_c"
     ual = de_open("http://www.miui.com/download-308.html")
