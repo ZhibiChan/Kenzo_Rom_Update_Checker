@@ -15,7 +15,7 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
     try:
         build_info = {}
         nb = bsObj.find("table",{"id":"files_list"})\
-             .find_all("tbody")[0].find_all("tr")
+             .find("tbody").find_all("tr")
         nb1 = nb[skip]
         if nb1["class"] == ["empty"]:
             fversion = "Looks like there is no Rom file right now"
@@ -26,6 +26,14 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
                     nb1, nb2 = nb2, nb1
                 build_info['update_log'] = nb2.find("th")\
                                            .find("a")["href"]
+            else:
+                for child in nb:
+                    try:
+                        if child["title"].split(".")[-1] == "zip":
+                            nb1 = child
+                            break
+                    except:
+                        continue
             nb3 = json.loads(bsObj.find_all("script")[-1]\
                   .get_text().split(" = ",1)[-1].split(";",1)[0])
             fversion = nb1["title"]
@@ -51,8 +59,6 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
     if name == "rr":
         build_info['update_log'] = ("https://sourceforge.net/projects/"
                                     + url + "Changelog.txt/download")
-    if name == "rr_o":
-        del build_info['update_log']
     return out_put(fast_flag, name, fversion, build_info)
 
 def h5ai_check(fast_flag, parser, name, url, url2):
@@ -610,8 +616,7 @@ def rr(fast_flag, bs4_parser):
 
 def rr_o(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
-                    "rr_o", "resurrectionremix-oreo/files/kenzo/",
-                    cl_flag = True)
+                    "rr_o", "resurrectionremix-oreo/files/kenzo/")
 
 def screwd_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
