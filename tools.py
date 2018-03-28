@@ -32,11 +32,14 @@ def ua_open(urll, ua_type = None, ssl_flag = None):
     headers = {}
     headers["User-Agent"] = ua
     req = Request(url = urll, headers = headers)
-    if ssl_flag:
-        context = ssl._create_unverified_context()
     try:
-        with urlopen(req, context=context) as xmldata:
-            return xmldata.read()
+        if ssl_flag:
+            context = ssl._create_unverified_context()
+            with urlopen(req, context=context) as xmldata:
+                return xmldata.read()
+        else:
+            with urlopen(req) as xmldata:
+                return xmldata.read()
     except:
         return
     finally:
@@ -45,11 +48,14 @@ def ua_open(urll, ua_type = None, ssl_flag = None):
 
 def de_open(urll, ssl_flag = None):
     # The general method of parsing the page
-    if ssl_flag:
-        context = ssl._create_unverified_context()
     try:
-        with urlopen(urll, context=context) as xmldata:
-            return xmldata.read()
+        if ssl_flag:
+            context = ssl._create_unverified_context()
+            with urlopen(urll, context=context) as xmldata:
+                return xmldata.read()
+        else:
+            with urlopen(urll) as xmldata:
+                return xmldata.read()
     except:
         return
     finally:
