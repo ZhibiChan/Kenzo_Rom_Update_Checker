@@ -62,7 +62,7 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
     return out_put(fast_flag, name, fversion, build_info)
 
 def h5ai_check(fast_flag, parser, name, url, url2):
-    ual = de_open(url + url2)
+    ual = de_open(url + url2, True)
     bsObj = get_bs(ual, parser)
     if not bsObj:
         return open_failed()

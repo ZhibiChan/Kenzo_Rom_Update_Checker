@@ -10,7 +10,7 @@ import ssl
 
 import rom_list
 
-def ua_open(urll, ua_type = None):
+def ua_open(urll, ua_type = None, ssl_flag = None):
     # Use browser proxy to parse web pages
     if ua_type == None:
         # Randomly select the browser UA
@@ -32,32 +32,28 @@ def ua_open(urll, ua_type = None):
     headers = {}
     headers["User-Agent"] = ua
     req = Request(url = urll, headers = headers)
+    if ssl_flag:
+        context = ssl._create_unverified_context()
     try:
-        with urlopen(req) as xmldata:
+        with urlopen(req, context=context) as xmldata:
             return xmldata.read()
     except:
-        try:
-            context = ssl._create_unverified_context()
-            with urlopen(req, context=context) as xmldata:
-                return xmldata.read()
-        except:
-            return
-        finally:
+        return
+    finally:
+        if ssl_flag:
             del context
 
-def de_open(urll):
+def de_open(urll, ssl_flag = None):
     # The general method of parsing the page
+    if ssl_flag:
+        context = ssl._create_unverified_context()
     try:
-        with urlopen(urll) as xmldata:
+        with urlopen(urll, context=context) as xmldata:
             return xmldata.read()
     except:
-        try:
-            context = ssl._create_unverified_context()
-            with urlopen(urll, context=context) as xmldata:
-                return xmldata.read()
-        except:
-            return
-        finally:
+        return
+    finally:
+        if ssl_flag:
             del context
 
 def select_bs4_parser():
