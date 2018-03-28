@@ -207,8 +207,9 @@ def saved_update(name, version, saved):
 def save_to_json(ready_save_data, filename):
     # Remove error items
     ekey = []
+    roms = rom_list.Rom_List()
     for key in ready_save_data.keys():
-        if key in [ str(i) for i in range(100) ]:
+        if key not in roms.list_all.values():
             ekey.append(key)
     for k in ekey:
         del ready_save_data[k]
@@ -221,6 +222,8 @@ def save_to_json(ready_save_data, filename):
     except:
         print(ready_save_data)
         raise Exception("Write json failed!")
+    finally:
+        del roms
 
 def read_from_json(filename):
     # Read dictionary from json
