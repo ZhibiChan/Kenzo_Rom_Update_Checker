@@ -647,12 +647,15 @@ def twrp(fast_flag, bs4_parser):
             bsObj2 = get_bs(ual2, bs4_parser)
             if not bsObj2:
                 return open_failed()
-            nb2 = bsObj2.find("div",{"class":"page-content"})\
-                  .find("div",{"class":"post"})
-            fmd5 = nb2.find("header",{"class":"post-header"})\
-                   .find("p").find("a")["href"]
-            build_info['fmd5'] = \
-                get_md5_from_file("https://dl.twrp.me" + fmd5)
+            try:
+                nb2 = bsObj2.find("div",{"class":"page-content"})\
+                      .find("div",{"class":"post"})
+                fmd5 = nb2.find("header",{"class":"post-header"})\
+                       .find("p").find("a")["href"]
+                build_info['fmd5'] = \
+                    get_md5_from_file("https://dl.twrp.me" + fmd5)
+            except:
+                build_info['fmd5'] = "Failed to get!"
         flink1 = "https://dl.twrp.me/kenzo/" + fversion
         flink2 = "https://eu.dl.twrp.me/kenzo/" + fversion
         build_info['flink'] = \
