@@ -11,7 +11,7 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
     ual = ua_open("https://sourceforge.net/projects/" + url)
     bsObj = get_bs(ual, parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         build_info = {}
         nb = bsObj.find("table",{"id":"files_list"})\
@@ -43,7 +43,7 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
             build_info['flink'] = nb1.find("th").find("a")["href"]
             build_info['fsize'] = nb1.find_all("td")[1].get_text()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     if name == "nos_o1":
         flink2 = "kenzo_test/" + fversion
     if name == "nos_o2":
@@ -65,7 +65,7 @@ def h5ai_check(fast_flag, parser, name, url, url2):
     ual = de_open(url + url2)
     bsObj = get_bs(ual, parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         build_info = {}
         nb = bsObj.find("div",{"id":"fallback"})\
@@ -75,7 +75,7 @@ def h5ai_check(fast_flag, parser, name, url, url2):
             if fversion.split(".")[-1] == "zip":
                 break
             nb = nb.previous_sibling
-        if fast_flag == False:
+        if not fast_flag:
             for child in nb.parent:
                 try:
                     file_hash = child.find_all("td")[1]\
@@ -95,7 +95,7 @@ def h5ai_check(fast_flag, parser, name, url, url2):
                               nb.find_all("td")[1].find("a")["href"]
         build_info['fsize'] = nb.find_all("td")[3].get_text()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def aex(fast_flag, bs4_parser):
@@ -105,7 +105,7 @@ def aex(fast_flag, bs4_parser):
     ual = ua_open(url + "/kenzo/")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",{"class":"cm"})\
              .find("tbody").find("tr").find_all("td")
@@ -116,7 +116,7 @@ def aex(fast_flag, bs4_parser):
         build_info['flink'] = url + nb[1].find("a")["href"]
         build_info['fdate'] = nb[2].get_text().strip()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def aex_sf(fast_flag, bs4_parser):
@@ -129,7 +129,7 @@ def aicp(fast_flag, bs4_parser):
     ual = de_open("http://dwnld.aicp-rom.com/?device=kenzo")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",
                         {"class":"table table-bordered table-striped"}
@@ -153,7 +153,7 @@ def aicp(fast_flag, bs4_parser):
             build_info['flink']      = nb.find_all("td")[2]\
                                        .find("a")["href"]
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def aim(fast_flag, bs4_parser):
@@ -174,7 +174,7 @@ def aoscp(fast_flag, bs4_parser):
     ual = de_open("http://get.cypheros.co")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("aside",{"id":"kenzo"})\
              .find("div",{"class":"valign-wrapper"})
@@ -186,7 +186,7 @@ def aoscp(fast_flag, bs4_parser):
         build_info['flink']          = nb.find("a")["href"]
         fversion = build_info['flink'].split("/")[-1]
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def aoscp_u1(fast_flag, bs4_parser):
@@ -233,7 +233,7 @@ def firehound(fast_flag, bs4_parser):
     ual = de_open("https://dl.firehound.me/?dir=kenzo")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("ul",{"id":"directory-listing"})\
              .find_all("li")[1]
@@ -244,7 +244,7 @@ def firehound(fast_flag, bs4_parser):
         build_info['fsize'] = fvalue[1].get_text().strip()
         build_info['fdate'] = fvalue[2].get_text().strip()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def flyme(fast_flag, bs4_parser):
@@ -253,7 +253,7 @@ def flyme(fast_flag, bs4_parser):
     ual = de_open("http://www.flyme.cn/firmwarelist-51.html")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("div",{"class":"wrap"})\
              .find_next("script",{"type":"text/javascript"})\
@@ -273,7 +273,7 @@ def flyme(fast_flag, bs4_parser):
         build_info['fmd5']       = nb["md5"]
         build_info['update_log'] = nb["log"].replace("\n","\n    ")
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def los(fast_flag, bs4_parser):
@@ -282,7 +282,7 @@ def los(fast_flag, bs4_parser):
     ual = de_open("https://download.lineageos.org/kenzo")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",{"class":"striped bordered"})\
              .find("tbody").find("tr")
@@ -294,13 +294,13 @@ def los(fast_flag, bs4_parser):
         build_info['fdate']         = nb.find_all("td")[-1].get_text()
         build_info['update_log']    = ("https://download.lineageos.org"
                                        "/kenzo/changes/")
-        if fast_flag == False:
+        if not fast_flag:
             build_info['fsha256'] = \
                 get_md5_from_file(build_info['flink'] + "?sha256")
             build_info['fsha1'] = \
                 get_md5_from_file(build_info['flink'] + "?sha1")
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def los_u1(fast_flag, bs4_parser):
@@ -310,7 +310,7 @@ def los_u1(fast_flag, bs4_parser):
                   "downloads/blob/lk-7.1/README.md")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("article",
                         {"class":"markdown-body entry-content"})
@@ -319,7 +319,7 @@ def los_u1(fast_flag, bs4_parser):
         build_info['update_log'] = nb.find_all("ul")[0].get_text()\
                                    .replace("\n","\n    ")[5:-5]
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def los_mg(fast_flag, bs4_parser):
@@ -337,7 +337,7 @@ def miui_c(fast_flag, bs4_parser):
     ual = de_open("http://www.miui.com/download-308.html")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb_s      = bsObj.find("div",{"id":"content_t_451"})\
                     .find("div",{"class":"block"})
@@ -356,9 +356,8 @@ def miui_c(fast_flag, bs4_parser):
         fversion2 = fvalue2[2][:-2]
         fsize2    = fvalue2[-1]
     except:
-        return analyze_failed(name)
-    print("\nMIUI China:")
-    print("\n# Stable ROM:")
+        return analyze_failed()
+    print("# Stable ROM:")
     print("\n=== The latest version:\n\n    " + fversion1)
     print("\n=== Download link:\n\n    " + flink1)
     print("\n=== Size:\n\n    " + fsize1)
@@ -367,7 +366,7 @@ def miui_c(fast_flag, bs4_parser):
     print("\n=== Download link:\n\n    " + flink2)
     print("\n=== Size:\n\n    " + fsize2)
     saved = {}
-    if fast_flag == False:
+    if not fast_flag:
         saved = read_from_json("save.json")
     saved = saved_update("MIUI China Stable ROM", fversion1, saved)
     saved = saved_update("MIUI China Developer ROM", fversion2, saved)
@@ -378,7 +377,7 @@ def miui_g(fast_flag, bs4_parser):
     ual = de_open("http://en.miui.com/download-301.html")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb_s      = bsObj.find("div",{"id":"content_t_438"})\
                     .find("div",{"class":"block"})
@@ -397,9 +396,8 @@ def miui_g(fast_flag, bs4_parser):
         fversion2 = fvalue2[2][:-4]
         fsize2    = fvalue2[-1]
     except:
-        return analyze_failed(name)
-    print("\nMIUI Global:")
-    print("\n# Stable ROM:")
+        return analyze_failed()
+    print("# Stable ROM:")
     print("\n=== The latest version:\n\n    " + fversion1)
     print("\n=== Download link:\n\n    " + flink1)
     print("\n=== Size:\n\n    " + fsize1)
@@ -408,7 +406,7 @@ def miui_g(fast_flag, bs4_parser):
     print("\n=== Download link:\n\n    " + flink2)
     print("\n=== Size:\n\n    " + fsize2)
     saved = {}
-    if fast_flag == False:
+    if not fast_flag:
         saved = read_from_json("save.json")
     saved = saved_update("MIUI Global Stable ROM", fversion1, saved)
     saved = saved_update("MIUI Global Developer ROM", fversion2, saved)
@@ -420,7 +418,7 @@ def miui_mr(fast_flag, bs4_parser):
                   "/index.php?m=app&a=view&id=54&app=roms")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb_c       = bsObj.find("div",{"id":"last_roms142"})
         nb_g       = bsObj.find("div",{"id":"last_roms186"})
@@ -448,9 +446,8 @@ def miui_mr(fast_flag, bs4_parser):
         flink3     = None
         flink4     = None
     except:
-        return analyze_failed(name)
-    print("\nMIUI MultiRom Developer ROM:")
-    print("\n# China:")
+        return analyze_failed()
+    print("# China:")
     print("\n=== The latest version:\n\n    " + fversion1)
     print("\n=== Mirror Station Download Link (Quick):\n\n    "
           + flink1)
@@ -461,7 +458,7 @@ def miui_mr(fast_flag, bs4_parser):
           + flink2)
     print("\n=== Size:\n\n    " + fsize2)
     saved = {}
-    if fast_flag == False:
+    if not fast_flag:
         saved = read_from_json("save.json")
     saved = saved_update("MIUI MultiRom Developer ROM China",
                          fversion1, saved)
@@ -475,7 +472,7 @@ def miui_pl(fast_flag, bs4_parser):
     ual = ua_open("https://miuipolska.pl/download/")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb       = bsObj.find("div",{"id":"redmi-note-3-pro"})\
                    .find_next().find("div",{"class":"col-sm-9"})
@@ -498,17 +495,14 @@ def miui_pl(fast_flag, bs4_parser):
             "\n\n    # Spare 1(AFH):\n\n    " + flink2 + \
             "\n\n    # Spare 2:\n\n    " + flink3
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def mokee(fast_flag, bs4_parser):
     name = "mokee"
     # hahahaha
     time.sleep(1)
-    print('''
-Mokee Official Nightly:
-
-=== The latest version:
+    print('''=== The latest version:
 
     Keep updated daily, inquiries are not necessary
 
@@ -544,11 +538,11 @@ def omni(fast_flag, bs4_parser):
     ual = de_open(url)
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("div",{"id":"fallback"})\
              .find("table").find_all("tr")
-        if fast_flag == False:
+        if not fast_flag:
             fmd5 = nb[-1].find_all("td")[1].find("a").get_text()
             build_info['fmd5'] = get_md5_from_file(url + fmd5)
         fversion = nb[-2].find_all("td")[1].find("a").get_text()
@@ -556,7 +550,7 @@ def omni(fast_flag, bs4_parser):
         build_info['fsize'] = nb[-2].find_all("td")[3].get_text()
         build_info['flink'] = url + fversion
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def pe(fast_flag, bs4_parser):
@@ -566,7 +560,7 @@ def pe(fast_flag, bs4_parser):
     ual = ua_open(url + "/kenzo/")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",{"class":"cm"})\
              .find("tbody").find("tr").find_all("td")
@@ -578,7 +572,7 @@ def pe(fast_flag, bs4_parser):
         build_info['flink']      = url + nb[1].find("a")["href"]
         build_info['fdate']      = nb[2].get_text().strip()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def pe_u1(fast_flag, bs4_parser):
@@ -615,7 +609,7 @@ def sudamod(fast_flag, bs4_parser):
     ual = de_open("https://sudamod.download/kenzo")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",{"class":"striped bordered"})\
              .find("tbody").find("tr")
@@ -629,7 +623,7 @@ def sudamod(fast_flag, bs4_parser):
                                       .find("small").get_text()\
                                       .split(" ")[1]
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def twrp(fast_flag, bs4_parser):
@@ -638,7 +632,7 @@ def twrp(fast_flag, bs4_parser):
     ual = de_open("https://dl.twrp.me/kenzo/")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("div",{"class":"post"})\
              .find_all("article",{"class":"post-content"})[1]\
@@ -647,12 +641,12 @@ def twrp(fast_flag, bs4_parser):
         fversion = nb[0].find("a").get_text()
         build_info['fsize'] = nb[1].find("small").get_text()
         build_info['fdate'] = nb[2].find("em").get_text()
-        if fast_flag == False:
+        if not fast_flag:
             # The default is to parse "Primary (Americas)" download page
             ual2 = de_open("https://dl.twrp.me" + nblink)
             bsObj2 = get_bs(ual2, bs4_parser)
             if not bsObj2:
-                return open_failed(name)
+                return open_failed()
             nb2 = bsObj2.find("div",{"class":"page-content"})\
                   .find("div",{"class":"post"})
             fmd5 = nb2.find("header",{"class":"post-header"})\
@@ -665,7 +659,7 @@ def twrp(fast_flag, bs4_parser):
             "# Primary (Americas):\n\n    " + flink1 + \
             "\n\n    # Primary (Europe):\n\n    " + flink2
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def validus_u1(fast_flag, bs4_parser):
@@ -679,7 +673,7 @@ def viperos(fast_flag, bs4_parser):
                   "/devicedownloads/redminote3pro.html")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("div",{"class":"table-scroll"})\
              .find("tbody").find("tr")
@@ -690,7 +684,7 @@ def viperos(fast_flag, bs4_parser):
         build_info['fsize'] = nb.find_all("td")[2].get_text().strip()
         build_info['fdate'] = nb.find_all("td")[3].get_text().strip()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
 def xda(bs4_parser, sysstr, term_cols, page_no = 1, last_page_no = 0):
@@ -705,7 +699,7 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1, last_page_no = 0):
     ual = ua_open(url + "/redmi-note-3/development" + url_page)
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        open_failed("", "%s %s "%(name, page_no))
+        open_failed("%s %s "%(name, page_no))
         if input("\n*** Enter \"0\" to try again, enter"
                   " other to return to the main interface: ") == "0":
             return xda(bs4_parser, sysstr, term_cols, page_no)
@@ -716,7 +710,7 @@ def xda(bs4_parser, sysstr, term_cols, page_no = 1, last_page_no = 0):
             last_page_no = int(bsObj.find("div",{"class":"pagenav"})
                                .find("a",{"rel":"last"})["href"][-2:])
     except:
-        analyze_failed("", "%s %s "%(name, page_no))
+        analyze_failed("%s %s "%(name, page_no))
         input("*** Press the Enter key to "
               "return to the main interface: ")
         return
@@ -830,10 +824,10 @@ def xenonhd(fast_flag, bs4_parser):
     ual = de_open(url)
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
-        return open_failed(name)
+        return open_failed()
     try:
         nb = bsObj.find("table",{"id":"indexlist"}).find_all("tr")[-2]
-        if fast_flag == False:
+        if not fast_flag:
             fmd5 = bsObj.find("table",{"id":"indexlist"})\
                    .find_all("tr")[-1].find_all("td")[1]\
                    .find("a").get_text()
@@ -843,5 +837,5 @@ def xenonhd(fast_flag, bs4_parser):
         build_info['flink'] = url + fversion
         build_info['fsize'] = nb.find_all("td")[3].get_text()
     except:
-        return analyze_failed(name)
+        return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)

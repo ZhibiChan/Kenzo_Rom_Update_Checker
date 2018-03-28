@@ -180,7 +180,7 @@ def check_one(selected, auto_flag = False, argv_flag = False):
     # Check a single item
     tools.os_clear_screen(sysstr)
     print("\n=== Checking now, results will be shown below...\n\n"
-          + "*" * term_cols)
+          + tools.get_rom_name(roms.check_list[selected]) + ":\n")
     if argv_flag:
         checking = "check_update." + selected
     else:
@@ -234,9 +234,9 @@ def check_all_auto(argv_flag = False):
         tools.os_clear_screen(sysstr)
         print("\n=== Automatically check all Rom updates, "
               "please wait...")
-        print("\n=== Checking %s of %s %s..."
+        print("\n=== Checking %s of %s %s...\n"
               %(j, len(roms.check_list), check_2nd))
-        print("\n" + "*" * term_cols)
+        print(tools.get_rom_name(roms.check_list[str(j)]) + ":\n")
         new_flag = False
         checking = "check_update." + roms.check_list[str(j)]
         temp2 = eval(checking)(True, bs4_parser)

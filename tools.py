@@ -80,19 +80,15 @@ def get_bs(urll, bs4_parser):
     except:
         return
 
-def open_failed(name, real_name = None):
+def open_failed(real_name = None):
     if real_name:
-        print("\n%s:"%real_name)
-    else:
-        print("\n%s:"%get_rom_name(name))
-    print("\n*** Access failed or request timeout!")
+        print("\n%s:\n"%real_name)
+    print("*** Access failed or request timeout!")
 
-def analyze_failed(name, real_name = None):
+def analyze_failed(real_name = None):
     if real_name:
-        print("\n%s:"%real_name)
-    else:
-        print("\n%s:"%get_rom_name(name))
-    print("\n*** Parsing failed! Please tell author to fix this error!")
+        print("\n%s:\n"%real_name)
+    print("*** Parsing failed! Please tell author to fix this error!")
 
 def os_clear_screen(ostype):
     if ostype == "Windows":
@@ -129,28 +125,27 @@ def get_rom_name(name):
 
 def out_put(fast_flag, name, fversion, build_info):
     # Output check results
-    print_info = ["None" for i in range(11)]
-    print_info[0] = "\n%s:"%get_rom_name(name)
-    print_info[1] = "\n=== The latest version:\n\n    " + fversion
+    print_info = ["None" for i in range(10)]
+    print_info[0] = "=== The latest version:\n\n    " + fversion
     for key, value in build_info.items():
         if key == "build_type":
-            print_info[2] = "\n=== Build type:\n\n    " + value
+            print_info[1] = "\n=== Build type:\n\n    " + value
         elif key == "build_version":
-            print_info[3] = "\n=== Build version:\n\n    " + value
+            print_info[2] = "\n=== Build version:\n\n    " + value
         elif key == "fdate":
-            print_info[4] = "\n=== Updated:\n\n    " + value
+            print_info[3] = "\n=== Updated:\n\n    " + value
         elif key == "update_log":
-            print_info[5] = "\n=== Changelog:\n\n    " + value
+            print_info[4] = "\n=== Changelog:\n\n    " + value
         elif key == "fmd5":
-            print_info[6] = "\n=== MD5:\n\n    " + value
+            print_info[5] = "\n=== MD5:\n\n    " + value
         elif key == "fsha256":
-            print_info[7] = "\n=== sha256:\n\n    " + value
+            print_info[6] = "\n=== sha256:\n\n    " + value
         elif key == "fsha1":
-            print_info[8] = "\n=== sha1:\n\n    " + value
+            print_info[7] = "\n=== sha1:\n\n    " + value
         elif key == "flink":
-            print_info[9] = "\n=== Download link:\n\n    " + value
+            print_info[8] = "\n=== Download link:\n\n    " + value
         elif key == "fsize":
-            print_info[10] = "\n=== Size:\n\n    " + value
+            print_info[9] = "\n=== Size:\n\n    " + value
     for info in print_info:
         if info == "None":
             continue
