@@ -134,21 +134,24 @@ def aicp(fast_flag, bs4_parser):
         nb = bsObj.find("table",
                         {"class":"table table-bordered table-striped"}
                         ).find("tbody").find("tr")
-        fversion = nb.find_all("td")[2].find("a").get_text()
-        fmd5_temp = nb.find_all("td")[2].find("small")\
-                    .get_text().split(":")[1]
-        fmd5 = ""
-        for char in fmd5_temp:
-            if re.match('[0-9a-fA-F]',char):
-                fmd5+=char
-        build_info['build_type'] = nb.find_all("td")[1].get_text()
-        build_info['fsize']      = nb.find_all("td")[3].get_text()
-        build_info['fdate']      = nb.find_all("td")[-1].get_text()
-        build_info['fmd5']       = fmd5
-        build_info['update_log'] = nb.find_all("td")[2]\
-                                   .find_all("a")[1]["href"]
-        build_info['flink']      = nb.find_all("td")[2]\
-                                   .find("a")["href"]
+        if not nb:
+            fversion = "Looks like there is no Rom file right now"
+        else:
+            fversion = nb.find_all("td")[2].find("a").get_text()
+            fmd5_temp = nb.find_all("td")[2].find("small")\
+                        .get_text().split(":")[1]
+            fmd5 = ""
+            for char in fmd5_temp:
+                if re.match('[0-9a-fA-F]',char):
+                    fmd5+=char
+            build_info['build_type'] = nb.find_all("td")[1].get_text()
+            build_info['fsize']      = nb.find_all("td")[3].get_text()
+            build_info['fdate']      = nb.find_all("td")[-1].get_text()
+            build_info['fmd5']       = fmd5
+            build_info['update_log'] = nb.find_all("td")[2]\
+                                       .find_all("a")[1]["href"]
+            build_info['flink']      = nb.find_all("td")[2]\
+                                       .find("a")["href"]
     except:
         return analyze_failed(name)
     return out_put(fast_flag, name, fversion, build_info)
