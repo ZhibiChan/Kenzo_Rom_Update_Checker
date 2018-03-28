@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import os
 import json
 import random
+import ssl
 
 import rom_list
 
@@ -35,7 +36,14 @@ def ua_open(urll, ua_type = None):
         with urlopen(req) as xmldata:
             return xmldata.read()
     except:
-        return
+        try:
+            context = ssl._create_unverified_context()
+            with urlopen(req, context=context) as xmldata:
+                return xmldata.read()
+        except:
+            return
+        finally:
+            del context
 
 def de_open(urll):
     # The general method of parsing the page
@@ -43,7 +51,14 @@ def de_open(urll):
         with urlopen(urll) as xmldata:
             return xmldata.read()
     except:
-        return
+        try:
+            context = ssl._create_unverified_context()
+            with urlopen(urll, context=context) as xmldata:
+                return xmldata.read()
+        except:
+            return
+        finally:
+            del context
 
 def select_bs4_parser():
     try:
