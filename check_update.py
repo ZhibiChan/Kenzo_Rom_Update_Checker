@@ -662,6 +662,10 @@ def twrp(fast_flag, bs4_parser):
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
+def twrp_u1(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "twrp_u1", "rn3-los15/files/TWRP/")
+
 def validus_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "validus_u1", "sarveshrulz/files/Validus/")

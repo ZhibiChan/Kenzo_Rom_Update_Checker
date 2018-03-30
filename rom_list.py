@@ -45,7 +45,8 @@ class Rom_List:
             "miui_g",
             "miui_mr",
             "miui_pl",
-            "twrp"
+            "twrp",
+            "twrp_u1"
         ]
         self.check_list = {}
         i = 1
@@ -101,7 +102,8 @@ class Rom_List:
             "miui_pl":"MIUI Poland Developer ROM"
         }
         self.other_list = {
-            "twrp":"TWRP Official"
+            "twrp":"TWRP Official",
+			"twrp_u1":"TWRP (Unofficial By LokManSiu)"
         }
         self.list_all = {
             **self.rom8_list,
