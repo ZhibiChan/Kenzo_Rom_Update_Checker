@@ -103,7 +103,7 @@ class Rom_List:
         }
         self.other_list = {
             "twrp":"TWRP Official",
-			"twrp_u1":"TWRP (Unofficial By LokManSiu)"
+            "twrp_u1":"TWRP (Unofficial By LokManSiu)"
         }
         self.list_all = {
             **self.rom8_list,
