@@ -230,19 +230,16 @@ def du_u1(fast_flag, bs4_parser):
 def firehound(fast_flag, bs4_parser):
     name = "firehound"
     build_info = {}
-    ual = de_open("https://dl.firehound.me/?dir=kenzo")
+    ual = de_open("https://dl.firehound.me/kenzo/?C=M;O=A")
     bsObj = get_bs(ual, bs4_parser)
     if not bsObj:
         return open_failed()
     try:
-        nb = bsObj.find("ul",{"id":"directory-listing"})\
-             .find_all("li")[1]
-        fversion = nb["data-name"]
-        fvalue = nb.find("div",{"class":"row"}).find_all("span")
-        build_info['flink'] = "https://dl.firehound.me/"\
-                              + nb["data-href"]
-        build_info['fsize'] = fvalue[1].get_text().strip()
-        build_info['fdate'] = fvalue[2].get_text().strip()
+        nb = bsObj.find("table").find_all("tr")[-2].find_all("td")
+        fversion = nb[1].get_text()
+        build_info['flink'] = "https://dl.firehound.me/kenzo/" + fversion
+        build_info['fdate'] = nb[2].get_text()
+        build_info['fsize'] = nb[3].get_text()
     except:
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
