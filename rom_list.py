@@ -4,17 +4,23 @@
 class Rom_List:
     def __init__(self):
         __roms_list = [
+            "aex_o",
             "aex_sf",
             "aim",
             "aim_u1",
             "aim_u2",
             "aosip",
+            "atomic",
+            "bootleggers",
+            "candy",
             "cardinal",
             "cosmicos",
+            "crdroid_o",
             "aoscp",
             "aoscp_u1",
             "aoscp_u2",
             "du_u1",
+            "elixir",
             "firehound",
             "los_o_u1",
             "nos_o1",
@@ -25,7 +31,9 @@ class Rom_List:
             "pe_u2b",
             "rr_o",
             "screwd_u1",
+            "unleash",
             "validus_u1",
+            "viperos_o",
             "aex",
             "aicp",
             "bliss",
@@ -55,17 +63,23 @@ class Rom_List:
             i+=1
         
         self.rom8_list = {
+            "aex_o":"AospExtended Oreo Official By Amol Amrit",
             "aex_sf":"AospExtended Oreo Official",
             "aim":"AIM Official",
             "aim_u1":"AIM (Unofficial By carlosarriaga)",
             "aim_u2":"AIM (Unofficial By sarveshrulz)",
             "aosip":"AOSiP Official",
+            "atomic":"Atomic Rom Official",
+            "bootleggers":"Bootleggers Rom Official",
+            "candy":"Candy Rom Official",
             "cardinal":"Cardinal AOSP Official",
             "cosmicos":"Cosmic OS Official",
+            "crdroid_o":"CrDroid Rom Official",
             "aoscp":"CypherOS Official",
             "aoscp_u1":"CypherOS (Unofficial By sarveshrulz)",
             "aoscp_u2":"CypherOS (Unofficial By miguelndecarval)",
             "du_u1":"Dirty Unicorns (Unofficial By sarveshrulz)",
+            "elixir":"Elixir OS Official",
             "firehound":"FireHound Official",
             "los_o_u1":"LineageOS 15.1 (Unofficial By LokManSiu)",
             "nos_o1":"Nitrogen OS Official Test",
@@ -76,7 +90,9 @@ class Rom_List:
             "pe_u2b":"Pixel Experience Beta (Unofficial By irvin16)",
             "rr_o":"Resurrection Remix OS Oreo Official",
             "screwd_u1":"Screwd (Unofficial By carlosarriaga)",
-            "validus_u1":"Validus (Unofficial By sarveshrulz)"
+            "unleash":"Unleash OS Official",
+            "validus_u1":"Validus (Unofficial By sarveshrulz)",
+            "viperos_o":"ViperOS Oreo Official"
         }
         self.rom7_list = {
             "aex":"AospExtended Official",

@@ -98,6 +98,41 @@ def h5ai_check(fast_flag, parser, name, url, url2):
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
+def afh_check(fast_flag, parser, name, url):
+    ual = ua_open("https://androidfilehost.com/?w=files&flid="
+                  + url + "&sort_by=date&sort_dir=DESC",
+                  ua_type = 1)
+    bsObj = get_bs(ual, parser)
+    if not bsObj:
+        return open_failed()
+    try:
+        build_info = {}
+        nb = bsObj.find("ul",{"class":"list-group files"})
+        if not nb:
+            fversion = "Looks like there is no Rom file right now"
+        else:
+            nb = nb.find_all("li")
+            for child in nb:
+                fversion = child.find("div", {"class":"file-name"})\
+                           .get_text().strip()
+                if fversion.split(".")[-1] == "zip":
+                    nb1 = child
+                    break
+            if 'nb1' not in locals().keys():
+                fversion = "Looks like there is no Rom file right now"
+            else:
+                build_info["flink"] = "https://androidfilehost.com"\
+                                      + nb1.find("a")["href"]
+                build_info["fsize"] = nb1.find("div",
+                                      {"class":"file-attr col-sm-3 clearfix"}
+                                      ).get_text().strip()[:-4]
+                build_info["fdate"] = nb1.find("div",
+                                      {"class":"file-attr col-sm-5 clearfix"}
+                                      ).get_text().strip()[:-11]
+    except:
+        return analyze_failed()
+    return out_put(fast_flag, name, fversion, build_info)
+
 def aex(fast_flag, bs4_parser):
     name = "aex"
     build_info = {}
@@ -122,6 +157,9 @@ def aex(fast_flag, bs4_parser):
 def aex_sf(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "aex_sf", "aospextended-rom/files/kenzo/")
+
+def aex_o(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "aex_o", "259431")
 
 def aicp(fast_flag, bs4_parser):
     name = "aicp"
@@ -204,11 +242,20 @@ def aosip(fast_flag, bs4_parser):
                       "https://get.aosiprom.com",
                       "/kenzo/")
 
+def atomic(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "atomic", "239791")
+
 def bliss(fast_flag, bs4_parser):
     return h5ai_check(fast_flag, bs4_parser, 
                       "bliss", 
                       "https://downloads.blissroms.com",
                       "/Bliss/Official/kenzo/")
+
+def bootleggers(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "bootleggers", "247287")
+
+def candy(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "candy", "210746")
 
 def cardinal(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
@@ -219,6 +266,9 @@ def cosmicos(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "cosmicos", "cosmic-os/files/kenzo/")
 
+def crdroid_o(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "crdroid_o", "243913")
+
 def dotos(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "dotos", "dotos-ota/files/kenzo/")
@@ -226,6 +276,9 @@ def dotos(fast_flag, bs4_parser):
 def du_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "du_u1", "sarveshrulz/files/DU/")
+
+def elixir(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "elixir", "259245")
 
 def firehound(fast_flag, bs4_parser):
     name = "firehound"
@@ -666,6 +719,9 @@ def twrp_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "twrp_u1", "rn3-los15/files/TWRP/")
 
+def unleash(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "unleash", "254125")
+
 def validus_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "validus_u1", "sarveshrulz/files/Validus/")
@@ -690,6 +746,9 @@ def viperos(fast_flag, bs4_parser):
     except:
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
+
+def viperos_o(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "viperos_o", "184664")
 
 def xda(bs4_parser, sysstr, term_cols, page_no = 1, last_page_no = 0):
     os_clear_screen(sysstr)
