@@ -227,15 +227,6 @@ def aoscp(fast_flag, bs4_parser):
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
-def aoscp_u1(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "aoscp_u1", "sarveshrulz/files/Aoscp/",)
-
-def aoscp_u2(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "aoscp_u2", "unofficial-cypheros-for-kenzo/files/",
-                    skip = 1)
-
 def aosip(fast_flag, bs4_parser):
     return h5ai_check(fast_flag, bs4_parser, 
                       "aosip",
@@ -272,10 +263,6 @@ def crdroid_o(fast_flag, bs4_parser):
 def dotos(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "dotos", "dotos-ota/files/kenzo/")
-
-def du_u1(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "du_u1", "sarveshrulz/files/DU/")
 
 def elixir(fast_flag, bs4_parser):
     return afh_check(fast_flag, bs4_parser, "elixir", "259245")
