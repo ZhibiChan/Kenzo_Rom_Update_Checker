@@ -121,4 +121,12 @@ class Rom_List:
             **self.rom6_list,
             **self.other_list
         }
-        
+    
+    def get_name(self, arg):
+        if arg in self.check_list.keys():
+            arg = self.check_list[arg]
+        try:
+            return self.list_all[arg]
+        except:
+            return "Unknown item"
+    

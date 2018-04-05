@@ -116,12 +116,10 @@ def get_md5_from_file(urll):
 
 def get_rom_name(name):
     # Get the item's name by the function name
+    # Temporarily generate a "roms" object
     roms = rom_list.Rom_List()
     try:
-        for key,value in roms.list_all.items():
-            if key == name:
-                return value
-        return "Unknown item"
+        return roms.get_name(name)
     finally:
         del roms
 
