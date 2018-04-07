@@ -133,6 +133,9 @@ def afh_check(fast_flag, parser, name, url):
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
 
+def abc_u1(fast_flag, bs4_parser):
+    return afh_check(fast_flag, bs4_parser, "abc_u1", "232966")
+
 def aex(fast_flag, bs4_parser):
     name = "aex"
     build_info = {}

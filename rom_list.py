@@ -4,6 +4,7 @@
 class Rom_List:
     def __init__(self):
         __roms_list = [
+            "abc_u1",
             "aex_o",
             "aex_sf",
             "aim",
@@ -60,6 +61,7 @@ class Rom_List:
             i+=1
         
         self.rom8_list = {
+            "abc_u1":"ABC Rom (Unofficial By wight554)",
             "aex_o":"AospExtended Oreo Official By Amol Amrit",
             "aex_sf":"AospExtended Oreo Official",
             "aim":"AIM Official",
