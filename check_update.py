@@ -586,9 +586,11 @@ def omni(fast_flag, bs4_parser):
             fmd5 = nb[-1].find_all("td")[1].find("a").get_text()
             build_info['fmd5'] = get_md5_from_file(url + fmd5)
         fversion = nb[-2].find_all("td")[1].find("a").get_text()
-        build_info['fdate'] = nb[-2].find_all("td")[2].get_text()
-        build_info['fsize'] = nb[-2].find_all("td")[3].get_text()
-        build_info['flink'] = url + fversion
+        build_info['update_log'] = "https://omni.cmxlog.com/8.1/kenzo/#"\
+                                   + fversion
+        build_info['fdate']      = nb[-2].find_all("td")[2].get_text()
+        build_info['fsize']      = nb[-2].find_all("td")[3].get_text()
+        build_info['flink']      = url + fversion
     except:
         return analyze_failed()
     return out_put(fast_flag, name, fversion, build_info)
