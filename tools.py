@@ -31,8 +31,8 @@ def ua_open(urll, ua_type = None, ssl_flag = None):
               "Gecko/20100101 Firefox/4.0.1")
     headers = {}
     headers["User-Agent"] = ua
-    req = Request(url = urll, headers = headers)
     try:
+        req = Request(url = urll, headers = headers)
         if ssl_flag:
             context = ssl._create_unverified_context()
             with urlopen(req, context=context) as xmldata:
