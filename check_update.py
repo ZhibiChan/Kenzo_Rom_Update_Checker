@@ -251,6 +251,34 @@ def bootleggers(fast_flag, bs4_parser):
 def candy(fast_flag, bs4_parser):
     return afh_check(fast_flag, bs4_parser, "candy", "210746")
 
+def carbon(fast_flag, bs4_parser):
+    name = "carbon"
+    build_info = {}
+    ual = de_open("https://basketbuild.com/devs/CarbonROM/kenzo")
+    bsObj = get_bs(ual, bs4_parser)
+    if not bsObj:
+        return open_failed()
+    try:
+        nb = bsObj.find("div",{"class":"well well-sm"})\
+             .find_all("div",{"class":"table-responsive"})[-1]\
+             .find("tbody").find_all("tr")
+        for child in nb[::-1]:
+            fname = child.find("td").get_text()
+            if fname.split(".")[-1] == "zip":
+                fversion = fname
+                break
+        if 'fversion' not in locals().keys():
+            fversion = "Looks like there is no Rom file right now"
+        else:
+            build_info['flink'] = ("https://basketbuild.com/uploads"
+                                   "/devs/CarbonROM/kenzo/" + fversion)
+            if not fast_flag:
+                build_info['fmd5'] = \
+                    get_md5_from_file(build_info['flink'] + ".md5sum")
+    except:
+        return analyze_failed()
+    return out_put(fast_flag, name, fversion, build_info)
+
 def cardinal(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "cardinal", "cardinal-aosp/files/kenzo/",
