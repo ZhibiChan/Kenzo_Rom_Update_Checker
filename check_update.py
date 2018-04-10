@@ -44,6 +44,11 @@ def sf_check(fast_flag, parser, name, url, cl_flag = False, skip = 0):
             build_info['fsize'] = nb1.find_all("td")[1].get_text()
     except:
         return analyze_failed()
+    if name == "aosip":
+        build_info['flink'] = (
+            "# Sourceforge:\n\n    " + build_info['flink']
+            + "\n\n    # Primary:\n\n    "
+            + "https://get.aosiprom.com/kenzo/" + fversion)
     if name == "nos_o1":
         flink2 = "kenzo_test/" + fversion
     if name == "nos_o2":
@@ -227,10 +232,8 @@ def aoscp(fast_flag, bs4_parser):
     return out_put(fast_flag, name, fversion, build_info)
 
 def aosip(fast_flag, bs4_parser):
-    return h5ai_check(fast_flag, bs4_parser, 
-                      "aosip",
-                      "https://get.aosiprom.com",
-                      "/kenzo/")
+    return sf_check(fast_flag, bs4_parser,
+                    "aosip", "illusionproject/files/kenzo/")
 
 def aosp_u1(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
