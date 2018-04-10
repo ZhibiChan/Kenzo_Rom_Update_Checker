@@ -123,6 +123,14 @@ class Rom_List:
             **self.rom6_list,
             **self.other_list
         }
+        self.name_all = list(self.list_all.values()) + [
+            "MIUI China Stable ROM",
+            "MIUI China Developer ROM",
+            "MIUI Global Stable ROM",
+            "MIUI Global Developer ROM",
+            "MIUI MultiRom Developer ROM China",
+            "MIUI MultiRom Developer ROM Global"
+        ]
     
     def get_name(self, arg):
         if arg in self.check_list.keys():
