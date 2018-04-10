@@ -201,10 +201,6 @@ def aim(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "aim", "aimroms/files/kenzo/")
 
-def aim_u1(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "aim_u1", "redmi-note-3/files/AIM/")
-
 def aim_u2(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "aim_u2", "sarveshrulz/files/Aim/")
@@ -668,10 +664,6 @@ def rr(fast_flag, bs4_parser):
 def rr_o(fast_flag, bs4_parser):
     return sf_check(fast_flag, bs4_parser,
                     "rr_o", "resurrectionremix-oreo/files/kenzo/")
-
-def screwd_u1(fast_flag, bs4_parser):
-    return sf_check(fast_flag, bs4_parser,
-                    "screwd_u1", "redmi-note-3/files/Screwd/")
 
 def sudamod(fast_flag, bs4_parser):
     name = "sudamod"
