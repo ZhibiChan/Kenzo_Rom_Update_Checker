@@ -232,6 +232,10 @@ def aosip(fast_flag, bs4_parser):
                       "https://get.aosiprom.com",
                       "/kenzo/")
 
+def aosp_u1(fast_flag, bs4_parser):
+    return sf_check(fast_flag, bs4_parser,
+                    "aosp_u1", "redmi-note-3/files/AOSP/")
+
 def atomic(fast_flag, bs4_parser):
     return afh_check(fast_flag, bs4_parser, "atomic", "239791")
 
